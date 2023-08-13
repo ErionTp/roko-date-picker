@@ -1,6 +1,7 @@
 import { StyleSheet, View } from 'react-native';
 import React, { FC, memo } from 'react';
-import Styles from '../utils/Styles';
+import { useTheme } from '../hooks/ThemeContext';
+import { ITheme } from '../models/props/ITheme';
 
 interface Props {
   isBetween: boolean;
@@ -8,18 +9,26 @@ interface Props {
   secondSelection: boolean;
 }
 const BetweenDates: FC<Props> = ({ isBetween, firstSelection, secondSelection }) => {
-  return <View style={[styles.root, isBetween && styles.isBetween, firstSelection && styles.isLeftEdge, secondSelection && styles.isRightEdge]} />;
+  const theme = useTheme();
+
+  const style = () => {
+    return styles(theme);
+  };
+  return (
+    <View style={[style().root, isBetween && style().isBetween, firstSelection && style().isLeftEdge, secondSelection && style().isRightEdge]} />
+  );
 };
 
 export default memo(BetweenDates);
 
-const styles = StyleSheet.create({
-  root: {
-    ...StyleSheet.absoluteFillObject,
-    marginVertical: 0.5,
-    zIndex: 0,
-  },
-  isBetween: { backgroundColor: Styles.primaryVariant },
-  isLeftEdge: { marginStart: 30 },
-  isRightEdge: { marginEnd: 30 },
-});
+const styles = (theme: ITheme) =>
+  StyleSheet.create({
+    root: {
+      ...StyleSheet.absoluteFillObject,
+      marginVertical: 0.5,
+      zIndex: 0,
+    },
+    isBetween: { backgroundColor: theme.primaryVariant },
+    isLeftEdge: { marginStart: 30 },
+    isRightEdge: { marginEnd: 30 },
+  });

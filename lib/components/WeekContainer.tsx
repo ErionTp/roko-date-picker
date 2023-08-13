@@ -1,16 +1,11 @@
 import { StyleSheet, View } from 'react-native';
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import Day from './Day';
 import { isAfter, isBefore, isEqual, isSameDay, isSameMonth } from 'date-fns';
 import BetweenDates from './BetweenDates';
+import { IWeekContainer } from '../models/props/IWeekContainer';
 
-interface Props {
-  week: Date[];
-  value: Date[];
-  currentDate: Date;
-  onChange: (value: Date) => void;
-}
-const WeekContainer: FC<Props> = ({ week, value, currentDate, onChange }) => {
+const WeekContainer: FC<IWeekContainer> = ({ week, value, currentDate, onChange }) => {
   // #region FUNCTIONS
   function isBetweenDates(targetDate: Date, startDate: Date, endDate: Date) {
     return (isAfter(targetDate, startDate) || isEqual(targetDate, startDate)) && (isBefore(targetDate, endDate) || isEqual(targetDate, endDate));
@@ -36,7 +31,7 @@ const WeekContainer: FC<Props> = ({ week, value, currentDate, onChange }) => {
   );
 };
 
-export default WeekContainer;
+export default memo(WeekContainer);
 
 const styles = StyleSheet.create({
   root: {

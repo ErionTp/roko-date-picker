@@ -1,8 +1,9 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React, { FC } from 'react';
 import IconButton from './IconButton';
-import Styles from '../utils/Styles';
 import Constants from '../utils/Constants';
+import { useTheme } from '../hooks/ThemeContext';
+import { ITheme } from '../models/props/ITheme';
 
 interface Props {
   handlePreviousMonth: () => void;
@@ -11,10 +12,16 @@ interface Props {
 }
 
 const CalendarHeader: FC<Props> = ({ title, handlePreviousMonth, handleNextMonth }) => {
+  const theme = useTheme();
+
+  const style = () => {
+    return styles(theme);
+  };
+
   return (
-    <View style={styles.root}>
+    <View style={style().root}>
       <IconButton icon="chevron-left" onPress={handlePreviousMonth} />
-      <Text style={styles.title}>{title}</Text>
+      <Text style={style().title}>{title}</Text>
       <IconButton icon="chevron-right" onPress={handleNextMonth} />
     </View>
   );
@@ -22,12 +29,13 @@ const CalendarHeader: FC<Props> = ({ title, handlePreviousMonth, handleNextMonth
 
 export default CalendarHeader;
 
-const styles = StyleSheet.create({
-  root: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: Constants.spacing.medium,
-  },
-  title: { fontSize: Constants.spacing.regular, color: Styles.onBackground },
-});
+const styles = (theme: ITheme) =>
+  StyleSheet.create({
+    root: {
+      alignItems: 'center',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      paddingVertical: Constants.spacing.medium,
+    },
+    title: { fontSize: Constants.spacing.regular, color: theme.onBackground },
+  });
