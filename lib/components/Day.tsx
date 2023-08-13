@@ -1,7 +1,8 @@
 import { Pressable, StyleSheet, View } from 'react-native';
-import React, { FC, memo } from 'react';
-import Styles from '../utils/Styles';
+import React, { FC } from 'react';
 import Cell from './Cell';
+import { ITheme } from '../models/props/ITheme';
+import { useTheme } from '../hooks/ThemeContext';
 
 interface Props {
   day: Date;
@@ -10,13 +11,20 @@ interface Props {
   onChange: (value: Date) => void;
 }
 const Day: FC<Props> = ({ day, selected, onChange, isCurrentMonth }) => {
+  // #region HOOKS
+  const theme = useTheme();
+  // #endregion
   // #region FUNCTIONS
   const handleSelectDate = () => onChange(day);
+
+  const style = () => {
+    return styles(theme);
+  };
   // #endregion
   return (
-    <Pressable style={styles.root} onPress={handleSelectDate}>
-      <View style={styles.container}>
-        <View style={[styles.dayContainer, selected && styles.selectedBackground]}>
+    <Pressable style={style().root} onPress={handleSelectDate}>
+      <View style={style().container}>
+        <View style={[style().dayContainer, selected && style().selectedBackground]}>
           <Cell {...{ day, selected, isCurrentMonth }} />
         </View>
       </View>
@@ -26,23 +34,24 @@ const Day: FC<Props> = ({ day, selected, onChange, isCurrentMonth }) => {
 
 export default Day;
 
-const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-  },
-  container: { ...StyleSheet.absoluteFillObject, alignItems: 'center' },
-  dayContainer: { flex: 1, borderRadius: 1000, aspectRatio: 1 },
-  selectedBackground: {
-    backgroundColor: Styles.primary,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
+const styles = (theme: ITheme) =>
+  StyleSheet.create({
+    root: {
+      flex: 1,
     },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 3,
-    borderWidth: 3,
-    borderColor: Styles.onPrimary,
-  },
-});
+    container: { ...StyleSheet.absoluteFillObject, alignItems: 'center' },
+    dayContainer: { flex: 1, borderRadius: 100, aspectRatio: 1 },
+    selectedBackground: {
+      backgroundColor: theme.primary,
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 1,
+      },
+      shadowOpacity: 0.22,
+      shadowRadius: 2.22,
+      elevation: 3,
+      borderWidth: 3,
+      borderColor: theme.onPrimary,
+    },
+  });

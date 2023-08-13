@@ -1,8 +1,9 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React, { FC, memo } from 'react';
 import { format } from 'date-fns';
-import Styles from '../utils/Styles';
 import TodayIndicator from './TodayIndicator';
+import { useTheme } from '../hooks/ThemeContext';
+import { ITheme } from '../models/props/ITheme';
 
 interface Props {
   day: Date;
@@ -10,9 +11,15 @@ interface Props {
   isCurrentMonth: boolean;
 }
 const Cell: FC<Props> = ({ day, selected, isCurrentMonth }) => {
+  const theme = useTheme();
+
+  const style = () => {
+    return styles(theme);
+  };
+
   return (
-    <View style={styles.root}>
-      <Text numberOfLines={1} adjustsFontSizeToFit style={[styles.text, !isCurrentMonth && styles.differentMonth, selected && styles.selected]}>
+    <View style={style().root}>
+      <Text numberOfLines={1} adjustsFontSizeToFit style={[style().text, !isCurrentMonth && style().differentMonth, selected && style().selected]}>
         {format(day, 'dd')}
       </Text>
       <TodayIndicator {...{ value: day, selected }} />
@@ -22,9 +29,10 @@ const Cell: FC<Props> = ({ day, selected, isCurrentMonth }) => {
 
 export default memo(Cell);
 
-const styles = StyleSheet.create({
-  root: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  text: { fontSize: 14, color: Styles.onBackground },
-  selected: { color: Styles.onPrimary },
-  differentMonth: { color: Styles.secondary },
-});
+const styles = (theme: ITheme) =>
+  StyleSheet.create({
+    root: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+    text: { fontSize: 14, color: theme.onBackground },
+    selected: { color: theme.onPrimary },
+    differentMonth: { color: theme.secondary },
+  });
