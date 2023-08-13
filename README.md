@@ -10,7 +10,7 @@ npm i roko-date-picker
 
 ```
 import { StyleSheet, View, Text } from 'react-native';
-import RokoCalendar from './lib';
+import RokoCalendar from 'roko-date-picker';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
 import { format } from 'date-fns';
