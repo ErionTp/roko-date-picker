@@ -10,7 +10,7 @@ npm i roko-date-picker
 
 ```
 import { StyleSheet, View, Text } from 'react-native';
-import RokoCalendar from './lib';
+import RokoCalendar from 'roko-date-picker';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
 import { format } from 'date-fns';
@@ -18,6 +18,17 @@ import { format } from 'date-fns';
 export default function App() {
   const [range, setRange] = useState<{ startDate: Date; endDate?: Date }>({ startDate: new Date(), endDate: new Date() });
   const [date, setDate] = useState<Date>(new Date());
+
+
+  const customTheme = {
+    primary: '#FF5733',
+    onPrimary: '#000000',
+    secondary: '#FFC300',
+    primaryVariant: '#FF5733',
+    onPrimaryVariant: '#FFFFFF',
+    background: '#DAF7A6',
+    onBackground: '#000000',
+  };
 
   const RenderTitle = (title: string, startDate: Date, endDate?: Date) => {
     return (
@@ -41,7 +52,7 @@ export default function App() {
         <View style={styles.container}>
           <View style={{ flex: 1 }}>
             {RenderTitle('Multi Date Picker:', range.startDate, range.endDate)}
-            <RokoCalendar value={range} onChange={setRange} multiple={true} />
+            <RokoCalendar theme={customTheme} value={range} onChange={setRange} multiple={true} />
           </View>
 
           <View style={{ flex: 1 }}>
