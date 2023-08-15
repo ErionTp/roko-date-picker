@@ -1,4 +1,4 @@
-export interface IWeekContainer {
+export interface IWeekProps {
   week: Date[];
   value: Date[];
   currentDate: Date;

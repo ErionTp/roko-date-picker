@@ -1,16 +1,16 @@
 import { StyleSheet, View } from 'react-native';
 import React, { FC, useCallback, useMemo, useState } from 'react';
-import { format, isAfter, isValid } from 'date-fns';
+import { ITheme } from '../models/ITheme';
 import { IMultiSelection } from '../models/props/IMultiSelection';
 import { ISingleSelection } from '../models/props/ISingleSelection';
+import { defaultTheme } from '../models/props/IStyle';
+import CalendarHeader from './headers/CalendarHeader';
+import { format, isAfter, isValid } from 'date-fns';
+import WeekLabels from './headers/WeekLabels';
 import { prepareMonthList } from '../utils/Common';
-import CalendarHeader from './CalendarHeader';
 import WeekContainer from './WeekContainer';
-import WeekIndicator from './WeekIndicator';
 import ErrorView from './ErrorView';
-import { IStyle, defaultTheme } from '../models/props/IStyle';
 import ThemeContext from '../hooks/ThemeContext';
-import { ITheme } from '../models/ITheme';
 
 type SelectionProps = ISingleSelection | IMultiSelection;
 
@@ -31,7 +31,7 @@ const RokoCalendar: FC<RokoCalendarProps> = ({ multiple, value, onChange, theme 
   }
   // #endregion
   // #region STATES
-  const [currentDate, setCurrentDate] = useState<Date>(new Date());
+  const [currentDate, setCurrentDate] = useState<Date>(initialSelectedDates[0] ?? new Date());
   const [selectedDates, setSelectedDates] = useState<Date[]>(initialSelectedDates);
   // #endregion
   // #region FUNCTIONS
@@ -69,20 +69,15 @@ const RokoCalendar: FC<RokoCalendarProps> = ({ multiple, value, onChange, theme 
     [multiple, selectedDates, onChange]
   );
 
-  const style = () => {
-    return styles(theme.colors);
-  };
   // #endregion
   return (
     <ThemeContext.Provider value={theme}>
-      <View style={style().root}>
-        <CalendarHeader title={format(currentDate, 'MMM dd, yyyy')} {...{ handlePreviousMonth, handleNextMonth }} />
-        <WeekIndicator />
-        <View style={style().container}>
-          {currentDateList.map((week, weekIndex) => (
-            <WeekContainer key={weekIndex} {...{ week, currentDate }} value={selectedDates} onChange={handleSetCurrentDay} />
-          ))}
-        </View>
+      <View style={styles.root}>
+        <CalendarHeader title={format(currentDate, 'MMMM, yyyy')} handleOnPrevClick={handlePreviousMonth} handleOnNextClick={handleNextMonth} />
+        <WeekLabels />
+        {currentDateList.map((week, weekIndex) => (
+          <WeekContainer key={weekIndex} {...{ week, currentDate, value: initialSelectedDates, onChange: (v) => handleSetCurrentDay(v) }} />
+        ))}
       </View>
     </ThemeContext.Provider>
   );
@@ -90,10 +85,4 @@ const RokoCalendar: FC<RokoCalendarProps> = ({ multiple, value, onChange, theme 
 
 export default RokoCalendar;
 
-const styles = (theme: IStyle) =>
-  StyleSheet.create({
-    root: {
-      flex: 1,
-    },
-    container: { flex: 1, borderBottomWidth: 1, borderTopWidth: 1, borderColor: theme.primaryVariant },
-  });
+const styles = StyleSheet.create({ root: { flex: 1 } });
