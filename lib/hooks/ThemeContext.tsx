@@ -1,6 +1,7 @@
 // ThemeContext.tsx
-import React, { createContext, useContext } from 'react';
-import { ITheme, defaultTheme } from '../models/props/ITheme';
+import { createContext, useContext } from 'react';
+import { defaultTheme } from '../models/props/IStyle';
+import { ITheme } from '../models/ITheme';
 
 const ThemeContext = createContext<ITheme>(defaultTheme);
 

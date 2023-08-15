@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, View } from 'react-native';
 import React, { FC } from 'react';
 import Cell from './Cell';
-import { ITheme } from '../models/props/ITheme';
+import { IStyle } from '../models/props/IStyle';
 import { useTheme } from '../hooks/ThemeContext';
 
 interface Props {
@@ -12,13 +12,13 @@ interface Props {
 }
 const Day: FC<Props> = ({ day, selected, onChange, isCurrentMonth }) => {
   // #region HOOKS
-  const theme = useTheme();
+  const context = useTheme();
   // #endregion
   // #region FUNCTIONS
   const handleSelectDate = () => onChange(day);
 
   const style = () => {
-    return styles(theme);
+    return styles(context.colors);
   };
   // #endregion
   return (
@@ -34,7 +34,7 @@ const Day: FC<Props> = ({ day, selected, onChange, isCurrentMonth }) => {
 
 export default Day;
 
-const styles = (theme: ITheme) =>
+const styles = (theme: IStyle) =>
   StyleSheet.create({
     root: {
       flex: 1,

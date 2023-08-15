@@ -8,8 +8,9 @@ import CalendarHeader from './CalendarHeader';
 import WeekContainer from './WeekContainer';
 import WeekIndicator from './WeekIndicator';
 import ErrorView from './ErrorView';
-import { ITheme, defaultTheme } from '../models/props/ITheme';
+import { IStyle, defaultTheme } from '../models/props/IStyle';
 import ThemeContext from '../hooks/ThemeContext';
+import { ITheme } from '../models/ITheme';
 
 type SelectionProps = ISingleSelection | IMultiSelection;
 
@@ -69,7 +70,7 @@ const RokoCalendar: FC<RokoCalendarProps> = ({ multiple, value, onChange, theme 
   );
 
   const style = () => {
-    return styles(theme);
+    return styles(theme.colors);
   };
   // #endregion
   return (
@@ -89,7 +90,7 @@ const RokoCalendar: FC<RokoCalendarProps> = ({ multiple, value, onChange, theme 
 
 export default RokoCalendar;
 
-const styles = (theme: ITheme) =>
+const styles = (theme: IStyle) =>
   StyleSheet.create({
     root: {
       flex: 1,

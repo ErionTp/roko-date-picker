@@ -3,7 +3,7 @@ import React, { FC, memo } from 'react';
 import { format } from 'date-fns';
 import TodayIndicator from './TodayIndicator';
 import { useTheme } from '../hooks/ThemeContext';
-import { ITheme } from '../models/props/ITheme';
+import { IStyle } from '../models/props/IStyle';
 
 interface Props {
   day: Date;
@@ -11,10 +11,10 @@ interface Props {
   isCurrentMonth: boolean;
 }
 const Cell: FC<Props> = ({ day, selected, isCurrentMonth }) => {
-  const theme = useTheme();
+  const context = useTheme();
 
   const style = () => {
-    return styles(theme);
+    return styles(context.colors);
   };
 
   return (
@@ -29,7 +29,7 @@ const Cell: FC<Props> = ({ day, selected, isCurrentMonth }) => {
 
 export default memo(Cell);
 
-const styles = (theme: ITheme) =>
+const styles = (theme: IStyle) =>
   StyleSheet.create({
     root: { flex: 1, alignItems: 'center', justifyContent: 'center' },
     text: { fontSize: 14, color: theme.onBackground },

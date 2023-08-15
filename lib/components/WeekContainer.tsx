@@ -4,15 +4,24 @@ import Day from './Day';
 import { isAfter, isBefore, isEqual, isSameDay, isSameMonth } from 'date-fns';
 import BetweenDates from './BetweenDates';
 import { IWeekContainer } from '../models/props/IWeekContainer';
+import { useTheme } from '../hooks/ThemeContext';
 
 const WeekContainer: FC<IWeekContainer> = ({ week, value, currentDate, onChange }) => {
+  // #region HOOKS
+  const context = useTheme();
+  // #endregion
   // #region FUNCTIONS
   function isBetweenDates(targetDate: Date, startDate: Date, endDate: Date) {
     return (isAfter(targetDate, startDate) || isEqual(targetDate, startDate)) && (isBefore(targetDate, endDate) || isEqual(targetDate, endDate));
   }
   // #endregion
   return (
-    <View style={styles.root}>
+    <View
+      style={[
+        styles.root,
+        { flex: context.spacing && context.spacing.weekHeight ? undefined : 1, height: context.spacing && context.spacing.weekHeight },
+      ]}
+    >
       {week.map((day, dayIndex) => {
         const foundIndex = value.findIndex((i) => isSameDay(i, day));
         const selected = foundIndex > -1;
@@ -35,7 +44,6 @@ export default memo(WeekContainer);
 
 const styles = StyleSheet.create({
   root: {
-    flex: 1,
     flexDirection: 'row',
   },
 });

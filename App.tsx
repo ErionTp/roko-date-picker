@@ -8,7 +8,7 @@ export default function App() {
   const [range, setRange] = useState<{ startDate: Date; endDate?: Date }>({ startDate: new Date(), endDate: new Date() });
   const [date, setDate] = useState<Date>(new Date());
 
-  const customTheme = {
+  const calendarStyle = {
     primary: '#FF5733',
     onPrimary: '#000000',
     secondary: '#FFC300',
@@ -40,7 +40,7 @@ export default function App() {
         <View style={styles.container}>
           <View style={{ flex: 1 }}>
             {RenderTitle('Multi Date Picker:', range.startDate, range.endDate)}
-            <RokoCalendar theme={customTheme} value={range} onChange={setRange} multiple={true} />
+            <RokoCalendar theme={{ colors: calendarStyle }} value={range} onChange={setRange} multiple={true} />
           </View>
 
           <View style={{ flex: 1 }}>

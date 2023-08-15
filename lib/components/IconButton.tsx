@@ -3,24 +3,24 @@ import React, { FC } from 'react';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { IIconButton } from '../models/IIconButton';
 import { useTheme } from '../hooks/ThemeContext';
-import { ITheme } from '../models/props/ITheme';
+import { IStyle } from '../models/props/IStyle';
 
 const IconButton: FC<IIconButton> = ({ icon, onPress }) => {
   // #region HOOKS
-  const theme = useTheme();
+  const context = useTheme();
   // #endregion
   // #region FUNCTIONS
   const style = () => {
-    return styles(theme);
+    return styles(context.colors);
   };
   // #endregion
   return (
     <TouchableOpacity style={style().root} onPress={onPress}>
-      <MaterialCommunityIcons name={icon} size={24} color={theme.onBackground} />
+      <MaterialCommunityIcons name={icon} size={24} color={context.colors.onBackground} />
     </TouchableOpacity>
   );
 };
 
 export default IconButton;
 
-const styles = (theme: ITheme) => StyleSheet.create({ root: { padding: 4, borderRadius: 16 } });
+const styles = (theme: IStyle) => StyleSheet.create({ root: { padding: 4, borderRadius: 16 } });
