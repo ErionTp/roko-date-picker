@@ -2,7 +2,7 @@ import { StyleSheet, View } from 'react-native';
 import React, { FC } from 'react';
 import { isToday } from 'date-fns';
 import { useTheme } from '../hooks/ThemeContext';
-import { ITheme } from '../models/props/ITheme';
+import { IStyle } from '../models/props/IStyle';
 
 interface Props {
   value: Date;
@@ -10,16 +10,16 @@ interface Props {
 }
 const TodayIndicator: FC<Props> = ({ value, selected }) => {
   // #region HOOKS
-  const theme = useTheme();
+  const context = useTheme();
   // #endregion
   // #region FUNCTIONS
   const style = () => {
-    return styles(theme);
+    return styles(context.colors);
   };
   // #endregion
 
   if (isToday(value)) {
-    return <View style={[style().root, { backgroundColor: selected ? theme.primaryVariant : theme.onPrimaryVariant }]} />;
+    return <View style={[style().root, { backgroundColor: selected ? context.colors.primaryVariant : context.colors.onPrimaryVariant }]} />;
   } else {
     return null;
   }
@@ -27,5 +27,5 @@ const TodayIndicator: FC<Props> = ({ value, selected }) => {
 
 export default TodayIndicator;
 
-const styles = (theme: ITheme) =>
+const styles = (theme: IStyle) =>
   StyleSheet.create({ root: { height: 5, width: 5, borderRadius: 5, position: 'absolute', backgroundColor: 'white', bottom: 5 } });

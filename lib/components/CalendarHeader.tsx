@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import IconButton from './IconButton';
 import Constants from '../utils/Constants';
 import { useTheme } from '../hooks/ThemeContext';
-import { ITheme } from '../models/props/ITheme';
+import { IStyle } from '../models/props/IStyle';
 
 interface Props {
   handlePreviousMonth: () => void;
@@ -12,10 +12,10 @@ interface Props {
 }
 
 const CalendarHeader: FC<Props> = ({ title, handlePreviousMonth, handleNextMonth }) => {
-  const theme = useTheme();
+  const context = useTheme();
 
   const style = () => {
-    return styles(theme);
+    return styles(context.colors);
   };
 
   return (
@@ -29,7 +29,7 @@ const CalendarHeader: FC<Props> = ({ title, handlePreviousMonth, handleNextMonth
 
 export default CalendarHeader;
 
-const styles = (theme: ITheme) =>
+const styles = (theme: IStyle) =>
   StyleSheet.create({
     root: {
       alignItems: 'center',

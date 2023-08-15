@@ -2,17 +2,17 @@ import { StyleSheet, Text, View } from 'react-native';
 import React, { FC, useMemo } from 'react';
 import { startOfWeek, addDays, format } from 'date-fns';
 import Constants from '../utils/Constants';
-import { ITheme } from '../models/props/ITheme';
+import { IStyle } from '../models/props/IStyle';
 import { useTheme } from '../hooks/ThemeContext';
 
 interface Props {}
 const WeekIndicator: FC<Props> = ({}) => {
   // #region HOOKS
-  const theme = useTheme();
+  const context = useTheme();
   // #endregion
   // #region FUNCTIONS
   const style = () => {
-    return styles(theme);
+    return styles(context.colors);
   };
 
   const weekDays = useMemo(() => {
@@ -40,7 +40,7 @@ const WeekIndicator: FC<Props> = ({}) => {
 
 export default WeekIndicator;
 
-const styles = (theme: ITheme) =>
+const styles = (theme: IStyle) =>
   StyleSheet.create({
     root: { flexDirection: 'row', alignItems: 'center', paddingVertical: Constants.spacing.regular },
     container: { alignItems: 'center', justifyContent: 'center', flex: 1 },
