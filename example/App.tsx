@@ -60,10 +60,18 @@ export default function App() {
     <SafeAreaProvider>
       <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.container}>
-          {RenderTitle('Single Date Picker:', range.startDate, range.endDate)}
-          <Animated.View style={[animatedStyle, {}]}>
-            <RokoCalendar multiple={true} theme={{ colors: calendarStyle }} value={range} onChange={setRange} />
-          </Animated.View>
+          <View>
+            {RenderTitle('Multi Date Picker:', range.startDate, range.endDate)}
+            <Animated.View style={[animatedStyle, {}]}>
+              <RokoCalendar multiple={true} theme={{ colors: calendarStyle }} value={range} onChange={setRange} />
+            </Animated.View>
+          </View>
+          <View>
+            {RenderTitle('Single Date Picker:', date, undefined)}
+            <Animated.View style={[animatedStyle, {}]}>
+              <RokoCalendar theme={{ colors: calendarStyle }} value={date} onChange={setDate} />
+            </Animated.View>
+          </View>
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
