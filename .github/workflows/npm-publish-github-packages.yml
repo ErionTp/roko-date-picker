@@ -16,7 +16,7 @@ jobs:
       #- run: npm test
       - run: npm run build # Assuming you have a build script in package.json
 
-  publish-gpr:
+  publish-npm:
     needs: build
     runs-on: ubuntu-latest
     permissions:
@@ -27,7 +27,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          registry-url: https://npm.pkg.github.com/
+          registry-url: https://registry.npmjs.org/
       - run: npm ci
       - run: npm publish
         env:
