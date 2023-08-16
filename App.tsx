@@ -20,6 +20,7 @@ export default function App() {
     background: '#DAF7A6',
     onBackground: '#000000',
   };
+
   const animatedValue = useSharedValue(0);
 
   const animatedStyle = useAnimatedStyle(() => {
@@ -61,7 +62,7 @@ export default function App() {
         <View style={styles.container}>
           {RenderTitle('Single Date Picker:', range.startDate, range.endDate)}
           <Animated.View style={[animatedStyle, {}]}>
-            <RokoCalendar multiple={false} theme={{ colors: calendarStyle }} value={date} onChange={setDate} />
+            <RokoCalendar multiple={true} theme={{ colors: calendarStyle }} value={range} onChange={setRange} />
           </Animated.View>
         </View>
       </SafeAreaView>
