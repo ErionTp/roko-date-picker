@@ -1,9 +1,9 @@
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import RokoCalendar from './lib';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { format } from 'date-fns';
 import Animated, { interpolate, runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import RokoCalendar from 'roko-date-picker';
 
 export default function App() {
   const [isOpen, toggleShow] = useState(false);
