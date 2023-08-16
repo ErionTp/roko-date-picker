@@ -1,7 +1,6 @@
 import { StyleSheet, View } from 'react-native';
 import React, { FC, memo, useMemo } from 'react';
 import { useTheme } from '../hooks/ThemeContext';
-import { IStyle } from '../models/props/IStyle';
 import { ITheme } from '../models/ITheme';
 
 interface Props {

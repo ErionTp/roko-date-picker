@@ -1,5 +1,5 @@
 import { ComponentProps } from 'react';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export interface IIconButtonProps {
   icon: ComponentProps<typeof MaterialCommunityIcons>['name'];

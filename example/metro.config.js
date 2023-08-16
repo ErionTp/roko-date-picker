@@ -1,16 +1,9 @@
-const path = require('path');
-const { getDefaultConfig } = require('metro-config');
-
-const defaultConfig = getDefaultConfig.getDefaultValues(__dirname);
-
 module.exports = {
   resolver: {
-    extraNodeModules: new Proxy(
-      {},
-      {
-        get: (target, name) => (name in target ? target[name] : path.join(process.cwd(), `node_modules/${name}`)),
-      }
-    ),
+    extraNodeModules: {
+      react: require.resolve('react'),
+      'react-native': require.resolve('react-native'),
+      // any other duplicated packages can be added here
+    },
   },
-  watchFolders: [...defaultConfig.watchFolders, path.resolve(__dirname, '../lib')],
 };
