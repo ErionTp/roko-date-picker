@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import React, { FC } from 'react';
 import { format } from 'date-fns';
 
@@ -23,5 +23,3 @@ const Header: FC<Props> = ({ title, value, onPress }) => {
 };
 
 export default Header;
-
-const styles = StyleSheet.create({ root: {} });

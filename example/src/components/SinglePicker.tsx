@@ -2,7 +2,7 @@ import { StyleSheet, Switch, View } from 'react-native';
 import React, { useCallback, useState } from 'react';
 import Animated, { Easing, interpolate, runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import Header from './Header';
-import RokoCalendar from '../../../src/index';
+import RokoCalendar from 'roko-date-picker';
 import MaterialColors from '../../../src/utils/MaterialColors';
 
 const calendarStyle = {
