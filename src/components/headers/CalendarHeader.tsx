@@ -1,43 +1,28 @@
-import { StyleSheet, View, Text } from 'react-native';
-import React, { FC, useMemo } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { FC } from 'react';
+import { format } from 'date-fns';
 import IconButton from '../buttons/IconButton';
-import { startOfWeek, addDays } from 'date-fns';
+import { useMainContext } from '../../hooks/MainContext';
 
 interface Props {
-  title: string;
-  handleOnPrevClick: () => void;
-  handleOnNextClick: () => void;
+  currentDate: Date;
+  onPreviousMonthClick: () => void;
+  onNextMonthClick: () => void;
 }
-const CalendarHeader: FC<Props> = ({ title, handleOnPrevClick, handleOnNextClick }) => {
-  const weekDays = useMemo(() => {
-    const weekStart = startOfWeek(new Date(), { weekStartsOn: 1 }); // Monday
-    const days = [];
-
-    for (let i = 0; i < 7; i++) {
-      days.push(addDays(weekStart, i));
-    }
-
-    return days;
-  }, []);
+const CalendarHeader: FC<Props> = ({ currentDate, onPreviousMonthClick, onNextMonthClick }) => {
+  const { theme } = useMainContext();
 
   return (
     <View style={styles.root}>
-      <IconButton icon={'chevron-left'} onPress={handleOnPrevClick} />
-      <View style={{ flex: 1, alignItems: 'center' }}>
-        <Text style={{ textTransform: 'capitalize' }}>{title}</Text>
-      </View>
-      <IconButton icon={'chevron-right'} onPress={handleOnNextClick} />
+      <IconButton icon={'chevron-left'} onPress={onPreviousMonthClick} />
+      <TouchableOpacity activeOpacity={1} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text style={{ fontSize: 16, color: theme?.onBackground }}>{format(currentDate, 'MMMM, yyyy')}</Text>
+      </TouchableOpacity>
+      <IconButton icon={'chevron-right'} onPress={onNextMonthClick} />
     </View>
   );
 };
 
 export default CalendarHeader;
 
-const styles = StyleSheet.create({
-  root: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 8,
-    flex: 1,
-  },
-});
+const styles = StyleSheet.create({ root: { flex: 1, flexDirection: 'row' } });

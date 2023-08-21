@@ -1,88 +1,74 @@
 import { StyleSheet, View } from 'react-native';
 import React, { FC, useCallback, useMemo, useState } from 'react';
-import { ITheme } from '../models/ITheme';
-import { IMultiSelection } from '../models/props/IMultiSelection';
-import { ISingleSelection } from '../models/props/ISingleSelection';
-import { defaultTheme } from '../models/props/IStyle';
+import MainContext from '../hooks/MainContext';
+import { ISingleProps } from '../models/ISingleProps';
+import { IMultiProps } from '../models/IMultiProps';
 import CalendarHeader from './headers/CalendarHeader';
-import { format, isAfter, isValid } from 'date-fns';
 import WeekLabels from './headers/WeekLabels';
 import { prepareMonthList } from '../utils/Common';
-import WeekContainer from './WeekContainer';
-import ErrorView from './ErrorView';
-import ThemeContext from '../hooks/ThemeContext';
+import { ITheme } from '../models/ITheme';
+import MaterialColors from '../utils/MaterialColors';
+import Weeks from './Weeks';
 
-type SelectionProps = ISingleSelection | IMultiSelection;
+type SelectionProps = ISingleProps | IMultiProps;
 
 interface BaseProps {
-  theme?: ITheme;
+  theme?: any;
 }
 
 type RokoCalendarProps = BaseProps & SelectionProps;
 
-const RokoCalendar: FC<RokoCalendarProps> = ({ multiple, value, onChange, theme = defaultTheme }) => {
+const defaultTheme: ITheme = {
+  primary: MaterialColors.blue_grey_400,
+  onPrimary: MaterialColors.white,
+  secondary: MaterialColors.blue_grey_100,
+  onSecondary: MaterialColors.blue_grey_300,
+  background: MaterialColors.grey_50,
+  onBackground: MaterialColors.grey_900,
+};
+
+const RokoCalendar: FC<RokoCalendarProps> = ({ theme = defaultTheme, value, onChange, multiple }) => {
   // #region MEMBERS
-  const isValidValue = multiple ? isValid(value.startDate) && (value.endDate ? isValid(value.endDate) : true) : isValid(value);
-  const initialSelectedDates = multiple ? (value.endDate ? [value.startDate, value.endDate] : [value.startDate]) : [value];
-  // #endregion
-  // #region ACTIONS
-  if (!isValidValue) {
-    return <ErrorView />;
-  }
+  const date = multiple ? (value.endDate ? [value.startDate, value.endDate] : [value.startDate]) : [value];
+  const contextData = useMemo(() => {
+    return { value: date, onChange, multiple, theme };
+  }, [date, onChange, multiple, theme]);
   // #endregion
   // #region STATES
-  const [currentDate, setCurrentDate] = useState<Date>(initialSelectedDates[0] ?? new Date());
-  const [selectedDates, setSelectedDates] = useState<Date[]>(initialSelectedDates);
+  const [currentDate, setCurrentDate] = useState<Date>(contextData.value[0]);
   // #endregion
   // #region FUNCTIONS
-  const handlePreviousMonth = useCallback(() => {
+  const currentDateList = useMemo(() => {
+    // setCurrentDate(contextData.value);
+    return prepareMonthList(currentDate);
+  }, [currentDate.getMonth(), currentDate.getFullYear()]);
+
+  const handleOnPreviousMonth = useCallback(() => {
     const newDate = new Date(currentDate);
     newDate.setMonth(newDate.getMonth() - 1);
     setCurrentDate(newDate);
   }, [currentDate.getMonth(), currentDate.getFullYear()]);
 
-  const handleNextMonth = useCallback(() => {
+  const handleOnNextMonth = useCallback(() => {
     const newDate = new Date(currentDate);
     newDate.setMonth(newDate.getMonth() + 1);
     setCurrentDate(newDate);
   }, [currentDate.getMonth(), currentDate.getFullYear()]);
 
-  const currentDateList = useMemo(() => {
-    return prepareMonthList(currentDate);
-  }, [currentDate.getMonth(), currentDate.getFullYear()]);
-
-  const handleSetCurrentDay = useCallback(
-    (v: Date) => {
-      if (multiple) {
-        if (selectedDates.length === 1 && (isAfter(v, selectedDates[0]) || v.getTime() === selectedDates[0].getTime())) {
-          setSelectedDates((prevDates) => [...prevDates, v]);
-          onChange({ startDate: selectedDates[0], endDate: v });
-        } else {
-          setSelectedDates([v]);
-          onChange({ startDate: v });
-        }
-      } else {
-        setSelectedDates([v]);
-        onChange(v);
-      }
-    },
-    [multiple, selectedDates, onChange]
-  );
-
   // #endregion
   return (
-    <ThemeContext.Provider value={theme}>
+    <MainContext.Provider value={contextData}>
       <View style={styles.root}>
-        <CalendarHeader title={format(currentDate, 'MMMM, yyyy')} handleOnPrevClick={handlePreviousMonth} handleOnNextClick={handleNextMonth} />
+        <CalendarHeader {...{ currentDate, onPreviousMonthClick: handleOnPreviousMonth, onNextMonthClick: handleOnNextMonth }} />
         <WeekLabels />
-        {currentDateList.map((week, weekIndex) => (
-          <WeekContainer key={weekIndex} {...{ week, currentDate, value: initialSelectedDates, onChange: (v) => handleSetCurrentDay(v) }} />
+        {currentDateList.map((week, index) => (
+          <Weeks key={index} {...{ week, currentDate }} />
         ))}
       </View>
-    </ThemeContext.Provider>
+    </MainContext.Provider>
   );
 };
 
 export default RokoCalendar;
 
-const styles = StyleSheet.create({ root: { flex: 1 } });
+const styles = StyleSheet.create({ root: { flex: 1, gap: 2 } });

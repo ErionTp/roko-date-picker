@@ -1,9 +1,15 @@
+const path = require('path');
+
 module.exports = {
   resolver: {
-    extraNodeModules: {
-      react: require.resolve('react'),
-      'react-native': require.resolve('react-native'),
-      // any other duplicated packages can be added here
-    },
+    extraNodeModules: new Proxy(
+      {},
+      {
+        get: (target, name) => {
+          return path.join(process.cwd(), `node_modules/${name}`);
+        },
+      }
+    ),
   },
+  watchFolders: [path.resolve(__dirname, '..', 'src')],
 };

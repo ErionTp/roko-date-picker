@@ -1,7 +1,7 @@
 import { StyleSheet, View } from 'react-native';
 import React, { FC, memo, useMemo } from 'react';
-import { useTheme } from '../hooks/ThemeContext';
 import { ITheme } from '../models/ITheme';
+import { useMainContext } from '../hooks/MainContext';
 
 interface Props {
   isBetween: boolean;
@@ -11,10 +11,10 @@ interface Props {
 
 const BetweenDates: FC<Props> = ({ isBetween, firstSelection, secondSelection }) => {
   // #region HOOKS
-  const theme = useTheme();
+  const context = useMainContext();
   // #endregion
   // #region FUNCTIONS
-  const themedStyles = useMemo(() => styles(theme), [theme]);
+  const themedStyles = useMemo(() => styles(context.theme), []);
   // #endregion
 
   return (
@@ -37,7 +37,7 @@ const styles = (theme: ITheme) =>
       ...StyleSheet.absoluteFillObject,
       marginVertical: 1,
     },
-    isBetween: { backgroundColor: theme.colors.primaryVariant },
+    isBetween: { backgroundColor: theme.secondary },
     isLeftEdge: { marginStart: 30 },
     isRightEdge: { marginEnd: 30 },
   });
