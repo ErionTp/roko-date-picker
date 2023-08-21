@@ -1,9 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native';
-import React, { FC, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { startOfWeek, addDays, format } from 'date-fns';
+import { useMainContext } from '../../hooks/MainContext';
+import { ITheme } from '../../models/ITheme';
 
-interface Props {}
-const WeekLabels: FC<Props> = ({}) => {
+const WeekLabels = () => {
+  const { theme } = useMainContext();
+
+  const themedStyle = useMemo(() => styles(theme), []);
+
   const weekDays = useMemo(() => {
     const weekStart = startOfWeek(new Date(), { weekStartsOn: 1 }); // Monday
     const days = [];
@@ -15,10 +20,10 @@ const WeekLabels: FC<Props> = ({}) => {
     return days;
   }, []);
   return (
-    <View style={styles.root}>
+    <View style={themedStyle.root}>
       {weekDays.map((item, index) => (
-        <View style={styles.container} key={index}>
-          <Text style={{ fontSize: 12 }}>{format(item, 'EEE')}</Text>
+        <View style={themedStyle.container} key={index}>
+          <Text style={themedStyle.title}>{format(item, 'EEE')}</Text>
         </View>
       ))}
     </View>
@@ -27,7 +32,9 @@ const WeekLabels: FC<Props> = ({}) => {
 
 export default WeekLabels;
 
-const styles = StyleSheet.create({
-  root: { flexDirection: 'row', alignItems: 'center', paddingVertical: 8, flex: 1 },
-  container: { alignItems: 'center', justifyContent: 'center', flex: 1 },
-});
+const styles = (theme?: ITheme) =>
+  StyleSheet.create({
+    root: { flexDirection: 'row', alignItems: 'center', flex: 1, borderBottomWidth: 1, borderBottomColor: theme?.secondary },
+    container: { alignItems: 'center', justifyContent: 'center', flex: 1 },
+    title: { fontSize: 12, color: theme?.onBackground },
+  });

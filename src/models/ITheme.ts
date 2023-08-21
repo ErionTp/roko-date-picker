@@ -1,7 +1,8 @@
-import { ISpaces } from './props/ISpaces';
-import { IStyle } from './props/IStyle';
-
 export interface ITheme {
-  colors: IStyle;
-  spacing?: ISpaces;
+  primary?: string;
+  onPrimary?: string;
+  secondary?: string;
+  onSecondary?: string;
+  background?: string;
+  onBackground?: string;
 }

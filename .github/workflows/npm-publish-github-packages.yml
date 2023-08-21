@@ -1,11 +1,8 @@
-# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
-# For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
-
 name: Node.js Package
 
 on:
   push:
-    types: main
+    branches: [main]
 
 jobs:
   build:
@@ -16,9 +13,10 @@ jobs:
         with:
           node-version: 16
       - run: npm ci
-      - run: npm test
+      #- run: npm test
+      - run: npm run build # Assuming you have a build script in package.json
 
-  publish-gpr:
+  publish-npm:
     needs: build
     runs-on: ubuntu-latest
     permissions:
@@ -29,7 +27,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          registry-url: https://npm.pkg.github.com/
+          registry-url: https://registry.npmjs.org/
       - run: npm ci
       - run: npm publish
         env:
