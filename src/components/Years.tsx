@@ -35,17 +35,17 @@ const CalendarYearView: React.FC<CalendarYearViewProps> = ({ bodyType, onSelectY
 const styles = (theme?: ITheme) =>
   StyleSheet.create({
     yearGrid: {
+      flexGrow: 1,
       flexDirection: 'row',
       alignItems: 'center',
-      gap: 20,
       flexWrap: 'wrap',
     },
     yearButton: {
+      flexGrow: 1,
       width: 100,
-      borderRadius: 5,
-      height: 30,
       alignItems: 'center',
       justifyContent: 'center',
+      height: '25%',
     },
     selectedYearButton: {
       backgroundColor: 'lightblue',

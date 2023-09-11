@@ -1,7 +1,8 @@
 import React from 'react';
 import { Text, StyleSheet, FlatList, TouchableOpacity, View } from 'react-native';
-import { IMonth } from '../../models/IMonth';
-import Constants from '../../utils/Constants';
+import { IMonth } from '../models/IMonth';
+import Constants from '../utils/Constants';
+import { CalendarType } from '../utils/Enums';
 
 interface Props {
   currentMonth: string;
@@ -30,7 +31,7 @@ const Months = (props: Props) => {
     <TouchableOpacity
       onPress={() => {
         setSelectedMonth(item);
-        bodyType('year');
+        bodyType(CalendarType.Calendar);
       }}
       style={styles.mothItem}
     >
