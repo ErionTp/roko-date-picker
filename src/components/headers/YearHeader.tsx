@@ -25,7 +25,7 @@ const CalendarYearHeader: FC<Props> = ({ currentYear, currentDate, bodyType, onP
         style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
       >
         <Text style={{ fontSize: 16, color: theme?.onBackground }}>
-          {currentYear ? `${format(currentDate, 'MMMM')}  ${currentYear}` : new Date().getFullYear()}
+          {currentYear ? `${format(currentDate, 'MMMM')}, ${currentYear}` : new Date().getFullYear()}
         </Text>
       </TouchableOpacity>
       <IconButton icon={'chevron-right'} onPress={onNextYearClick} />
