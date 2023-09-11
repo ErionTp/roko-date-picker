@@ -30,7 +30,6 @@ const Months = (props: Props) => {
     <TouchableOpacity
       onPress={() => {
         setSelectedMonth(item);
-
         bodyType('year');
       }}
       style={styles.mothItem}
