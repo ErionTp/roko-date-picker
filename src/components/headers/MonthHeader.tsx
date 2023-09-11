@@ -23,4 +23,4 @@ const CalendarMonthHeader: FC<Props> = ({ month, bodyType }) => {
 
 export default CalendarMonthHeader;
 
-const styles = StyleSheet.create({ root: { flexDirection: 'row' } });
+const styles = StyleSheet.create({ root: { flexDirection: 'row', padding: 8 } });

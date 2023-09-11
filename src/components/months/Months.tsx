@@ -34,13 +34,22 @@ const Months = (props: Props) => {
       }}
       style={styles.mothItem}
     >
-      <Text style={[styles.mothName, currentMonth === item.name && styles.selectedMonthButton]}>{item.name}</Text>
+      <View style={[{ flex: 1, alignItems: 'center', justifyContent: 'center' }, currentMonth === item.name && styles.selectedMonthButton]}>
+        <Text style={[currentMonth === item.name && styles.selectedMonthButton]}>{item.name}</Text>
+      </View>
     </TouchableOpacity>
   );
 
   return (
-    <View>
-      <FlatList data={monthData} renderItem={renderItem} keyExtractor={(item) => item.id.toString()} numColumns={3} />
+    <View style={{ flex: 1 }}>
+      <FlatList
+        columnWrapperStyle={{ height: '25%', flexGrow: 1 }}
+        contentContainerStyle={{ flexGrow: 1 }}
+        data={monthData}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id.toString()}
+        numColumns={3}
+      />
     </View>
   );
 };
@@ -50,22 +59,8 @@ export default Months;
 const styles = StyleSheet.create({
   mothItem: {
     flex: 1,
-    margin: 8,
-    alignItems: 'center',
-    justifyContent: 'space-between',
   },
-  mothImage: {
-    borderRadius: 8,
-  },
-  mothName: {
-    marginTop: 8,
-    textAlign: 'center',
-  },
-
   selectedMonthButton: {
     backgroundColor: 'lightblue',
-    margin: Constants.spacing.minimal,
-    paddingHorizontal: Constants.spacing.minimal,
-    borderRadius: Constants.spacing.medium,
   },
 });
