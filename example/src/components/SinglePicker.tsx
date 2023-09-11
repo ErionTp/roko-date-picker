@@ -50,7 +50,6 @@ const SinglePicker = () => {
       <Animated.View style={[animatedStyle, { height: '40%', backgroundColor: MaterialColors.grey_50, borderRadius: 16 }]}>
         <RokoCalendar value={range} onChange={handleChangeDate} multiple={isMultiple} />
       </Animated.View>
-
       <Switch value={isMultiple} onChange={() => toggleMultiple((v) => !v)} />
     </View>
   );
