@@ -2,7 +2,6 @@ import { StyleSheet, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import React from 'react';
 import SinglePicker from './src/components/SinglePicker';
-import MultiPicker from './src/components/MultiPicker';
 
 export default function App() {
   return (
@@ -10,7 +9,6 @@ export default function App() {
       <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.container}>
           <SinglePicker />
-          {/* <MultiPicker /> */}
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
