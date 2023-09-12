@@ -3,6 +3,8 @@ import React, { FC } from 'react';
 import { format } from 'date-fns';
 import IconButton from '../buttons/IconButton';
 import { useMainContext } from '../../hooks/MainContext';
+import Layout from '../../utils/Layout';
+import { CalendarType } from '../../utils/Enums';
 
 interface Props {
   currentDate: Date;
@@ -18,7 +20,7 @@ const CalendarHeader: FC<Props> = ({ currentDate, onPreviousMonthClick, onNextMo
       <IconButton icon={'chevron-left'} onPress={onPreviousMonthClick} />
       <TouchableOpacity
         onPress={() => {
-          bodyType('month');
+          bodyType(CalendarType.Month);
         }}
         activeOpacity={1}
         style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
@@ -32,4 +34,4 @@ const CalendarHeader: FC<Props> = ({ currentDate, onPreviousMonthClick, onNextMo
 
 export default CalendarHeader;
 
-const styles = StyleSheet.create({ root: { flex: 1, flexDirection: 'row' } });
+const styles = StyleSheet.create({ root: { height: Layout.headerHeight, flexDirection: 'row' } });

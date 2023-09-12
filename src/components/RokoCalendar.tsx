@@ -9,11 +9,11 @@ import { prepareMonthList } from '../utils/Common';
 import { ITheme } from '../models/ITheme';
 import MaterialColors from '../utils/MaterialColors';
 import Weeks from './Weeks';
-import Months from './months/Months';
-import CalendarMonthHeader from './headers/MonthHeader';
+import Months from './Months';
 import CalendarYearHeader from './headers/YearHeader';
 import CalendarYearView from './Years';
 import { format } from 'date-fns';
+import { CalendarType } from '../utils/Enums';
 
 type SelectionProps = ISingleProps | IMultiProps;
 
@@ -40,7 +40,7 @@ const RokoCalendar: FC<RokoCalendarProps> = ({ theme = defaultTheme, value, onCh
   }, [date, onChange, multiple, theme]);
   // #endregion
   // #region STATES
-  const [currentView, setCurrentView] = useState<string | null>(null);
+  const [currentView, setCurrentView] = useState<string>(CalendarType.Calendar);
   const [currentDate, setCurrentDate] = useState<Date>(contextData.value[0]);
   const [currentYear, setCurrentYear] = useState<number>(Number(format(currentDate, 'yyyy')));
   const [startYear, setStartYear] = useState<number>(currentYear - 10);
@@ -102,52 +102,73 @@ const RokoCalendar: FC<RokoCalendarProps> = ({ theme = defaultTheme, value, onCh
     setEndYear(newEndYear);
   };
   // #endregion
+
+  const renderMonthView = () => (
+    <>
+      <CalendarHeader
+        bodyType={() => {
+          if (currentView === CalendarType.Month) {
+            setCurrentView('Year');
+          }
+        }}
+        {...{ currentDate, onPreviousMonthClick: handleOnPreviousMonth, onNextMonthClick: handleOnNextMonth }}
+      />
+      <Months
+        currentMonth={format(currentDate, 'MMMM')}
+        bodyType={(val) => setCurrentView(val)}
+        setSelectedMonth={(val) => {
+          const dateObject = new Date(`${currentYear}-${val.id}-01`);
+          setCurrentDate(dateObject);
+        }}
+      />
+    </>
+  );
+
+  const renderYearView = () => (
+    <>
+      <CalendarYearHeader
+        bodyType={() => setCurrentView(CalendarType.Calendar)}
+        {...{ currentDate, currentYear, onPreviousYearClick: handleOnPreviousYear, onNextYearClick: handleOnNextYear }}
+      />
+      <CalendarYearView
+        currentYear={currentYear}
+        bodyType={() => setCurrentView(CalendarType.Calendar)}
+        yearsInRange={yearsInRange}
+        onSelectYear={(val) => {
+          setCurrentYear(val);
+        }}
+      />
+    </>
+  );
+
+  const renderCalendarView = () => (
+    <>
+      <CalendarHeader
+        bodyType={(val) => setCurrentView(val)}
+        {...{ currentDate, onPreviousMonthClick: handleOnPreviousMonth, onNextMonthClick: handleOnNextMonth }}
+      />
+      <WeekLabels />
+      {currentDateList.map((week, index) => (
+        <Weeks key={index} {...{ week, currentDate }} />
+      ))}
+    </>
+  );
+
   return (
     <MainContext.Provider value={contextData}>
       <View style={styles.root}>
-        {currentView === 'month' ? (
-          <>
-            <CalendarMonthHeader
-              month={format(currentDate, 'MMMM')}
-              bodyType={(val) => setCurrentView(val)}
-              {...{ onPreviousMonthClick: handleOnPreviousMonth, onNextMonthClick: handleOnNextMonth }}
-            />
-            <Months
-              currentMonth={format(currentDate, 'MMMM')}
-              bodyType={(val) => setCurrentView(val)}
-              setSelectedMonth={(val) => {
-                const dateObject = new Date(`${currentYear}-${val.id}-01`);
-                setCurrentDate(dateObject);
-              }}
-            />
-          </>
-        ) : currentView === 'year' ? (
-          <>
-            <CalendarYearHeader
-              bodyType={() => setCurrentView(null)}
-              {...{ currentYear, onPreviousYearClick: handleOnPreviousYear, onNextYearClick: handleOnNextYear }}
-            />
-            <CalendarYearView
-              currentYear={currentYear}
-              bodyType={() => setCurrentView(null)}
-              yearsInRange={yearsInRange}
-              onSelectYear={(val) => {
-                setCurrentYear(val);
-              }}
-            />
-          </>
-        ) : (
-          <>
-            <CalendarHeader
-              bodyType={(val) => setCurrentView(val)}
-              {...{ currentDate, onPreviousMonthClick: handleOnPreviousMonth, onNextMonthClick: handleOnNextMonth }}
-            />
-            <WeekLabels />
-            {currentDateList.map((week, index) => (
-              <Weeks key={index} {...{ week, currentDate }} />
-            ))}
-          </>
-        )}
+        {(() => {
+          switch (currentView) {
+            case CalendarType.Month:
+              return renderMonthView();
+            case CalendarType.Year:
+              return renderYearView();
+            case CalendarType.Calendar:
+              return renderCalendarView();
+            default:
+              return null;
+          }
+        })()}
       </View>
     </MainContext.Provider>
   );
