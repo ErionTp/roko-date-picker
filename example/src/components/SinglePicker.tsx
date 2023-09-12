@@ -8,8 +8,8 @@ import MaterialColors from '../../../src/utils/MaterialColors';
 const calendarStyle = {
   primary: '#FF5733',
   onPrimary: 'white',
-  primaryVariant: '#FFF9C4',
-  onPrimaryVariant: '#9E9E9E',
+  secondary: '#FFF9C4',
+  onSecondary: '#9E9E9E',
   background: '#DAF7A6',
   onBackground: '#000000',
 };
@@ -48,7 +48,7 @@ const SinglePicker = () => {
     <View style={styles.root}>
       <Header {...{ title: 'Single Picker', value: range, onPress: () => animate(isOpen ? 0 : 50 * 7) }} />
       <Animated.View style={[animatedStyle, { height: 360, backgroundColor: MaterialColors.grey_200, borderRadius: 16 }]}>
-        <RokoCalendar value={range} onChange={handleChangeDate} multiple={isMultiple} />
+        <RokoCalendar value={range} onChange={handleChangeDate} multiple={isMultiple} theme={calendarStyle} />
       </Animated.View>
       <Switch value={isMultiple} onChange={() => toggleMultiple((v) => !v)} />
     </View>

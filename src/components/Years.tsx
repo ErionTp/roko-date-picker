@@ -25,7 +25,7 @@ const CalendarYearView: React.FC<CalendarYearViewProps> = ({ bodyType, onSelectY
             bodyType('');
           }}
         >
-          <Text>{year}</Text>
+          <Text style={currentYear === year && themedStyle.selectedYearText}>{year}</Text>
         </TouchableOpacity>
       ))}
     </View>
@@ -48,7 +48,10 @@ const styles = (theme?: ITheme) =>
       height: '25%',
     },
     selectedYearButton: {
-      backgroundColor: 'lightblue',
+      backgroundColor: theme?.primary,
+    },
+    selectedYearText: {
+      color: theme?.onPrimary,
     },
   });
 

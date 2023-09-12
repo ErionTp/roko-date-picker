@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Text, StyleSheet, FlatList, TouchableOpacity, View } from 'react-native';
 import { IMonth } from '../models/IMonth';
 import Constants from '../utils/Constants';
 import { CalendarType } from '../utils/Enums';
+import { useMainContext } from '../hooks/MainContext';
+import { ITheme } from '../models/ITheme';
 
 interface Props {
   currentMonth: string;
@@ -25,18 +27,25 @@ const monthData: IMonth[] = [
 ];
 
 const Months = (props: Props) => {
+  // #region PROPERTIES
   const { setSelectedMonth, bodyType, currentMonth } = props;
-
+  // #endregion
+  // #region HOOKS
+  const context = useMainContext();
+  // #endregion
+  // #region FUNCTIONS
+  const themedStyles = useMemo(() => styles(context.theme), []);
+  // #endregion
   const renderItem = ({ item }: { item: IMonth }) => (
     <TouchableOpacity
       onPress={() => {
         setSelectedMonth(item);
         bodyType(CalendarType.Calendar);
       }}
-      style={styles.mothItem}
+      style={themedStyles.mothItem}
     >
-      <View style={[{ flex: 1, alignItems: 'center', justifyContent: 'center' }, currentMonth === item.name && styles.selectedMonthButton]}>
-        <Text style={[currentMonth === item.name && styles.selectedMonthButton]}>{item.name}</Text>
+      <View style={[{ flex: 1, alignItems: 'center', justifyContent: 'center' }, currentMonth === item.name && themedStyles.selectedMonthButton]}>
+        <Text style={[currentMonth === item.name && themedStyles.selectedMonthText]}>{item.name}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -57,11 +66,15 @@ const Months = (props: Props) => {
 
 export default Months;
 
-const styles = StyleSheet.create({
-  mothItem: {
-    flex: 1,
-  },
-  selectedMonthButton: {
-    backgroundColor: 'lightblue',
-  },
-});
+const styles = (theme: ITheme) =>
+  StyleSheet.create({
+    mothItem: {
+      flex: 1,
+    },
+    selectedMonthButton: {
+      backgroundColor: theme.primary,
+    },
+    selectedMonthText: {
+      color: theme.onPrimary,
+    },
+  });
