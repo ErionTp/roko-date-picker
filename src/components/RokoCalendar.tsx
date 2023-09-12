@@ -47,9 +47,7 @@ const RokoCalendar: FC<RokoCalendarProps> = ({ theme = defaultTheme, value, onCh
   const [endYear, setEndYear] = useState<number>(currentYear + 1);
 
   // #endregion
-
   // #region FUNCTIONS
-
   const arrayRange = (start: number, stop: number, step: number) => {
     const yearsToShow = 12;
     const currentYear = new Date().getFullYear();
