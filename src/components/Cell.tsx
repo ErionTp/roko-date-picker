@@ -34,7 +34,7 @@ export default memo(TestDay);
 const styles = (theme?: ITheme) =>
   StyleSheet.create({
     root: { flex: 1, alignItems: 'center' },
-    defaultText: { color: theme?.onBackground },
+    defaultText: { color: theme?.onBackground, fontSize: 12 },
     container: { flex: 1, alignItems: 'center', justifyContent: 'center' },
     selectedBackground: {
       borderRadius: 100,
