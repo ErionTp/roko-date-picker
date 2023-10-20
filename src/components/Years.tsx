@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useMainContext } from '../hooks/MainContext';
-import { ITheme } from '../models/ITheme';
+import { Theme } from '../models/Theme';
 
 interface CalendarYearViewProps {
   currentYear: number | null;
@@ -32,7 +32,7 @@ const CalendarYearView: React.FC<CalendarYearViewProps> = ({ bodyType, onSelectY
   );
 };
 
-const styles = (theme?: ITheme) =>
+const styles = (theme?: Partial<Theme>) =>
   StyleSheet.create({
     yearGrid: {
       flexGrow: 1,

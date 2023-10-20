@@ -1,15 +1,17 @@
 // ThemeContext.tsx
 import { createContext, useContext } from 'react';
-import { ITheme } from '../models/ITheme';
+import { Theme } from '../models/Theme';
+import { defaultTheme } from '../utils/Common';
 
 type IContextProps = {
   value: Date[];
   onChange: (value: any) => void;
   multiple?: boolean;
-  theme: ITheme;
+  blockedDates?: Date[];
+  theme: Partial<Theme>;
 };
 
-const DEFAULT_CONTEXT: IContextProps = { value: [], onChange: () => Function.prototype, multiple: false, theme: {} };
+const DEFAULT_CONTEXT: IContextProps = { value: [], onChange: () => Function.prototype, multiple: false, blockedDates: [], theme: defaultTheme };
 
 const MainContext = createContext<IContextProps>(DEFAULT_CONTEXT);
 

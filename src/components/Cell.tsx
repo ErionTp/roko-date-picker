@@ -2,7 +2,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { FC, memo, useMemo } from 'react';
 import { format } from 'date-fns';
 import TodayIndicator from './TodayIndicator';
-import { ITheme } from '../models/ITheme';
+import { Theme } from '../models/Theme';
 import { useMainContext } from '../hooks/MainContext';
 
 interface Props {
@@ -10,16 +10,22 @@ interface Props {
   setDate: (date: Date) => void;
   isSelected: boolean;
   isDifferentMonth: boolean;
+  isBlocked: boolean;
 }
-const TestDay: FC<Props> = ({ item, setDate, isSelected, isDifferentMonth }) => {
+const TestDay: FC<Props> = ({ item, setDate, isSelected, isDifferentMonth, isBlocked }) => {
   const { theme } = useMainContext();
   const themedStyle = useMemo(() => styles(theme), []);
 
   return (
-    <TouchableOpacity activeOpacity={1} style={themedStyle.root} onPress={() => setDate(item)}>
+    <TouchableOpacity disabled={isBlocked} activeOpacity={1} style={themedStyle.root} onPress={() => setDate(item)}>
       <View style={[isSelected && themedStyle.selectedBackground, themedStyle.container]}>
         <Text
-          style={[themedStyle.defaultText, isSelected && themedStyle.selectedText, isDifferentMonth && !isSelected && themedStyle.differentMonthText]}
+          style={[
+            themedStyle.defaultText,
+            isSelected && themedStyle.selectedText,
+            isDifferentMonth && !isSelected && themedStyle.differentMonthText,
+            isBlocked && !isSelected && themedStyle.differentMonthText,
+          ]}
         >
           {format(item, 'dd')}
         </Text>
@@ -31,7 +37,7 @@ const TestDay: FC<Props> = ({ item, setDate, isSelected, isDifferentMonth }) => 
 
 export default memo(TestDay);
 
-const styles = (theme?: ITheme) =>
+const styles = (theme?: Partial<Theme>) =>
   StyleSheet.create({
     root: { flex: 1, alignItems: 'center' },
     defaultText: { color: theme?.onBackground, fontSize: 12 },

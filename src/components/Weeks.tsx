@@ -23,7 +23,8 @@ const TestWeek: FC<Props> = ({ week, currentDate }) => {
       const isBetween = isBetweenDates(item, context.value[0], context.value[1]);
       const firstSelection = isSameDay(item, context.value[0]);
       const secondSelection = isSameDay(item, context.value[1]);
-      return { item, isSelected, isDifferentMonth, isBetween, firstSelection, secondSelection };
+      const isBlockedDay = context.blockedDates ? context.blockedDates.some((d) => isSameDay(d, item)) : false;
+      return { item, isSelected, isDifferentMonth, isBetween, firstSelection, secondSelection, isBlockedDay };
     });
   }, [week, context, currentDate]);
   // #endregion
@@ -57,7 +58,13 @@ const TestWeek: FC<Props> = ({ week, currentDate }) => {
           <BetweenDates {...{ isBetween: data.isBetween, firstSelection: data.firstSelection, secondSelection: data.secondSelection }} />
           <Cell
             key={data.item.toDateString()}
-            {...{ item: data.item, isSelected: data.isSelected, setDate: handleSelectDate, isDifferentMonth: data.isDifferentMonth }}
+            {...{
+              item: data.item,
+              isSelected: data.isSelected,
+              setDate: handleSelectDate,
+              isDifferentMonth: data.isDifferentMonth,
+              isBlocked: data.isBlockedDay,
+            }}
           />
         </View>
       ))}

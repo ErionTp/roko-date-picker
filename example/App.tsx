@@ -1,14 +1,14 @@
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import React from 'react';
-import SinglePicker from './src/components/SinglePicker';
+import DatePicker from './src/components/DatePicker';
 
 export default function App() {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.container}>
-          <SinglePicker />
+          <DatePicker />
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
