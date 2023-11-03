@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import React, { useMemo } from 'react';
 import { startOfWeek, addDays, format } from 'date-fns';
 import { useMainContext } from '../../hooks/MainContext';
-import { ITheme } from '../../models/ITheme';
+import { Theme } from '../../models/Theme';
 
 const WeekLabels = () => {
   const { theme } = useMainContext();
@@ -32,7 +32,7 @@ const WeekLabels = () => {
 
 export default WeekLabels;
 
-const styles = (theme?: ITheme) =>
+const styles = (theme?: Partial<Theme>) =>
   StyleSheet.create({
     root: { flexDirection: 'row', alignItems: 'center', flex: 1, borderBottomWidth: 1, borderBottomColor: theme?.secondary },
     container: { alignItems: 'center', justifyContent: 'center', flex: 1 },

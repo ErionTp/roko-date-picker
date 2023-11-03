@@ -8,22 +8,22 @@ import MaterialColors from '../../../src/utils/MaterialColors';
 const calendarStyle = {
   primary: '#FF5733',
   onPrimary: 'white',
-  primaryVariant: '#FFF9C4',
-  onPrimaryVariant: '#9E9E9E',
+  secondary: '#FFF9C4',
+  onSecondary: '#9E9E9E',
   background: '#DAF7A6',
   onBackground: '#000000',
 };
 
-const SinglePicker = () => {
-  // #region MEMBERS
+const DatePicker = () => {
+  // #region Members
   const animatedValue = useSharedValue(50 * 7);
   // #endregion
-  // #region STATES
+  // #region States
   const [isOpen, toggleShow] = useState(true);
   const [isMultiple, toggleMultiple] = useState(true);
   const [range, setRange] = useState<any>({ startDate: new Date(), endDate: new Date() });
   // #endregion
-  // #region FUNCTIONS
+  // #region Functions
   const animate = (value: number) => {
     animatedValue.value = withTiming(value, { duration: 250, easing: Easing.circle }, (finished) => {
       if (finished) {
@@ -47,15 +47,14 @@ const SinglePicker = () => {
   return (
     <View style={styles.root}>
       <Header {...{ title: 'Single Picker', value: range, onPress: () => animate(isOpen ? 0 : 50 * 7) }} />
-      <Animated.View style={[animatedStyle, { height: '40%', backgroundColor: MaterialColors.grey_50, borderRadius: 16 }]}>
-        <RokoCalendar value={range} onChange={handleChangeDate} multiple={isMultiple} />
+      <Animated.View style={[animatedStyle, { height: 380, backgroundColor: MaterialColors.grey_200, borderRadius: 16 }]}>
+        <RokoCalendar value={range} onChange={handleChangeDate} multiple={isMultiple} theme={calendarStyle} blockedDates={[new Date()]} />
       </Animated.View>
-
       <Switch value={isMultiple} onChange={() => toggleMultiple((v) => !v)} />
     </View>
   );
 };
 
-export default SinglePicker;
+export default DatePicker;
 
 const styles = StyleSheet.create({ root: { gap: 16, flex: 1 } });

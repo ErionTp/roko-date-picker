@@ -14,5 +14,6 @@ export default {
     screenHeight,
     screenWidth,
   },
-  isSmallDevice: width < 400,
+  isSmallDevice: width < 400, 
+  headerHeight : height * 0.05
 };

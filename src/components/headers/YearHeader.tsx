@@ -1,37 +1,38 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { FC } from 'react';
-import { format } from 'date-fns';
 import IconButton from '../buttons/IconButton';
 import { useMainContext } from '../../hooks/MainContext';
 import Layout from '../../utils/Layout';
-import { CalendarType } from '../../utils/Enums';
-
+import { format } from 'date-fns';
 interface Props {
+  currentYear: number | null;
   currentDate: Date;
-  onPreviousMonthClick: () => void;
-  onNextMonthClick: () => void;
+  onPreviousYearClick: () => void;
+  onNextYearClick: () => void;
   bodyType: (val: string) => void;
 }
-const CalendarHeader: FC<Props> = ({ currentDate, onPreviousMonthClick, onNextMonthClick, bodyType }) => {
+const CalendarYearHeader: FC<Props> = ({ currentYear, currentDate, bodyType, onPreviousYearClick, onNextYearClick }) => {
   const { theme } = useMainContext();
 
   return (
     <View style={styles.root}>
-      <IconButton icon={'chevron-left'} onPress={onPreviousMonthClick} />
+      <IconButton icon={'chevron-left'} onPress={onPreviousYearClick} />
       <TouchableOpacity
         onPress={() => {
-          bodyType(CalendarType.Month);
+          bodyType('');
         }}
         activeOpacity={1}
         style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
       >
-        <Text style={{ fontSize: 16, color: theme?.onBackground }}>{format(currentDate, 'MMMM, yyyy')}</Text>
+        <Text style={{ fontSize: 16, color: theme?.onBackground }}>
+          {currentYear ? `${format(currentDate, 'MMMM')}, ${currentYear}` : new Date().getFullYear()}
+        </Text>
       </TouchableOpacity>
-      <IconButton icon={'chevron-right'} onPress={onNextMonthClick} />
+      <IconButton icon={'chevron-right'} onPress={onNextYearClick} />
     </View>
   );
 };
 
-export default CalendarHeader;
+export default CalendarYearHeader;
 
 const styles = StyleSheet.create({ root: { height: Layout.headerHeight, flexDirection: 'row' } });

@@ -1,6 +1,6 @@
 import { StyleSheet, View } from 'react-native';
 import React, { FC, memo, useMemo } from 'react';
-import { ITheme } from '../models/ITheme';
+import { Theme } from '../models/Theme';
 import { useMainContext } from '../hooks/MainContext';
 
 interface Props {
@@ -31,7 +31,7 @@ const BetweenDates: FC<Props> = ({ isBetween, firstSelection, secondSelection })
 
 export default memo(BetweenDates);
 
-const styles = (theme: ITheme) =>
+const styles = (theme: Partial<Theme>) =>
   StyleSheet.create({
     root: {
       ...StyleSheet.absoluteFillObject,
