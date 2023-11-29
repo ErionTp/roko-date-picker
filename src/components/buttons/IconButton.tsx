@@ -1,7 +1,7 @@
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import React, { ComponentProps, FC } from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useMainContext } from '../../hooks/MainContext';
+import { useMainContext } from '../../features/hooks/MainContext';
 
 interface Props {
   icon: ComponentProps<typeof MaterialCommunityIcons>['name'];

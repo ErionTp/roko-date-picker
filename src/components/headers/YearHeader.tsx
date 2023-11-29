@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { FC } from 'react';
 import IconButton from '../buttons/IconButton';
-import { useMainContext } from '../../hooks/MainContext';
+import { useMainContext } from '../../features/hooks/MainContext';
 import Layout from '../../utils/Layout';
 import { format } from 'date-fns';
 interface Props {

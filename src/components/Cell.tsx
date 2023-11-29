@@ -3,7 +3,7 @@ import React, { FC, memo, useMemo } from 'react';
 import { format } from 'date-fns';
 import TodayIndicator from './TodayIndicator';
 import { Theme } from '../models/Theme';
-import { useMainContext } from '../hooks/MainContext';
+import { useMainContext } from '../features/hooks/MainContext';
 
 interface Props {
   item: Date;

@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { Text, StyleSheet, FlatList, TouchableOpacity, View } from 'react-native';
 import { Month } from '../models/Month';
 import { CalendarType } from '../utils/Enums';
-import { useMainContext } from '../hooks/MainContext';
+import { useMainContext } from '../features/hooks/MainContext';
 import { Theme } from '../models/Theme';
 import { monthData } from '../utils/Common';
 

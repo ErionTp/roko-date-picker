@@ -1,6 +1,6 @@
 import { StyleSheet, View } from 'react-native';
 import React, { FC, useCallback, useMemo, useState } from 'react';
-import MainContext from '../hooks/MainContext';
+import MainContext from '../features/hooks/MainContext';
 import { ISingleProps } from '../models/ISingleProps';
 import { IMultiProps } from '../models/IMultiProps';
 import CalendarHeader from './headers/CalendarHeader';

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { useMainContext } from '../hooks/MainContext';
+import { useMainContext } from '../features/hooks/MainContext';
 import { Theme } from '../models/Theme';
 
 interface CalendarYearViewProps {

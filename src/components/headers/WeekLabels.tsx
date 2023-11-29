@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React, { useMemo } from 'react';
 import { startOfWeek, addDays, format } from 'date-fns';
-import { useMainContext } from '../../hooks/MainContext';
+import { useMainContext } from '../../features/hooks/MainContext';
 import { Theme } from '../../models/Theme';
 
 const WeekLabels = () => {

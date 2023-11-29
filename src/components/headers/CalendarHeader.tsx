@@ -2,7 +2,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { FC } from 'react';
 import { format } from 'date-fns';
 import IconButton from '../buttons/IconButton';
-import { useMainContext } from '../../hooks/MainContext';
+import { useMainContext } from '../../features/hooks/MainContext';
 import Layout from '../../utils/Layout';
 import { CalendarType } from '../../utils/Enums';
 

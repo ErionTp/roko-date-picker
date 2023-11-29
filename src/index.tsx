@@ -1,3 +1,3 @@
-import RokoCalendar from './components/RokoCalendar';
+import RokoCalendar from './application';
 
 export default RokoCalendar;

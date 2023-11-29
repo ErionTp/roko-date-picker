@@ -1,7 +1,7 @@
 import { StyleSheet, View } from 'react-native';
 import React, { FC, memo, useCallback, useMemo } from 'react';
 import Cell from './Cell';
-import { useMainContext } from '../hooks/MainContext';
+import { useMainContext } from '../features/hooks/MainContext';
 import { isAfter, isBefore, isEqual, isSameDay, isSameMonth } from 'date-fns';
 import BetweenDates from './BetweenDates';
 

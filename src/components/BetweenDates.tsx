@@ -1,7 +1,7 @@
 import { StyleSheet, View } from 'react-native';
 import React, { FC, memo, useMemo } from 'react';
 import { Theme } from '../models/Theme';
-import { useMainContext } from '../hooks/MainContext';
+import { useMainContext } from '../features/hooks/MainContext';
 
 interface Props {
   isBetween: boolean;
