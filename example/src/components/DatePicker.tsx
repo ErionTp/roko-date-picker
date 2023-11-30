@@ -36,7 +36,7 @@ const DatePicker = () => {
   return (
     <View style={styles.root}>
       <Header {...{ title: 'Single Picker', range, onPress: () => {}, mode }} />
-      <View style={{ height: 420, backgroundColor: MaterialColors.grey_200, borderRadius: 16, padding: 16 }}>
+      <View style={{ height: 380, backgroundColor: MaterialColors.grey_200, borderRadius: 16, padding: 16 }}>
         <RokoCalendar {...{ range, mode, onChange: handleChangeDate, theme: calendarStyle }} />
       </View>
       <Switch value={mode === 'single'} onChange={() => handleToggleMode()} />

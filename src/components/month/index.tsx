@@ -3,9 +3,11 @@ import React, { FC, memo, useMemo } from 'react';
 import useMain from '../../features/hooks/useMain';
 import WeekView from './week';
 import WeekLabels from '../headers/WeekLabels';
-import { isDateArray, prepareMonthList } from '../../features/domain/utils/common';
+import { prepareMonthList } from '../../features/domain/utils/common';
 type Props = {};
 const MonthView: FC<Props> = ({}) => {
+  // #region States
+  // #endregion
   // #region Members
   const { currentDate } = useMain();
   const dateList = useMemo(() => prepareMonthList(currentDate), [currentDate]);

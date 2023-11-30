@@ -28,7 +28,11 @@ const DayView: FC<Props> = ({ item, selected, sameMonth, setCurrentDate }) => {
   return (
     <TouchableOpacity style={customStyles.root} activeOpacity={1} onPress={() => setCurrentDate(item)}>
       <View style={[customStyles.container, selected && customStyles.selectedContainer, { maxWidth: cellSize, maxHeight: cellSize }]}>
-        <Text style={[customStyles.text, selected && customStyles.selectedText, !sameMonth && !selected && customStyles.differentMonth]}>
+        <Text
+          numberOfLines={1}
+          allowFontScaling={true}
+          style={[customStyles.text, selected && customStyles.selectedText, !sameMonth && !selected && customStyles.differentMonth]}
+        >
           {format(item, 'dd')}
         </Text>
         <TodayIndicator {...{ isSelected: selected, item }} />
@@ -66,6 +70,7 @@ const styles = (theme: Partial<tTheme>) =>
     },
     text: {
       color: theme.onBackground,
+      fontSize: 14,
     },
     selectedText: {
       color: theme.onPrimary,

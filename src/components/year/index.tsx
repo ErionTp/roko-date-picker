@@ -53,5 +53,5 @@ YearView.displayName = 'YearView';
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
-  text: { fontSize: Constants.spacing.regular },
+  text: { fontSize: Constants.spacing.regular, textTransform: 'capitalize' },
 });
