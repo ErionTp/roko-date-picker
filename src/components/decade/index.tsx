@@ -8,7 +8,7 @@ import Constants from '../../utils/Constants';
 type Props = {};
 const DecadeView: FC<Props> = ({}) => {
   // #region Members
-  const { currentDate, setCurrentDate, setCalendarType, calendarType } = useMain();
+  const { currentDate, handleSetCurrentDate, setCalendarType, calendarType } = useMain();
   const dateList = useMemo(() => prepareYearsBasedOnDate(currentDate), [currentDate]);
   // #endregion
   // #region States
@@ -33,7 +33,7 @@ const DecadeView: FC<Props> = ({}) => {
           <TouchableOpacity
             style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
             onPress={() => {
-              setCurrentDate(item);
+              handleSetCurrentDate(item);
               setCalendarType(calendarType - 1);
             }}
           >

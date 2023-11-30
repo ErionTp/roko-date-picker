@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React, { useMemo } from 'react';
 import { startOfWeek, addDays, format } from 'date-fns';
-import { tTheme } from '../../features/domain/types/t.Theme';
-import defaultTheme from '../../features/domain/data/default.theme';
-import useMain from '../../features/hooks/useMain';
-import Constants from '../../utils/Constants';
+import { tTheme } from '../features/domain/types/t.Theme';
+import defaultTheme from '../features/domain/data/default.theme';
+import useMain from '../features/hooks/useMain';
+import Constants from '../utils/Constants';
 
 const WeekLabels = () => {
   // #region Members

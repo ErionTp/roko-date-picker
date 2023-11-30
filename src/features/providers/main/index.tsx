@@ -1,4 +1,4 @@
-import React, { FC, createContext, useMemo, useState } from 'react';
+import React, { FC, createContext, useCallback, useMemo, useState } from 'react';
 import { ReactNode } from 'react';
 import { tMain } from '../../domain/types/t.Main';
 import { eType } from '../../domain/enums/e.Type';
@@ -12,7 +12,7 @@ export const MainContext = createContext<tMain>({
   setCalendarType: () => Function,
   onChange: () => Function,
   currentDate: new Date(),
-  setCurrentDate: () => Function,
+  handleSetCurrentDate: () => Function,
   theme: theme,
   cellSize: undefined,
   setCellSize: () => Function,
@@ -28,13 +28,19 @@ export const MainProvider: FC<MainProviderProps> = ({ children, range, mode = 's
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [calendarType, setCalendarType] = useState<eType>(eType.MONTH);
   // #endregion
-  // #region Effects
+  // #region Callbacks
+  const handleSetCurrentDate = useCallback(
+    (args: Date) => {
+      setCurrentDate(args);
+    },
+    [currentDate]
+  );
   // #endregion
   // #region Functions
   // #endregion
   // #region Varaiables
   const memoValue = useMemo(
-    () => ({ range, mode, calendarType, setCalendarType, onChange, currentDate, setCurrentDate, theme, cellSize, setCellSize }),
+    () => ({ range, mode, calendarType, setCalendarType, onChange, currentDate, handleSetCurrentDate, theme, cellSize, setCellSize }),
     [range, mode, calendarType, currentDate, theme, cellSize]
   );
   // #endregion

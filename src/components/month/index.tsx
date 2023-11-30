@@ -2,7 +2,7 @@ import { StyleSheet, View } from 'react-native';
 import React, { FC, memo, useMemo } from 'react';
 import useMain from '../../features/hooks/useMain';
 import WeekView from './week';
-import WeekLabels from '../headers/WeekLabels';
+import WeekLabels from '../WeekLabels';
 import { prepareMonthList } from '../../features/domain/utils/common';
 type Props = {};
 const MonthView: FC<Props> = ({}) => {

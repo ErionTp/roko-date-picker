@@ -1,15 +1,15 @@
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import React, { ComponentProps, FC, useMemo } from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { tTheme } from '../../features/domain/types/t.Theme';
-import useMain from '../../features/hooks/useMain';
-import defaultTheme from '../../features/domain/data/default.theme';
+import { tTheme } from '../../../features/domain/types/t.Theme';
+import useMain from '../../../features/hooks/useMain';
+import defaultTheme from '../../../features/domain/data/default.theme';
 
 interface Props {
   icon: ComponentProps<typeof MaterialCommunityIcons>['name'];
   onPress: () => void;
 }
-const IconButton: FC<Props> = ({ icon, onPress }) => {
+const Pressable: FC<Props> = ({ icon, onPress }) => {
   // #region Hooks
   const { theme } = useMain();
   // #endregion
@@ -26,6 +26,6 @@ const IconButton: FC<Props> = ({ icon, onPress }) => {
   );
 };
 
-export default IconButton;
+export default Pressable;
 
 const styles = (theme: Partial<tTheme>) => StyleSheet.create({ root: { alignItems: 'center', height: '100%', width: 40, justifyContent: 'center' } });

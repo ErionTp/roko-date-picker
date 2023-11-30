@@ -15,7 +15,7 @@ const calendarStyle = {
 
 const DatePicker = () => {
   // #region States
-  const [mode, toggleMode] = useState<'single' | 'range'>('single');
+  const [mode, toggleMode] = useState<'single' | 'range'>('range');
   const [range, onChange] = useState<[Date] | [Date, Date]>([new Date()]);
   // #endregion
   // #region Functions

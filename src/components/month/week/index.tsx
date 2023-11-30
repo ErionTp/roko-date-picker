@@ -1,5 +1,5 @@
 import { LayoutChangeEvent, StyleSheet, View, ViewProps } from 'react-native';
-import React, { FC, memo, useCallback, useMemo, useState } from 'react';
+import React, { FC, memo, useCallback, useMemo } from 'react';
 import DayView from './day';
 import useMain from '../../../features/hooks/useMain';
 import { tRange } from '../../../features/domain/types/t.Range';
@@ -46,7 +46,6 @@ const WeekView: FC<Props> = ({ week, ...rest }) => {
   function isBetweenDates(targetDate: Date, startDate: Date, endDate: Date) {
     return (isAfter(targetDate, startDate) || isEqual(targetDate, startDate)) && (isBefore(targetDate, endDate) || isEqual(targetDate, endDate));
   }
-
   // #endregion
   // #region Variables
   const weekData = useMemo(() => {

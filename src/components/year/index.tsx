@@ -8,7 +8,7 @@ import { prepareMonthsOfYear } from '../../features/domain/utils/common';
 type Props = {};
 const YearView: FC<Props> = ({}) => {
   // #region Members
-  const { currentDate, setCurrentDate, setCalendarType, calendarType } = useMain();
+  const { currentDate, handleSetCurrentDate, setCalendarType, calendarType } = useMain();
   const dateList = useMemo(() => prepareMonthsOfYear(currentDate), [currentDate]);
   // #endregion
   // #region States
@@ -16,6 +16,10 @@ const YearView: FC<Props> = ({}) => {
   // #region Custom hooks
   // #endregion
   // #region Functions
+  const handleOnChange = (item: Date) => {
+    handleSetCurrentDate(item);
+    setCalendarType(calendarType - 1);
+  };
   // #endregion
   // #region Effects
   // #endregion
@@ -35,8 +39,7 @@ const YearView: FC<Props> = ({}) => {
           <TouchableOpacity
             style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
             onPress={() => {
-              setCurrentDate(item);
-              setCalendarType(calendarType - 1);
+              handleOnChange(item);
             }}
           >
             <Text style={styles.text}>{format(item, 'MMMM')}</Text>

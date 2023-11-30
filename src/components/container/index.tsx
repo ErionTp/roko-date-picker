@@ -1,10 +1,10 @@
 import { StyleSheet, View } from 'react-native';
 import React, { FC } from 'react';
 import MonthView from '../month';
-import CalendarHeader from '../headers/CalendarHeader';
 import useMain from '../../features/hooks/useMain';
 import YearView from '../year';
 import DecadeView from '../decade';
+import Header from '../header';
 
 type Props = {};
 const Container: FC<Props> = ({}) => {
@@ -20,7 +20,7 @@ const Container: FC<Props> = ({}) => {
   // #endregion
   return (
     <View style={styles.root}>
-      <CalendarHeader onPreviousMonthClick={() => {}} onNextMonthClick={() => {}} />
+      <Header />
       {renderItem[calendarType]}
     </View>
   );

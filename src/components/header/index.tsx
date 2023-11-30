@@ -1,22 +1,19 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React, { FC, useCallback, useMemo } from 'react';
+import React, { FC, memo, useMemo } from 'react';
 import { format } from 'date-fns';
-import IconButton from '../buttons/IconButton';
 import Layout from '../../utils/Sizes';
 import { tTheme } from '../../features/domain/types/t.Theme';
 import useMain from '../../features/hooks/useMain';
 import Constants from '../../utils/Constants';
 import { eType } from '../../features/domain/enums/e.Type';
 import defaultTheme from '../../features/domain/data/default.theme';
+import Pressable from './pressable';
 
-interface Props {
-  onPreviousMonthClick: () => void;
-  onNextMonthClick: () => void;
-}
+interface Props {}
 
-const CalendarHeader: FC<Props> = ({ onPreviousMonthClick, onNextMonthClick }) => {
+const Header: FC<Props> = ({}) => {
   // #region Hooks
-  const { theme, setCalendarType, calendarType, currentDate, setCurrentDate } = useMain();
+  const { theme, setCalendarType, calendarType, currentDate, handleSetCurrentDate } = useMain();
   // #endregion
   // #region Functions
   const handleOnCalendarTypeChange = () => {
@@ -26,7 +23,7 @@ const CalendarHeader: FC<Props> = ({ onPreviousMonthClick, onNextMonthClick }) =
     });
   };
 
-  const handleOnPrevious = useCallback(() => {
+  const handleOnPrevious = () => {
     const newDate = new Date(currentDate);
 
     switch (calendarType) {
@@ -42,10 +39,10 @@ const CalendarHeader: FC<Props> = ({ onPreviousMonthClick, onNextMonthClick }) =
         break;
     }
 
-    setCurrentDate(newDate);
-  }, [currentDate, calendarType]);
+    handleSetCurrentDate(newDate);
+  };
 
-  const handleOnNext = useCallback(() => {
+  const handleOnNext = () => {
     const newDate = new Date(currentDate);
 
     switch (calendarType) {
@@ -61,14 +58,14 @@ const CalendarHeader: FC<Props> = ({ onPreviousMonthClick, onNextMonthClick }) =
         break;
     }
 
-    setCurrentDate(newDate);
-  }, [currentDate, calendarType]);
+    handleSetCurrentDate(newDate);
+  };
 
   // #endregion
   // #region Variables
   const TextFormat = {
     0: format(currentDate, 'MMMM, yyyy'),
-    1: format(currentDate, 'yyyy'),
+    1: format(currentDate, 'MMMM, yyyy'),
     2: format(currentDate, 'yyyy'),
   };
 
@@ -79,16 +76,16 @@ const CalendarHeader: FC<Props> = ({ onPreviousMonthClick, onNextMonthClick }) =
   // #endregion
   return (
     <View style={customStyles.root}>
-      <IconButton icon={'chevron-left'} onPress={handleOnPrevious} />
+      <Pressable icon={'chevron-left'} onPress={handleOnPrevious} />
       <TouchableOpacity onPress={handleOnCalendarTypeChange} activeOpacity={1} style={customStyles.textContainer}>
         <Text style={customStyles.text}>{TextFormat[calendarType]}</Text>
       </TouchableOpacity>
-      <IconButton icon={'chevron-right'} onPress={handleOnNext} />
+      <Pressable icon={'chevron-right'} onPress={handleOnNext} />
     </View>
   );
 };
 
-export default CalendarHeader;
+export default memo(Header);
 
 const styles = (theme: Partial<tTheme>) =>
   StyleSheet.create({

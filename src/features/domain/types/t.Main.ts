@@ -9,7 +9,7 @@ export type tMain = {
   setCalendarType: React.Dispatch<React.SetStateAction<eType>>;
   onChange: (args: tRange) => void;
   currentDate: Date;
-  setCurrentDate: React.Dispatch<React.SetStateAction<Date>>;
+  handleSetCurrentDate: (args: Date) => void;
   theme?: Partial<tTheme>;
   cellSize?: number;
   setCellSize: React.Dispatch<React.SetStateAction<number | undefined>>;
