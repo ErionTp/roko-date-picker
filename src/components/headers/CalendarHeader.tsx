@@ -94,5 +94,5 @@ const styles = (theme: Partial<tTheme>) =>
   StyleSheet.create({
     root: { height: Layout.headerHeight, flexDirection: 'row' },
     textContainer: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-    text: { fontSize: Constants.spacing.regular, color: theme.onBackground },
+    text: { fontSize: Constants.spacing.regular, color: theme.onBackground, textTransform: 'capitalize' },
   });

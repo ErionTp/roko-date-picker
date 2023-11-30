@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import useMain from '../../../../features/hooks/useMain';
 import { tTheme } from '../../../../features/domain/types/t.Theme';
 import defaultTheme from '../../../../features/domain/data/default.theme';
+import TodayIndicator from '../../../TodayIndicator';
 
 type Props = {
   item: Date;
@@ -30,6 +31,7 @@ const DayView: FC<Props> = ({ item, selected, sameMonth, setCurrentDate }) => {
         <Text style={[customStyles.text, selected && customStyles.selectedText, !sameMonth && !selected && customStyles.differentMonth]}>
           {format(item, 'dd')}
         </Text>
+        <TodayIndicator {...{ isSelected: selected, item }} />
       </View>
     </TouchableOpacity>
   );
