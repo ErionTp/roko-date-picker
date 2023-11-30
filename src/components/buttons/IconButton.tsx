@@ -1,21 +1,31 @@
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import React, { ComponentProps, FC } from 'react';
+import React, { ComponentProps, FC, useMemo } from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useMainContext } from '../../features/hooks/MainContext';
+import { tTheme } from '../../features/domain/types/t.Theme';
+import useMain from '../../features/hooks/useMain';
+import defaultTheme from '../../features/domain/data/default.theme';
 
 interface Props {
   icon: ComponentProps<typeof MaterialCommunityIcons>['name'];
   onPress: () => void;
 }
 const IconButton: FC<Props> = ({ icon, onPress }) => {
-  const { theme } = useMainContext();
+  // #region Hooks
+  const { theme } = useMain();
+  // #endregion
+  // #region Variables
+  const customStyles = useMemo(() => {
+    const currentTheme: Partial<tTheme> = theme ?? defaultTheme;
+    return styles(currentTheme);
+  }, [theme]);
+  // #endregion
   return (
-    <TouchableOpacity style={styles.root} onPress={onPress}>
-      <MaterialCommunityIcons name={icon} size={24} color={theme?.primary} />
+    <TouchableOpacity style={customStyles.root} onPress={onPress}>
+      <MaterialCommunityIcons name={icon} size={24} color={(theme ?? defaultTheme).onBackground} />
     </TouchableOpacity>
   );
 };
 
 export default IconButton;
 
-const styles = StyleSheet.create({ root: { alignItems: 'center', height: '100%', width: 40, justifyContent: 'center' } });
+const styles = (theme: Partial<tTheme>) => StyleSheet.create({ root: { alignItems: 'center', height: '100%', width: 40, justifyContent: 'center' } });

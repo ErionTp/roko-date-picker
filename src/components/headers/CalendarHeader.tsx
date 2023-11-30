@@ -1,37 +1,98 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React, { FC } from 'react';
+import React, { FC, useCallback, useMemo } from 'react';
 import { format } from 'date-fns';
 import IconButton from '../buttons/IconButton';
-import { useMainContext } from '../../features/hooks/MainContext';
-import Layout from '../../utils/Layout';
-import { CalendarType } from '../../utils/Enums';
+import Layout from '../../utils/Sizes';
+import { tTheme } from '../../features/domain/types/t.Theme';
+import useMain from '../../features/hooks/useMain';
+import Constants from '../../utils/Constants';
+import { eType } from '../../features/domain/enums/e.Type';
+import defaultTheme from '../../features/domain/data/default.theme';
 
 interface Props {
-  currentDate: Date;
   onPreviousMonthClick: () => void;
   onNextMonthClick: () => void;
-  bodyType: (val: string) => void;
 }
-const CalendarHeader: FC<Props> = ({ currentDate, onPreviousMonthClick, onNextMonthClick, bodyType }) => {
-  const { theme } = useMainContext();
 
+const CalendarHeader: FC<Props> = ({ onPreviousMonthClick, onNextMonthClick }) => {
+  // #region Hooks
+  const { theme, setCalendarType, calendarType, currentDate, setCurrentDate } = useMain();
+  // #endregion
+  // #region Functions
+  const handleOnCalendarTypeChange = () => {
+    setCalendarType((prevType) => {
+      const nextType = (prevType + 1) % (Object.keys(eType).length / 2);
+      return nextType;
+    });
+  };
+
+  const handleOnPrevious = useCallback(() => {
+    const newDate = new Date(currentDate);
+
+    switch (calendarType) {
+      case eType.YEAR:
+        newDate.setFullYear(newDate.getFullYear() - 1);
+        break;
+      case eType.DECADE:
+        newDate.setFullYear(newDate.getFullYear() - 12);
+        break;
+      case eType.MONTH:
+      default:
+        newDate.setMonth(newDate.getMonth() - 1);
+        break;
+    }
+
+    setCurrentDate(newDate);
+  }, [currentDate, calendarType]);
+
+  const handleOnNext = useCallback(() => {
+    const newDate = new Date(currentDate);
+
+    switch (calendarType) {
+      case eType.YEAR:
+        newDate.setFullYear(newDate.getFullYear() + 1);
+        break;
+      case eType.DECADE:
+        newDate.setFullYear(newDate.getFullYear() + 12);
+        break;
+      case eType.MONTH:
+      default:
+        newDate.setMonth(newDate.getMonth() + 1);
+        break;
+    }
+
+    setCurrentDate(newDate);
+  }, [currentDate, calendarType]);
+
+  // #endregion
+  // #region Variables
+  const TextFormat = {
+    0: format(currentDate, 'MMMM, yyyy'),
+    1: format(currentDate, 'yyyy'),
+    2: format(currentDate, 'yyyy'),
+  };
+
+  const customStyles = useMemo(() => {
+    const currentTheme: Partial<tTheme> = theme ?? defaultTheme;
+    return styles(currentTheme);
+  }, [theme]);
+  // #endregion
   return (
-    <View style={styles.root}>
-      <IconButton icon={'chevron-left'} onPress={onPreviousMonthClick} />
-      <TouchableOpacity
-        onPress={() => {
-          bodyType(CalendarType.Month);
-        }}
-        activeOpacity={1}
-        style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
-      >
-        <Text style={{ fontSize: 16, color: theme?.onBackground }}>{format(currentDate, 'MMMM, yyyy')}</Text>
+    <View style={customStyles.root}>
+      <IconButton icon={'chevron-left'} onPress={handleOnPrevious} />
+      <TouchableOpacity onPress={handleOnCalendarTypeChange} activeOpacity={1} style={customStyles.textContainer}>
+        <Text style={customStyles.text}>{TextFormat[calendarType]}</Text>
       </TouchableOpacity>
-      <IconButton icon={'chevron-right'} onPress={onNextMonthClick} />
+      <IconButton icon={'chevron-right'} onPress={handleOnNext} />
     </View>
   );
 };
 
 export default CalendarHeader;
 
-const styles = StyleSheet.create({ root: { height: Layout.headerHeight, flexDirection: 'row' } });
+const styles = (theme: Partial<tTheme>) =>
+  StyleSheet.create({
+    root: { height: Layout.headerHeight, flexDirection: 'row' },
+    textContainer: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+    text: { fontSize: Constants.spacing.regular, color: theme.onBackground },
+  });

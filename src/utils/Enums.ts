@@ -1,6 +1,5 @@
-
-export  enum CalendarType  {
-Year = 'Year',
-Month = 'Month',
-Calendar= 'Calendar'
+export enum CalendarType {
+  Year = 'Year',
+  Month = 'Month',
+  Calendar = 'Calendar',
 }

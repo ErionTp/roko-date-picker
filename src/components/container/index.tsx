@@ -1,36 +1,27 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import React, { FC } from 'react';
+import MonthView from '../month';
+import CalendarHeader from '../headers/CalendarHeader';
 import useMain from '../../features/hooks/useMain';
-import { format } from 'date-fns';
+import YearView from '../year';
+import DecadeView from '../decade';
 
 type Props = {};
 const Container: FC<Props> = ({}) => {
   // #region Members
-  const { range, dateList, calendarType } = useMain();
-  // #endregion
-  // #region States
-  // #endregion
-  // #region Custom hooks
-  // #endregion
-  // #region Functions
-  // #endregion
-  // #region Effects
+  const { calendarType } = useMain();
   // #endregion
   // #region Variables
+  const renderItem = {
+    0: <MonthView />,
+    1: <YearView />,
+    2: <DecadeView />,
+  };
   // #endregion
   return (
     <View style={styles.root}>
-      <FlatList
-        numColumns={7}
-        data={dateList}
-        renderItem={({ item, index }) => (
-          <View>
-            {item.map((date, dateIndex) => (
-              <Text key={dateIndex}>{format(date, 'dd')}</Text>
-            ))}
-          </View>
-        )}
-      />
+      <CalendarHeader onPreviousMonthClick={() => {}} onNextMonthClick={() => {}} />
+      {renderItem[calendarType]}
     </View>
   );
 };
@@ -39,4 +30,4 @@ export default Container;
 
 Container.displayName = 'Container';
 
-const styles = StyleSheet.create({ root: {} });
+const styles = StyleSheet.create({ root: { flex: 1 } });
