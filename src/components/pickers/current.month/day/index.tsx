@@ -1,11 +1,10 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { FC, memo, useMemo } from "react";
+import React, { FC, memo } from "react";
 import format from "date-fns/format";
 import sizes from "../../../../features/domain/constants/sizes";
-import useMain from "../../../../features/hooks/useMain";
 import { tTheme } from "../../../../features/domain/types/t.theme";
-import { defaultTheme } from "../../../../features/domain/data/data.defaults";
-import TodayIndicator from "../indicator.today";
+import TodayIndicator from "../indicators/indicator.today";
+import useStyles from "../../../../features/hooks/useStyles";
 
 type Props = {
   item: Date;
@@ -14,24 +13,17 @@ type Props = {
   sameMonth: boolean;
   width: number;
   height: number;
+  theme?: tTheme;
 };
 const BORDER_SIZE = 3;
 
-const Day: FC<Props> = ({ item, onChange, selected, sameMonth, width, height }) => {
-  // #region Members
-  const { theme } = useMain();
-  // #endregion
+const Day: FC<Props> = ({ item, onChange, selected, sameMonth, width, height, theme }) => {
   // #region States
   const size = width > height ? height : width;
-  // #endregion
-  // #region Custom Hooks
-  // #endregion
-  // #region Functions
-  // #endregion
-  // #region Effects
+  console.log(selected);
   // #endregion
   // #region Variables
-  const customStyles = useMemo(() => styles(size, theme ?? defaultTheme), [theme, size]);
+  const customStyles = useStyles(styles, theme, size);
   // #endregion
   return (
     <TouchableOpacity activeOpacity={1} onPress={() => onChange(item)} style={customStyles.root}>
@@ -53,7 +45,7 @@ export default memo(Day);
 
 Day.displayName = "Day";
 
-const styles = (currentSize: number, theme: tTheme) =>
+const styles = (theme: tTheme, currentSize: number) =>
   StyleSheet.create({
     root: { flex: 1, justifyContent: "center", alignItems: "center", zIndex: 1 },
     container: {

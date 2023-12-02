@@ -1,12 +1,12 @@
 import React, { FC, createContext, useCallback, useMemo, useState } from "react";
 import { ReactNode } from "react";
-import { tMain } from "../../domain/types/t.main";
 import { tApp } from "../../domain/types/t.app";
 import { eCalendarPicker } from "../../domain/enums/e.calendar.picker";
 import { defaultLayoutRectangle, defaultRange, defaultTheme } from "../../domain/data/data.defaults";
 import { tRange } from "../../domain/types/t.range";
 import { isAfter, isSameDay } from "date-fns";
 import { LayoutRectangle } from "react-native";
+import { tMain } from "../../domain/types/t.Main";
 
 export const Context = createContext<tMain>({
   mode: "single",
@@ -16,7 +16,7 @@ export const Context = createContext<tMain>({
   pickerType: eCalendarPicker.currentMonth,
   setPickerType: () => Function,
   currentDate: new Date(),
-  setCurrentDate: () => Function,
+  onSetCurrentDate: () => Function,
   containerMeasures: defaultLayoutRectangle,
   setContainerMeasures: () => Function,
   theme: defaultTheme,
@@ -51,6 +51,13 @@ export const MainProvider: FC<Props> = ({ children, mode = "single", range, setR
     },
     [mode, setRange]
   );
+  const onSetCurrentDate = useCallback(
+    (args: Date) => {
+      setCurrentDate(args);
+      setPickerType((prev) => prev - 1);
+    },
+    [mode, setCurrentDate]
+  );
   // #endregion
   // #region Variables
   const memoValue = useMemo(
@@ -62,12 +69,12 @@ export const MainProvider: FC<Props> = ({ children, mode = "single", range, setR
       pickerType,
       setPickerType,
       currentDate,
-      setCurrentDate,
+      onSetCurrentDate,
       containerMeasures,
       setContainerMeasures,
       theme: theme ?? defaultTheme,
     }),
-    [mode, range, onChange, pickerType, currentDate, containerMeasures, setRange, theme]
+    [mode, range, onChange, pickerType, currentDate, onSetCurrentDate, containerMeasures, setRange, theme]
   );
   // #endregion
 

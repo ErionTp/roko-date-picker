@@ -1,20 +1,16 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
-import React, { FC, useCallback, useMemo } from "react";
+import React, { FC, useCallback } from "react";
 import { format } from "date-fns";
 import sizes from "../../../features/domain/constants/sizes";
 import { eCalendarPicker } from "../../../features/domain/enums/e.calendar.picker";
 import useMain from "../../../features/hooks/useMain";
-import { defaultTheme } from "../../../features/domain/data/data.defaults";
 import { tTheme } from "../../../features/domain/types/t.theme";
+import useStyles from "../../../features/hooks/useStyles";
 
 type Props = {};
 const Label: FC<Props> = ({}) => {
   // #region Members
   const { currentDate, setPickerType, theme } = useMain();
-  // #endregion
-  // #region States
-  // #endregion
-  // #region Custom hooks
   // #endregion
   // #region Functions
   const handleOnCalendarTypeChange = useCallback(() => {
@@ -24,10 +20,8 @@ const Label: FC<Props> = ({}) => {
     });
   }, []);
   // #endregion
-  // #region Effects
-  // #endregion
   // #region Variables
-  const customStyle = useMemo(() => styles(theme ?? defaultTheme), [theme]);
+  const customStyle = useStyles(styles, theme);
   // #endregion
   return (
     <TouchableOpacity style={customStyle.root} onPress={handleOnCalendarTypeChange}>

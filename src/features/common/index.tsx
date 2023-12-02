@@ -1,10 +1,10 @@
-import addDays from 'date-fns/addDays';
-import eachDayOfInterval from 'date-fns/eachDayOfInterval';
-import eachWeekOfInterval from 'date-fns/eachWeekOfInterval';
-import endOfMonth from 'date-fns/endOfMonth';
-import startOfMonth from 'date-fns/startOfMonth';
+import addDays from "date-fns/addDays";
+import eachDayOfInterval from "date-fns/eachDayOfInterval";
+import eachWeekOfInterval from "date-fns/eachWeekOfInterval";
+import endOfMonth from "date-fns/endOfMonth";
+import startOfMonth from "date-fns/startOfMonth";
 
-export const getCurrentMonthWeek = (date: Date) => {
+export const getWeeksOfCurrentMonth = (date: Date) => {
   return eachWeekOfInterval(
     {
       start: startOfMonth(date),
@@ -22,4 +22,16 @@ export const getCurrentMonthWeek = (date: Date) => {
     acc.push(allDays);
     return acc;
   }, []);
+};
+
+export const getMonthsOfCurrentYear = (date: Date): Date[] => {
+  const year = date.getFullYear();
+  const months = [];
+
+  for (let month = 0; month < 12; month++) {
+    const monthDate = new Date(year, month);
+    months.push(monthDate);
+  }
+
+  return months;
 };

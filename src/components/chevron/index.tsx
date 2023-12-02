@@ -6,6 +6,7 @@ import sizes from "../../features/domain/constants/sizes";
 import useMain from "../../features/hooks/useMain";
 import { defaultTheme } from "../../features/domain/data/data.defaults";
 import { tTheme } from "../../features/domain/types/t.theme";
+import useStyles from "../../features/hooks/useStyles";
 
 type Props = {
   name: ComponentProps<typeof MaterialCommunityIcons>["name"];
@@ -16,7 +17,7 @@ const Chevron: FC<Props> = ({ name, onPress }) => {
   const { theme } = useMain();
   // #endregion
   // #region Variables
-  const customStyle = useMemo(() => styles(theme ?? defaultTheme), [theme]);
+  const customStyle = useStyles(styles, theme);
   // #endregion
   return (
     <TouchableOpacity style={customStyle.root} onPress={onPress}>

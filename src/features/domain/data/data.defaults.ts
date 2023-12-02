@@ -10,6 +10,6 @@ export const defaultTheme: tTheme = {
   onPrimary: materialColors.white.default,
   secondary: materialColors.white.default,
   onSecondary: materialColors.grey._400!,
-  background: materialColors.grey._100!,
+  background: materialColors.grey._200!,
   onBackground: materialColors.blue_grey._800!,
 };
