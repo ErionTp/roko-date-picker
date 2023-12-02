@@ -1,1 +1,1 @@
-export type tRange = [Date] | [Date, Date];
+export type tRange = [Date] | [Date, Date | undefined];

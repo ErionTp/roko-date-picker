@@ -1,16 +1,18 @@
-import { eType } from '../enums/e.Type';
-import { tRange } from './t.Range';
-import { tTheme } from './t.Theme';
+import { LayoutRectangle } from "react-native";
+import { eCalendarPicker } from "../enums/e.calendar.picker";
+import { tRange } from "./t.range";
+import { tTheme } from "./t.theme";
 
 export type tMain = {
+  mode: "range" | "single";
   range: tRange;
-  mode: 'range' | 'single';
-  calendarType: eType;
-  setCalendarType: React.Dispatch<React.SetStateAction<eType>>;
-  onChange: (args: tRange) => void;
+  setRange: React.Dispatch<React.SetStateAction<tRange>>;
+  onChange: (args: Date) => void;
+  pickerType: eCalendarPicker;
+  setPickerType: React.Dispatch<React.SetStateAction<eCalendarPicker>>;
   currentDate: Date;
-  handleSetCurrentDate: (args: Date) => void;
-  theme?: Partial<tTheme>;
-  cellSize?: number;
-  setCellSize: React.Dispatch<React.SetStateAction<number | undefined>>;
+  setCurrentDate: React.Dispatch<React.SetStateAction<Date>>;
+  containerMeasures: LayoutRectangle;
+  setContainerMeasures: React.Dispatch<React.SetStateAction<LayoutRectangle>>;
+  theme?: tTheme;
 };

@@ -1,8 +1,8 @@
-import { useContext } from 'react';
-import { MainContext } from '../providers/main';
+import { useContext } from "react";
+import { Context } from "../providers/main";
 
 export default function useMain() {
-  const context = useContext(MainContext);
-  if (!context) throw new Error('Use main should be used within a MainContextProvider');
+  const context = useContext(Context);
+  if (!context) throw new Error("The useMain function ought to be encapsulated within the scope of the MainProvider component.");
   return context;
 }

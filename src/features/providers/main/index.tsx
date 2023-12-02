@@ -1,48 +1,75 @@
-import React, { FC, createContext, useCallback, useMemo, useState } from 'react';
-import { ReactNode } from 'react';
-import { tMain } from '../../domain/types/t.Main';
-import { eType } from '../../domain/enums/e.Type';
-import { tApplication } from '../../domain/types/t.Application';
-import theme from '../../domain/data/default.theme';
+import React, { FC, createContext, useCallback, useMemo, useState } from "react";
+import { ReactNode } from "react";
+import { tMain } from "../../domain/types/t.main";
+import { tApp } from "../../domain/types/t.app";
+import { eCalendarPicker } from "../../domain/enums/e.calendar.picker";
+import { defaultLayoutRectangle, defaultRange, defaultTheme } from "../../domain/data/data.defaults";
+import { tRange } from "../../domain/types/t.range";
+import { isAfter, isSameDay } from "date-fns";
+import { LayoutRectangle } from "react-native";
 
-export const MainContext = createContext<tMain>({
-  range: [new Date()],
-  mode: 'single',
-  calendarType: eType.MONTH,
-  setCalendarType: () => Function,
+export const Context = createContext<tMain>({
+  mode: "single",
+  range: defaultRange,
+  setRange: () => Function,
   onChange: () => Function,
+  pickerType: eCalendarPicker.currentMonth,
+  setPickerType: () => Function,
   currentDate: new Date(),
-  handleSetCurrentDate: () => Function,
-  theme: theme,
-  cellSize: undefined,
-  setCellSize: () => Function,
+  setCurrentDate: () => Function,
+  containerMeasures: defaultLayoutRectangle,
+  setContainerMeasures: () => Function,
+  theme: defaultTheme,
 });
 
-export type MainProviderProps = tApplication & {
+export type Props = tApp & {
   children: ReactNode;
 };
 
-export const MainProvider: FC<MainProviderProps> = ({ children, range, mode = 'single', onChange, theme }) => {
+export const MainProvider: FC<Props> = ({ children, mode = "single", range, setRange, theme = defaultTheme }) => {
   // #region States
-  const [cellSize, setCellSize] = useState<number | undefined>(undefined);
-  const [currentDate, setCurrentDate] = useState<Date>(new Date());
-  const [calendarType, setCalendarType] = useState<eType>(eType.MONTH);
+  const [containerMeasures, setContainerMeasures] = useState<LayoutRectangle>(defaultLayoutRectangle);
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [pickerType, setPickerType] = useState(eCalendarPicker.currentMonth);
   // #endregion
-  // #region Callbacks
-  const handleSetCurrentDate = useCallback(
+  // #region Call Backs
+  const onChange = useCallback(
     (args: Date) => {
-      setCurrentDate(args);
+      setRange((prevRange) => {
+        switch (mode) {
+          case "single":
+            return [args];
+          default:
+            if (prevRange.length === 1) {
+              const newRange: tRange = isAfter(args, prevRange[0]) || isSameDay(args, prevRange[0]) ? [...prevRange, args] : [args];
+              return newRange;
+            } else {
+              return [args];
+            }
+        }
+      });
     },
-    [currentDate]
+    [mode, setRange]
   );
   // #endregion
-  // #region Functions
-  // #endregion
-  // #region Varaiables
+  // #region Variables
   const memoValue = useMemo(
-    () => ({ range, mode, calendarType, setCalendarType, onChange, currentDate, handleSetCurrentDate, theme, cellSize, setCellSize }),
-    [range, mode, calendarType, currentDate, theme, cellSize]
+    () => ({
+      mode,
+      range,
+      setRange,
+      onChange,
+      pickerType,
+      setPickerType,
+      currentDate,
+      setCurrentDate,
+      containerMeasures,
+      setContainerMeasures,
+      theme: theme ?? defaultTheme,
+    }),
+    [mode, range, onChange, pickerType, currentDate, containerMeasures, setRange, theme]
   );
   // #endregion
-  return <MainContext.Provider value={memoValue}>{children}</MainContext.Provider>;
+
+  return <Context.Provider value={memoValue}>{children}</Context.Provider>;
 };

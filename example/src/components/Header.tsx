@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 
 interface Props {
   title: string;
-  range: [Date] | [Date, Date];
+  range: [Date] | [Date, Date | undefined];
   onPress: () => void;
   mode: 'single' | 'range';
 }
