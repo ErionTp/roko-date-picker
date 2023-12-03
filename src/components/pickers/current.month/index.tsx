@@ -1,5 +1,5 @@
 import { FlatList, StyleSheet, View } from "react-native";
-import React, { FC, useMemo } from "react";
+import React, { FC, memo, useMemo } from "react";
 import { getWeeksOfCurrentMonth } from "../../../features/common";
 import useMain from "../../../features/hooks/useMain";
 import { isSameMonth, isSameDay, endOfDay } from "date-fns";
@@ -19,7 +19,9 @@ const CurrentMonth: FC<Props> = ({}) => {
   const { currentDate, range, mode, containerMeasures, onChange, theme, blockedDates, blockPast } = useMain();
   // #endregion
   // #region States
-  const data = useMemo(() => getWeeksOfCurrentMonth(currentDate), [currentDate]);
+  const data = useMemo(() => {
+    return getWeeksOfCurrentMonth(currentDate);
+  }, [currentDate]);
   // #endregion
   // #region Variables
   const height = useMemo(
@@ -49,7 +51,6 @@ const CurrentMonth: FC<Props> = ({}) => {
       return payload;
     });
   }, [data, range, mode, blockedDates, blockPast]);
-
   const renderItem = (item: tWeekData) => {
     const { day, selected, sameMonth, isBetween, firstSelection, secondSelection, blocked } = item;
     return (
@@ -62,6 +63,11 @@ const CurrentMonth: FC<Props> = ({}) => {
     );
   };
   const customStyles = useStyles(styles, theme);
+  const getItemLayout = (_data: ArrayLike<tWeekData> | null | undefined, index: number) => ({
+    length: height,
+    offset: height * index,
+    index,
+  });
   // #endregion
   return (
     <View style={customStyles.root}>
@@ -73,6 +79,7 @@ const CurrentMonth: FC<Props> = ({}) => {
           numColumns={7}
           data={weekData}
           scrollEnabled={false}
+          getItemLayout={getItemLayout}
           columnWrapperStyle={{ height }}
           keyExtractor={(_item, index) => index.toString()}
           renderItem={({ item }) => renderItem(item)}

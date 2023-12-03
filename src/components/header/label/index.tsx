@@ -45,6 +45,6 @@ const styles = (theme: tTheme) =>
       fontSize: sizes.moderate,
       color: theme.colors.onBackground,
       textTransform: "capitalize",
-      fontFamily: theme.font?.family,
+      fontFamily: theme.font.family,
     },
   });

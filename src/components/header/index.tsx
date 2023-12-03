@@ -9,13 +9,13 @@ import materialColors from "../../features/domain/data/colors.material";
 type Props = {};
 const Header: FC<Props> = ({}) => {
   // #region Members
-  const { adjustDate } = useMain();
+  const { onAdjustDate } = useMain();
   // #endregion
   return (
     <View style={styles.root}>
-      <Chevron name="chevron-left" onPress={() => adjustDate(false)} />
+      <Chevron name="chevron-left" onPress={() => onAdjustDate(false)} />
       <Label />
-      <Chevron name="chevron-right" onPress={() => adjustDate(true)} />
+      <Chevron name="chevron-right" onPress={() => onAdjustDate(true)} />
     </View>
   );
 };

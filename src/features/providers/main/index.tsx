@@ -22,7 +22,7 @@ export const Context = createContext<tMain>({
   onSetCurrentDate: () => Function,
   containerMeasures: defaultLayoutRectangle,
   setContainerMeasures: () => Function,
-  adjustDate: () => Function,
+  onAdjustDate: () => Function,
 });
 
 export type Props = tApp & {
@@ -57,11 +57,11 @@ export const MainProvider: FC<Props> = ({ children, mode = "single", range, setR
   const onSetCurrentDate = useCallback(
     (args: Date) => {
       setCurrentDate(args);
-      setPickerType((prev) => prev - 1);
+      setTimeout(() => setPickerType((prev) => prev - 1), 0);
     },
     [mode, setCurrentDate]
   );
-  const adjustDate = (isNext: boolean) => {
+  const onAdjustDate = (isNext: boolean) => {
     setCurrentDate((prev) => {
       const currentDate = new Date(prev);
       const changeFactor = isNext ? 1 : -1;
@@ -98,7 +98,7 @@ export const MainProvider: FC<Props> = ({ children, mode = "single", range, setR
       onSetCurrentDate,
       containerMeasures,
       setContainerMeasures,
-      adjustDate,
+      onAdjustDate,
     }),
     [mode, range, setRange, theme, blockedDates, blockPast, onChange, pickerType, currentDate, onSetCurrentDate, containerMeasures]
   );

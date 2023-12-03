@@ -17,5 +17,5 @@ export type tMain = {
   onSetCurrentDate: (args: Date) => void;
   containerMeasures: LayoutRectangle;
   setContainerMeasures: React.Dispatch<React.SetStateAction<LayoutRectangle>>;
-  adjustDate: (args: boolean) => void;
+  onAdjustDate: (args: boolean) => void;
 };
