@@ -7,6 +7,9 @@ export type tMain = {
   mode: "range" | "single";
   range: tRange;
   setRange: React.Dispatch<React.SetStateAction<tRange>>;
+  blockedDates?: Date[];
+  blockPast?: boolean;
+  theme?: tTheme;
   onChange: (args: Date) => void;
   pickerType: eCalendarPicker;
   setPickerType: React.Dispatch<React.SetStateAction<eCalendarPicker>>;
@@ -14,5 +17,5 @@ export type tMain = {
   onSetCurrentDate: (args: Date) => void;
   containerMeasures: LayoutRectangle;
   setContainerMeasures: React.Dispatch<React.SetStateAction<LayoutRectangle>>;
-  theme?: tTheme;
+  adjustDate: (args: boolean) => void;
 };

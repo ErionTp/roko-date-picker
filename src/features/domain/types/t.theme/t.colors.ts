@@ -1,4 +1,4 @@
-export type tTheme = {
+export type tColors = {
   primary: string;
   onPrimary: string;
   secondary: string;

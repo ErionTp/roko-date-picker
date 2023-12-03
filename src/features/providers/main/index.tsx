@@ -6,12 +6,15 @@ import { defaultLayoutRectangle, defaultRange, defaultTheme } from "../../domain
 import { tRange } from "../../domain/types/t.range";
 import { isAfter, isSameDay } from "date-fns";
 import { LayoutRectangle } from "react-native";
-import { tMain } from "../../domain/types/t.Main";
+import { tMain } from "../../domain/types/t.main";
 
 export const Context = createContext<tMain>({
   mode: "single",
   range: defaultRange,
   setRange: () => Function,
+  theme: defaultTheme,
+  blockedDates: [],
+  blockPast: false,
   onChange: () => Function,
   pickerType: eCalendarPicker.currentMonth,
   setPickerType: () => Function,
@@ -19,14 +22,14 @@ export const Context = createContext<tMain>({
   onSetCurrentDate: () => Function,
   containerMeasures: defaultLayoutRectangle,
   setContainerMeasures: () => Function,
-  theme: defaultTheme,
+  adjustDate: () => Function,
 });
 
 export type Props = tApp & {
   children: ReactNode;
 };
 
-export const MainProvider: FC<Props> = ({ children, mode = "single", range, setRange, theme = defaultTheme }) => {
+export const MainProvider: FC<Props> = ({ children, mode = "single", range, setRange, theme = defaultTheme, blockedDates = [], blockPast }) => {
   // #region States
   const [containerMeasures, setContainerMeasures] = useState<LayoutRectangle>(defaultLayoutRectangle);
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -58,6 +61,26 @@ export const MainProvider: FC<Props> = ({ children, mode = "single", range, setR
     },
     [mode, setCurrentDate]
   );
+  const adjustDate = (isNext: boolean) => {
+    setCurrentDate((prev) => {
+      const currentDate = new Date(prev);
+      const changeFactor = isNext ? 1 : -1;
+
+      switch (pickerType) {
+        case eCalendarPicker.currentYear:
+          currentDate.setFullYear(currentDate.getFullYear() + changeFactor);
+          break;
+        case eCalendarPicker.currentDecade:
+          currentDate.setFullYear(currentDate.getFullYear() + 12 * changeFactor);
+          break;
+        default:
+          currentDate.setMonth(currentDate.getMonth() + changeFactor);
+          break;
+      }
+      return currentDate;
+    });
+  };
+
   // #endregion
   // #region Variables
   const memoValue = useMemo(
@@ -65,6 +88,9 @@ export const MainProvider: FC<Props> = ({ children, mode = "single", range, setR
       mode,
       range,
       setRange,
+      theme: theme ?? defaultTheme,
+      blockedDates,
+      blockPast,
       onChange,
       pickerType,
       setPickerType,
@@ -72,9 +98,9 @@ export const MainProvider: FC<Props> = ({ children, mode = "single", range, setR
       onSetCurrentDate,
       containerMeasures,
       setContainerMeasures,
-      theme: theme ?? defaultTheme,
+      adjustDate,
     }),
-    [mode, range, onChange, pickerType, currentDate, onSetCurrentDate, containerMeasures, setRange, theme]
+    [mode, range, setRange, theme, blockedDates, blockPast, onChange, pickerType, currentDate, onSetCurrentDate, containerMeasures]
   );
   // #endregion
 

@@ -5,4 +5,5 @@ export type tWeekData = {
   isBetween: boolean;
   firstSelection: boolean;
   secondSelection: boolean;
+  blocked: boolean;
 };

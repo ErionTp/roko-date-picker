@@ -40,6 +40,6 @@ const styles = (theme: tTheme) =>
   StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: theme.background,
+      backgroundColor: theme.colors.background,
     },
   });

@@ -39,7 +39,7 @@ const styles = (theme: tTheme) =>
       zIndex: 0,
       marginVertical: sizes.microscopic / 2,
     },
-    isBetween: { backgroundColor: theme.secondary },
+    isBetween: { backgroundColor: theme.colors.secondary },
     isLeftEdge: { marginLeft: "50%" },
     isRightEdge: { marginRight: "50%" },
   });

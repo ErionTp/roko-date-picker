@@ -14,10 +14,11 @@ type Props = {
   width: number;
   height: number;
   theme?: tTheme;
+  blocked: boolean;
 };
 const BORDER_SIZE = 3;
 
-const Day: FC<Props> = ({ item, onChange, selected, sameMonth, width, height, theme }) => {
+const Cell: FC<Props> = ({ item, onChange, selected, sameMonth, width, height, theme, blocked }) => {
   // #region States
   const size = width > height ? height : width;
   console.log(selected);
@@ -26,12 +27,17 @@ const Day: FC<Props> = ({ item, onChange, selected, sameMonth, width, height, th
   const customStyles = useStyles(styles, theme, size);
   // #endregion
   return (
-    <TouchableOpacity activeOpacity={1} onPress={() => onChange(item)} style={customStyles.root}>
+    <TouchableOpacity disabled={blocked} activeOpacity={1} onPress={() => onChange(item)} style={customStyles.root}>
       <View style={[customStyles.container, selected && customStyles.selectedContainer]}>
         <Text
           numberOfLines={1}
           allowFontScaling={true}
-          style={[customStyles.text, selected && customStyles.selectedText, !sameMonth && !selected && customStyles.differentMonth]}
+          style={[
+            customStyles.text,
+            selected && customStyles.selectedText,
+            !sameMonth && !selected && customStyles.differentMonth,
+            blocked && customStyles.blocked,
+          ]}
         >
           {format(item, "dd")}
         </Text>
@@ -41,9 +47,9 @@ const Day: FC<Props> = ({ item, onChange, selected, sameMonth, width, height, th
   );
 };
 
-export default memo(Day);
+export default memo(Cell);
 
-Day.displayName = "Day";
+Cell.displayName = "Cell";
 
 const styles = (theme: tTheme, currentSize: number) =>
   StyleSheet.create({
@@ -55,7 +61,7 @@ const styles = (theme: tTheme, currentSize: number) =>
       height: currentSize - sizes.petite,
     },
     selectedContainer: {
-      backgroundColor: theme.primary,
+      backgroundColor: theme.colors.primary,
       shadowColor: "#000",
       shadowOffset: {
         width: -2,
@@ -65,16 +71,21 @@ const styles = (theme: tTheme, currentSize: number) =>
       shadowRadius: 2.22,
       elevation: 3,
       borderWidth: BORDER_SIZE,
-      borderColor: theme.onPrimary,
+      borderColor: theme.colors.onPrimary,
       borderRadius: currentSize / 2,
     },
     text: {
-      color: theme.onBackground,
+      color: theme.colors.onBackground,
+      fontFamily: theme.font?.family,
+      textTransform: "capitalize",
     },
     selectedText: {
-      color: theme.onPrimary,
+      color: theme.colors.onPrimary,
     },
     differentMonth: {
-      color: theme.onSecondary,
+      color: theme.colors.onSecondary,
+    },
+    blocked: {
+      color: `${theme.colors.onBackground}90`,
     },
   });

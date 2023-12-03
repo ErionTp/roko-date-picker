@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet } from "react-native";
+import { FlatList } from "react-native";
 import React, { FC, useMemo } from "react";
 import useMain from "../../../features/hooks/useMain";
 import { getMonthsOfCurrentYear } from "../../../features/common";
@@ -13,12 +13,6 @@ const CurrentYear: FC<Props> = ({}) => {
   // #endregion
   // #region States
   const data = useMemo(() => getMonthsOfCurrentYear(currentDate), [currentDate]);
-  // #endregion
-  // #region Custom hooks
-  // #endregion
-  // #region Functions
-  // #endregion
-  // #region Effects
   // #endregion
   // #region Variables
   const height = useMemo(() => (containerMeasures.height - defaults.header.height) / 4, [containerMeasures, data.length]);
@@ -39,5 +33,3 @@ const CurrentYear: FC<Props> = ({}) => {
 export default CurrentYear;
 
 CurrentYear.displayName = "CurrentYear";
-
-const styles = StyleSheet.create({ root: {} });

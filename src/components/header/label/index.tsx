@@ -43,6 +43,8 @@ const styles = (theme: tTheme) =>
     },
     label: {
       fontSize: sizes.moderate,
-      color: theme.onBackground,
+      color: theme.colors.onBackground,
+      textTransform: "capitalize",
+      fontFamily: theme.font?.family,
     },
   });

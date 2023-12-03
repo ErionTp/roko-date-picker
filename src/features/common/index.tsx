@@ -35,3 +35,15 @@ export const getMonthsOfCurrentYear = (date: Date): Date[] => {
 
   return months;
 };
+
+export const getYearsOfCurrentDecade = (date: Date): Date[] => {
+  const currentYear = date.getFullYear();
+  const years = [];
+
+  for (let year = currentYear - 11; year <= currentYear; year++) {
+    const yearDate = new Date(year, 0); // Using 0 for the month to get January of each year
+    years.push(yearDate);
+  }
+
+  return years;
+};

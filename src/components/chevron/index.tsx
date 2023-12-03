@@ -21,7 +21,7 @@ const Chevron: FC<Props> = ({ name, onPress }) => {
   // #endregion
   return (
     <TouchableOpacity style={customStyle.root} onPress={onPress}>
-      <MaterialCommunityIcons name={name} size={sizes.large} color={(theme ?? defaultTheme).onBackground} />
+      <MaterialCommunityIcons name={name} size={sizes.large} color={(theme ?? defaultTheme).colors.onBackground} />
     </TouchableOpacity>
   );
 };

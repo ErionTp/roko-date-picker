@@ -16,7 +16,7 @@ const Cell: FC<Props> = ({ item, selected, theme, onChange }) => {
   // #endregion
   return (
     <TouchableOpacity activeOpacity={1} style={[customStyle.root, selected && customStyle.selected]} onPress={() => onChange(item)}>
-      <Text style={[customStyle.label, selected && customStyle.selectedLabel]}>{format(item, "MMM")}</Text>
+      <Text style={[customStyle.label, selected && customStyle.selectedLabel]}>{format(item, "yyyy")}</Text>
     </TouchableOpacity>
   );
 };
