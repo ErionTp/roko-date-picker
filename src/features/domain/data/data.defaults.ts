@@ -14,4 +14,5 @@ export const defaultTheme: tTheme = {
     background: materialColors.grey._200!,
     onBackground: materialColors.blue_grey._800!,
   },
+  font: {},
 };
