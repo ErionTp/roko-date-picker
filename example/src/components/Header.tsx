@@ -4,20 +4,23 @@ import { format } from 'date-fns';
 
 interface Props {
   title: string;
-  value: any;
+  range: [Date] | [Date, Date | undefined];
   onPress: () => void;
+  mode: 'single' | 'range';
 }
-const Header: FC<Props> = ({ title, value, onPress }) => {
+const Header: FC<Props> = ({ title, range, onPress, mode }) => {
+  const text = {
+    single: <Text>{format(range[0] ?? new Date(), 'MMM dd, yyyy')}</Text>,
+    range: (
+      <Text>
+        {format(range[0], 'MMM dd, yyyy')} - {range[1] ? format(range[1], 'MMM dd, yyyy') : 'End date'}
+      </Text>
+    ),
+  };
   return (
     <TouchableOpacity activeOpacity={1} style={{ gap: 6 }} onPress={onPress}>
       <Text style={{ fontSize: 20 }}>{title}</Text>
-      <View style={{ flexDirection: 'row', marginBottom: 4 }}>
-        <Text>{format(value.startDate ?? value, 'MMM dd, yyyy')}</Text>
-        <>
-          <Text> - </Text>
-          <Text>{value.endDate ? format(value.endDate, 'MMM dd, yyyy') : 'End date'}</Text>
-        </>
-      </View>
+      <View style={{ flexDirection: 'row', marginBottom: 4 }}>{text[mode]}</View>
     </TouchableOpacity>
   );
 };
