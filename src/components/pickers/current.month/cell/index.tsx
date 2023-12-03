@@ -16,12 +16,11 @@ type Props = {
   theme?: tTheme;
   blocked: boolean;
 };
-const BORDER_SIZE = 3;
+const BORDER_SIZE = 2;
 
 const Cell: FC<Props> = ({ item, onChange, selected, sameMonth, width, height, theme, blocked }) => {
   // #region States
   const size = width > height ? height : width;
-  console.log(selected);
   // #endregion
   // #region Variables
   const customStyles = useStyles(styles, theme, size);
