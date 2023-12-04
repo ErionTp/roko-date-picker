@@ -52,12 +52,15 @@ export const MainProvider: FC<Props> = ({
       setCurrentrange((prevRange) => {
         switch (mode) {
           case "single":
+            setRange([args]);
             return [args];
           default:
             if (prevRange.length === 1) {
               const newRange: tRange = isAfter(args, prevRange[0]) || isSameDay(args, prevRange[0]) ? [...prevRange, args] : [args];
+              setRange(newRange);
               return newRange;
             } else {
+              setRange([args]);
               return [args];
             }
         }
@@ -93,9 +96,6 @@ export const MainProvider: FC<Props> = ({
   };
 
   // #endregion
-  useEffect(() => {
-    setRange(currenRange);
-  }, [currenRange]);
   // #region Variables
   const memoValue = useMemo(
     () => ({
