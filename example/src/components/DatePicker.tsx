@@ -37,7 +37,17 @@ const DatePicker = () => {
     <View style={styles.root}>
       <Header {...{ title: "Single Picker", range, onPress: () => {}, mode }} />
       <View style={{ height: 360, backgroundColor: materialColors.grey._200, borderRadius: 16, overflow: "hidden", padding: 8 }}>
-        <RokoCalendar {...{ mode, range, setRange, blockedDates: [previousDay(new Date(), 4)], blockPast: true, theme: calendarStyle }} />
+        <RokoCalendar
+          {...{
+            mode,
+            range,
+            setRange,
+            blockedDates: [previousDay(new Date(), 4)],
+            blockPast: true,
+            theme: calendarStyle,
+            blockedWeekDay: [0, 6, 2],
+          }}
+        />
       </View>
       <Switch value={mode === "range"} onChange={() => handleToggleMode()} />
     </View>

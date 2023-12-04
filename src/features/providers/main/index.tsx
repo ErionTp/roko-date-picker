@@ -1,4 +1,4 @@
-import React, { FC, createContext, useCallback, useMemo, useState } from "react";
+import React, { FC, createContext, useCallback, useEffect, useMemo, useState } from "react";
 import { ReactNode } from "react";
 import { tApp } from "../../domain/types/t.app";
 import { eCalendarPicker } from "../../domain/enums/e.calendar.picker";
@@ -15,6 +15,7 @@ export const Context = createContext<tMain>({
   theme: defaultTheme,
   blockedDates: [],
   blockPast: false,
+  blockedWeekDay: [],
   onChange: () => Function,
   pickerType: eCalendarPicker.currentMonth,
   setPickerType: () => Function,
@@ -29,8 +30,18 @@ export type Props = tApp & {
   children: ReactNode;
 };
 
-export const MainProvider: FC<Props> = ({ children, mode = "single", range, setRange, theme = defaultTheme, blockedDates = [], blockPast }) => {
+export const MainProvider: FC<Props> = ({
+  children,
+  mode = "single",
+  range,
+  setRange,
+  theme = defaultTheme,
+  blockedDates = [],
+  blockPast,
+  blockedWeekDay = [],
+}) => {
   // #region States
+  const [currenRange, setCurrentrange] = useState<tRange>(range);
   const [containerMeasures, setContainerMeasures] = useState<LayoutRectangle>(defaultLayoutRectangle);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [pickerType, setPickerType] = useState(eCalendarPicker.currentMonth);
@@ -38,7 +49,7 @@ export const MainProvider: FC<Props> = ({ children, mode = "single", range, setR
   // #region Call Backs
   const onChange = useCallback(
     (args: Date) => {
-      setRange((prevRange) => {
+      setCurrentrange((prevRange) => {
         switch (mode) {
           case "single":
             return [args];
@@ -82,15 +93,19 @@ export const MainProvider: FC<Props> = ({ children, mode = "single", range, setR
   };
 
   // #endregion
+  useEffect(() => {
+    setRange(currenRange);
+  }, [currenRange]);
   // #region Variables
   const memoValue = useMemo(
     () => ({
       mode,
-      range,
+      range: currenRange,
       setRange,
       theme: theme ?? defaultTheme,
       blockedDates,
       blockPast,
+      blockedWeekDay,
       onChange,
       pickerType,
       setPickerType,
@@ -100,7 +115,7 @@ export const MainProvider: FC<Props> = ({ children, mode = "single", range, setR
       setContainerMeasures,
       onAdjustDate,
     }),
-    [mode, range, setRange, theme, blockedDates, blockPast, onChange, pickerType, currentDate, onSetCurrentDate, containerMeasures]
+    [mode, range, setRange, theme, blockedDates, blockPast, blockedWeekDay, onChange, pickerType, currentDate, onSetCurrentDate, containerMeasures]
   );
   // #endregion
 

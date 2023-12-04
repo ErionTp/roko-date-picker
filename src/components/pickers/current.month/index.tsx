@@ -2,7 +2,7 @@ import { FlatList, StyleSheet, View } from "react-native";
 import React, { FC, memo, useMemo } from "react";
 import { getWeeksOfCurrentMonth } from "../../../features/common";
 import useMain from "../../../features/hooks/useMain";
-import { isSameMonth, isSameDay, endOfDay } from "date-fns";
+import { isSameMonth, isSameDay, endOfDay, getDay } from "date-fns";
 import { tWeekData } from "../../../features/domain/types/t.data.week";
 import { selectedDay, isBetweenDates } from "../../../features/domain/utils/common";
 import Cell from "./cell";
@@ -16,7 +16,7 @@ import isPast from "date-fns/isPast";
 type Props = {};
 const CurrentMonth: FC<Props> = ({}) => {
   // #region Members
-  const { currentDate, range, mode, containerMeasures, onChange, theme, blockedDates, blockPast } = useMain();
+  const { currentDate, range, mode, containerMeasures, onChange, theme, blockedDates, blockPast, blockedWeekDay } = useMain();
   // #endregion
   // #region States
   const data = useMemo(() => {
@@ -31,8 +31,11 @@ const CurrentMonth: FC<Props> = ({}) => {
   const width = useMemo(() => containerMeasures.width / 7, [containerMeasures, data.length]);
   const weekData = useMemo(() => {
     return data.flat().map((day) => {
+      const blockedByWeekDay = blockedWeekDay ? blockedWeekDay.some((i) => i === getDay(day)) : false;
       const blocked =
-        (blockedDates ? blockedDates.some((i) => isSameDay(day, i)) : false) || (blockPast ? blockPast && isPast(endOfDay(day)) : false);
+        (blockedDates ? blockedDates.some((i) => isSameDay(day, i)) : false) ||
+        (blockPast ? blockPast && isPast(endOfDay(day)) : false) ||
+        blockedByWeekDay;
       const selected = selectedDay(range, day) && !blocked;
       const sameMonth = isSameMonth(day, currentDate);
       const isBetween = mode === "range" ? isBetweenDates(day, range[0], range[1] ?? range[0]) : false;
