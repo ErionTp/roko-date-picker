@@ -1,8 +1,7 @@
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 import React, { FC } from "react";
-import useMain from "../../features/hooks/useMain";
-import useStyles from "../../features/hooks/useStyles";
 import { tTheme } from "../../features/domain/types/t.theme";
+import { useMain, useStyles } from "../../features/hooks";
 
 type Props = {};
 

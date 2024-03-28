@@ -27,7 +27,8 @@
   "author": "Erjon Këllëci",
   "license": "ISC",
   "dependencies": {
-    "date-fns": "^2.30.0"
+    "date-fns": "^2.30.0",
+    "react-native-reanimated": "~3.6.2"
   },
   "peerDependencies": {
     "react": "*",

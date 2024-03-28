@@ -1,23 +1,33 @@
 import { StyleSheet, View } from "react-native";
-import React, { FC } from "react";
+import React, { FC, useCallback, useEffect } from "react";
 import CurrentMonth from "./pickers/current.month";
 import CurrentYear from "./pickers/current.year";
 import { tPicker } from "../features/domain/types/t.picker";
 import CurrentDecade from "./pickers/current.decade";
 import Header from "./header";
-import useMain from "../features/hooks/useMain";
 import { tTheme } from "../features/domain/types/t.theme";
-import useStyles from "../features/hooks/useStyles";
+import { ShowComponent } from "./show";
+import Loading from "./loading";
+import { useLayout, useMain, useStyles } from "../features/hooks";
 
-type Props = {};
-const MainContainer: FC<Props> = ({}) => {
-  // #region Members
+type Props = object;
+
+const MainContainer: FC<Props> = () => {
+  // #region members
   const { pickerType, setContainerMeasures, theme } = useMain();
   // #endregion
-  // #region Variables
+  // #region variables
   const customStyles = useStyles(styles, theme);
   // #endregion
-  // #region Renders
+  // #region hooks
+  const [{ measured, width, height }, onLayout] = useLayout();
+  // #endregion
+  // #region effects
+  useEffect(() => {
+    if (measured) setContainerMeasures({ width, height });
+  }, [measured, height]);
+  // #endregion
+  // #region renders
   const renderItem: tPicker = {
     0: <CurrentMonth />,
     1: <CurrentYear />,
@@ -25,9 +35,16 @@ const MainContainer: FC<Props> = ({}) => {
   };
   // #endregion
   return (
-    <View onLayout={(e) => setContainerMeasures(e.nativeEvent.layout)} style={customStyles.root}>
-      <Header />
-      {renderItem[pickerType]}
+    <View onLayout={onLayout} style={customStyles.root}>
+      <ShowComponent>
+        <ShowComponent.When isTrue={measured}>
+          <Header />
+          {renderItem[pickerType]}
+        </ShowComponent.When>
+        <ShowComponent.Else>
+          <Loading />
+        </ShowComponent.Else>
+      </ShowComponent>
     </View>
   );
 };

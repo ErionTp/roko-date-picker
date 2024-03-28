@@ -1,10 +1,10 @@
 import { FlatList } from "react-native";
 import React, { FC, useMemo } from "react";
-import useMain from "../../../features/hooks/useMain";
 import { getYearsOfCurrentDecade } from "../../../features/common";
-import defaults from "../../../features/domain/constants/defaults";
 import Cell from "./cell";
 import isSameYear from "date-fns/isSameYear";
+import { defaults } from "../../../features/domain/constants";
+import { useMain } from "../../../features/hooks";
 
 type Props = {};
 const CurrentYear: FC<Props> = ({}) => {

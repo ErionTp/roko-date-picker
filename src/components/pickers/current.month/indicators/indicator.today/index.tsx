@@ -3,9 +3,8 @@ import React, { FC, memo } from "react";
 import { isToday } from "date-fns";
 import { moderateScale } from "../../../../../features/domain/constants/scale";
 import { tTheme } from "../../../../../features/domain/types/t.theme";
-import useMain from "../../../../../features/hooks/useMain";
-import useStyles from "../../../../../features/hooks/useStyles";
-import sizes from "../../../../../features/domain/constants/sizes";
+import { sizes } from "../../../../../features/domain/constants";
+import { useMain, useStyles } from "../../../../../features/hooks";
 
 interface Props {
   selected: boolean;
@@ -13,6 +12,7 @@ interface Props {
 }
 
 const SIZE = sizes.tiny;
+
 const TodayIndicator: FC<Props> = ({ selected, item }) => {
   // #region Members
   const { theme } = useMain();

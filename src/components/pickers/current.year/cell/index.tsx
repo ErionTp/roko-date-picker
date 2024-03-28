@@ -1,8 +1,8 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import React, { FC, memo } from "react";
 import { tTheme } from "../../../../features/domain/types/t.theme";
-import useStyles from "../../../../features/hooks/useStyles";
 import format from "date-fns/format";
+import { useStyles } from "../../../../features/hooks";
 
 type Props = {
   item: Date;

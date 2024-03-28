@@ -1,8 +1,8 @@
-import { LayoutRectangle } from "react-native";
 import { eCalendarPicker } from "../enums/e.calendar.picker";
 import { tRange } from "./t.range";
 import { tTheme } from "./t.theme";
 import { eWeekDays } from "../enums/e.weekDays";
+import { tLayoutRectangle } from "./t.layout.rectangle";
 
 export type tMain = {
   mode: "range" | "single";
@@ -17,7 +17,7 @@ export type tMain = {
   setPickerType: React.Dispatch<React.SetStateAction<eCalendarPicker>>;
   currentDate: Date;
   onSetCurrentDate: (args: Date) => void;
-  containerMeasures: LayoutRectangle;
-  setContainerMeasures: React.Dispatch<React.SetStateAction<LayoutRectangle>>;
+  containerMeasures: tLayoutRectangle;
+  setContainerMeasures: React.Dispatch<React.SetStateAction<tLayoutRectangle>>;
   onAdjustDate: (args: boolean) => void;
 };

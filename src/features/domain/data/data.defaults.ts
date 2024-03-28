@@ -1,10 +1,10 @@
-import { LayoutRectangle } from "react-native";
 import { tRange } from "../types/t.range";
 import { tTheme } from "../types/t.theme";
 import materialColors from "./colors.material";
+import { tLayoutRectangle } from "../types/t.layout.rectangle";
 
 export const defaultRange: tRange = [new Date()];
-export const defaultLayoutRectangle: LayoutRectangle = { x: 0, y: 0, height: 0, width: 0 };
+export const defaultLayoutRectangle: tLayoutRectangle = { height: 0, width: 0 };
 export const defaultTheme: tTheme = {
   colors: {
     primary: materialColors.amber.default,

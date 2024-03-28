@@ -1,22 +1,20 @@
 import { StyleSheet, TouchableOpacity } from "react-native";
-import React, { ComponentProps, FC, useMemo } from "react";
+import React, { ComponentProps, FC } from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import defaults from "../../features/domain/constants/defaults";
-import sizes from "../../features/domain/constants/sizes";
-import useMain from "../../features/hooks/useMain";
 import { defaultTheme } from "../../features/domain/data/data.defaults";
 import { tTheme } from "../../features/domain/types/t.theme";
-import useStyles from "../../features/hooks/useStyles";
+import { defaults, sizes } from "../../features/domain/constants";
+import { useMain, useStyles } from "../../features/hooks";
 
 type Props = {
   name: ComponentProps<typeof MaterialCommunityIcons>["name"];
   onPress: () => void;
 };
 const Chevron: FC<Props> = ({ name, onPress }) => {
-  // #region Members
+  // #region members
   const { theme } = useMain();
   // #endregion
-  // #region Variables
+  // #region variables
   const customStyle = useStyles(styles, theme);
   // #endregion
   return (
@@ -33,8 +31,9 @@ Chevron.displayName = "Chevron";
 const styles = (theme: tTheme) =>
   StyleSheet.create({
     root: {
-      width: defaults.header.height,
       alignItems: "center",
       justifyContent: "center",
+      height: defaults.header.height,
+      width: defaults.header.height,
     },
   });

@@ -1,18 +1,17 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import React, { FC, useCallback } from "react";
 import { format } from "date-fns";
-import sizes from "../../../features/domain/constants/sizes";
 import { eCalendarPicker } from "../../../features/domain/enums/e.calendar.picker";
-import useMain from "../../../features/hooks/useMain";
 import { tTheme } from "../../../features/domain/types/t.theme";
-import useStyles from "../../../features/hooks/useStyles";
+import { sizes } from "../../../features/domain/constants";
+import { useMain, useStyles } from "../../../features/hooks";
 
 type Props = {};
 const Label: FC<Props> = ({}) => {
-  // #region Members
+  // #region members
   const { currentDate, setPickerType, theme } = useMain();
   // #endregion
-  // #region Functions
+  // #region functions
   const handleOnCalendarTypeChange = useCallback(() => {
     setPickerType((prevType) => {
       const nextType = (prevType + 1) % (Object.keys(eCalendarPicker).length / 2);
@@ -20,12 +19,14 @@ const Label: FC<Props> = ({}) => {
     });
   }, []);
   // #endregion
-  // #region Variables
+  // #region variables
   const customStyle = useStyles(styles, theme);
   // #endregion
   return (
     <TouchableOpacity style={customStyle.root} onPress={handleOnCalendarTypeChange}>
-      <Text style={customStyle.label}>{format(currentDate, "MMMM, yyyy")}</Text>
+      <Text numberOfLines={1} adjustsFontSizeToFit={true} style={customStyle.label}>
+        {format(currentDate, "MMMM, yyyy")}
+      </Text>
     </TouchableOpacity>
   );
 };

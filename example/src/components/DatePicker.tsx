@@ -1,8 +1,8 @@
 import { StyleSheet, Switch, View } from "react-native";
 import React, { useCallback, useState } from "react";
-import Header from "./Header";
 import { materialColors, RokoCalendar, Theme, Range } from "../../../src/";
-import { previousDay } from "date-fns";
+import Animated, { interpolate, runOnJS, useAnimatedStyle, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
+import Header from "./Header";
 
 const calendarStyle: Theme = {
   colors: {
@@ -16,12 +16,16 @@ const calendarStyle: Theme = {
   font: {},
 };
 
-const DatePicker = () => {
-  // #region States
+export const DatePicker = () => {
+  // #region members
+  const animatedValue = useSharedValue(0);
+  // #endregion
+  // #region states
   const [mode, toggleMode] = useState<"single" | "range">("range");
   const [range, setRange] = useState<Range>([new Date()]);
+  const [visible, setVisible] = useState(false);
   // #endregion
-  // #region Functions
+  // #region functions
   const handleToggleMode = useCallback(() => {
     switch (mode) {
       case "range":
@@ -32,28 +36,46 @@ const DatePicker = () => {
         break;
     }
   }, [mode]);
+  const handleShowCalendar = () => {
+    if (visible)
+      animatedValue.value = withTiming(0, { duration: 150 }, () => {
+        runOnJS(setVisible)(false);
+      });
+    else {
+      animatedValue.value = withSpring(360, { duration: 150 }, () => {
+        runOnJS(setVisible)(true);
+      });
+    }
+  };
+  // #endregion
+  // #region variables
+  const rStyle = useAnimatedStyle(() => {
+    return { height: animatedValue.value };
+  });
   // #endregion
   return (
     <View style={styles.root}>
-      <Header {...{ title: "Single Picker", range, onPress: () => {}, mode }} />
-      <View style={{ height: 360, backgroundColor: materialColors.grey._200, borderRadius: 16, overflow: "hidden", padding: 8 }}>
+      <Header
+        {...{
+          title: "Single Picker",
+          range,
+          onPress: handleShowCalendar,
+          mode,
+        }}
+      />
+      <Animated.View style={[rStyle, { backgroundColor: materialColors.grey._200, borderRadius: 16, overflow: "hidden" }]}>
         <RokoCalendar
           {...{
             mode,
             range,
             setRange,
-            blockedDates: [previousDay(new Date(), 4)],
-            blockPast: true,
             theme: calendarStyle,
-            blockedWeekDay: [0, 6, 2],
           }}
         />
-      </View>
+      </Animated.View>
       <Switch value={mode === "range"} onChange={() => handleToggleMode()} />
     </View>
   );
 };
-
-export default DatePicker;
 
 const styles = StyleSheet.create({ root: { gap: 16, flex: 1 } });

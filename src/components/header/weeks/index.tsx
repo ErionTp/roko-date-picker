@@ -1,35 +1,26 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useMemo } from "react";
-import { startOfWeek, addDays, format } from "date-fns";
+import { format } from "date-fns";
 import { tTheme } from "../../../features/domain/types/t.theme";
-import useMain from "../../../features/hooks/useMain";
-import useStyles from "../../../features/hooks/useStyles";
-import defaults from "../../../features/domain/constants/defaults";
-import sizes from "../../../features/domain/constants/sizes";
+import { weekDayList } from "../../../features/common";
+import { defaults, sizes } from "../../../features/domain/constants";
+import { useMain, useStyles } from "../../../features/hooks";
 
 const WeekLabels = () => {
-  // #region Members
+  // #region members
   const { theme } = useMain();
   // #endregion
-  // #region Variables
-  const weekDays = useMemo(() => {
-    const weekStart = startOfWeek(new Date(), { weekStartsOn: 1 }); // Monday
-    const days = [];
-
-    for (let i = 0; i < 7; i++) {
-      days.push(addDays(weekStart, i));
-    }
-
-    return days;
-  }, []);
-
+  // #region variables
+  const weekDays = useMemo(() => weekDayList(), []);
   const customStyles = useStyles(styles, theme);
   // #endregion
   return (
     <View style={customStyles.root}>
       {weekDays.map((item, index) => (
         <View style={customStyles.container} key={index}>
-          <Text style={customStyles.label}>{format(item, "EEE")}</Text>
+          <Text numberOfLines={1} adjustsFontSizeToFit={true} style={customStyles.label}>
+            {format(item, "EEE")}
+          </Text>
         </View>
       ))}
     </View>
@@ -44,8 +35,8 @@ const styles = (theme: tTheme) =>
       flexDirection: "row",
       alignItems: "center",
       borderBottomWidth: 1,
-      height: defaults.labels.height,
       borderBottomColor: theme.colors.onSecondary,
+      height: defaults.weekLabel.height,
     },
     container: { alignItems: "center", justifyContent: "center", flex: 1 },
     label: { fontSize: sizes.medium, textTransform: "capitalize", color: theme.colors.onBackground, fontFamily: theme.font?.family },

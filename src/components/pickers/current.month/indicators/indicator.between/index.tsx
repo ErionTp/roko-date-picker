@@ -1,10 +1,9 @@
 import { StyleSheet, View } from "react-native";
 import React, { FC, memo } from "react";
 import { tWeekData } from "../../../../../features/domain/types/t.data.week";
-import sizes from "../../../../../features/domain/constants/sizes";
-import useMain from "../../../../../features/hooks/useMain";
 import { tTheme } from "../../../../../features/domain/types/t.theme";
-import useStyles from "../../../../../features/hooks/useStyles";
+import { sizes } from "../../../../../features/domain/constants";
+import { useMain, useStyles } from "../../../../../features/hooks";
 
 type Props = { size: number } & Pick<tWeekData, "isBetween" | "firstSelection" | "secondSelection">;
 

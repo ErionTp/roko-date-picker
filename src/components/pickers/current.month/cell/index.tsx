@@ -1,10 +1,11 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { FC, memo } from "react";
+import React, { FC, memo, useEffect } from "react";
 import format from "date-fns/format";
-import sizes from "../../../../features/domain/constants/sizes";
 import { tTheme } from "../../../../features/domain/types/t.theme";
 import TodayIndicator from "../indicators/indicator.today";
-import useStyles from "../../../../features/hooks/useStyles";
+import { sizes } from "../../../../features/domain/constants";
+import { useStyles } from "../../../../features/hooks";
+import { useSharedValue } from "react-native-reanimated";
 
 type Props = {
   item: Date;
@@ -19,7 +20,7 @@ type Props = {
 const BORDER_SIZE = 2;
 
 const Cell: FC<Props> = ({ item, onChange, selected, sameMonth, width, height, theme, blocked }) => {
-  // #region States
+  // #region members
   const size = width > height ? height : width;
   // #endregion
   // #region Variables
@@ -88,3 +89,6 @@ const styles = (theme: tTheme, currentSize: number) =>
       color: `${theme.colors.onBackground}90`,
     },
   });
+function interpolate(value: any, arg1: number[], arg2: number[]) {
+  throw new Error("Function not implemented.");
+}

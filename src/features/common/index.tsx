@@ -1,10 +1,11 @@
+import { startOfWeek } from "date-fns";
 import addDays from "date-fns/addDays";
 import eachDayOfInterval from "date-fns/eachDayOfInterval";
 import eachWeekOfInterval from "date-fns/eachWeekOfInterval";
 import endOfMonth from "date-fns/endOfMonth";
 import startOfMonth from "date-fns/startOfMonth";
 
-export const getWeeksOfCurrentMonth = (date: Date) => {
+const getWeeksOfCurrentMonth = (date: Date) => {
   return eachWeekOfInterval(
     {
       start: startOfMonth(date),
@@ -24,7 +25,7 @@ export const getWeeksOfCurrentMonth = (date: Date) => {
   }, []);
 };
 
-export const getMonthsOfCurrentYear = (date: Date): Date[] => {
+const getMonthsOfCurrentYear = (date: Date): Date[] => {
   const year = date.getFullYear();
   const months = [];
 
@@ -36,7 +37,7 @@ export const getMonthsOfCurrentYear = (date: Date): Date[] => {
   return months;
 };
 
-export const getYearsOfCurrentDecade = (date: Date): Date[] => {
+const getYearsOfCurrentDecade = (date: Date): Date[] => {
   const currentYear = date.getFullYear();
   const years = [];
 
@@ -47,3 +48,31 @@ export const getYearsOfCurrentDecade = (date: Date): Date[] => {
 
   return years;
 };
+
+const weekDayList = () => {
+  const weekStart = startOfWeek(new Date(), { weekStartsOn: 1 }); // Monday
+  const days = [];
+  for (let i = 0; i < 7; i++) {
+    days.push(addDays(weekStart, i));
+  }
+  return days;
+};
+
+function getItemLayout<T>(
+  _data: ArrayLike<T> | null | undefined,
+  index: number,
+  cellLayout: { width: number; height: number }
+): {
+  length: number;
+  offset: number;
+  index: number;
+} {
+  const itemLayout = {
+    length: cellLayout.height,
+    offset: cellLayout.height * index,
+    index,
+  };
+  return itemLayout;
+}
+
+export { getWeeksOfCurrentMonth, getMonthsOfCurrentYear, getYearsOfCurrentDecade, weekDayList, getItemLayout };

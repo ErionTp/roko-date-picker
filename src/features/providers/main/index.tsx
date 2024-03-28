@@ -1,12 +1,11 @@
-import React, { FC, createContext, useCallback, useEffect, useMemo, useState } from "react";
-import { ReactNode } from "react";
+import React, { FC, PropsWithChildren, createContext, useCallback, useMemo, useState } from "react";
 import { tApp } from "../../domain/types/t.app";
 import { eCalendarPicker } from "../../domain/enums/e.calendar.picker";
 import { defaultLayoutRectangle, defaultRange, defaultTheme } from "../../domain/data/data.defaults";
 import { tRange } from "../../domain/types/t.range";
 import { isAfter, isSameDay } from "date-fns";
-import { LayoutRectangle } from "react-native";
 import { tMain } from "../../domain/types/t.main";
+import { tLayoutRectangle } from "../../domain/types/t.layout.rectangle";
 
 export const Context = createContext<tMain>({
   mode: "single",
@@ -26,11 +25,9 @@ export const Context = createContext<tMain>({
   onAdjustDate: () => Function,
 });
 
-export type Props = tApp & {
-  children: ReactNode;
-};
+export type Props = tApp & {};
 
-export const MainProvider: FC<Props> = ({
+export const MainProvider: FC<PropsWithChildren<Props>> = ({
   children,
   mode = "single",
   range,
@@ -42,11 +39,11 @@ export const MainProvider: FC<Props> = ({
 }) => {
   // #region States
   const [currenRange, setCurrentrange] = useState<tRange>(range);
-  const [containerMeasures, setContainerMeasures] = useState<LayoutRectangle>(defaultLayoutRectangle);
+  const [containerMeasures, setContainerMeasures] = useState<tLayoutRectangle>(defaultLayoutRectangle);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [pickerType, setPickerType] = useState(eCalendarPicker.currentMonth);
   // #endregion
-  // #region Call Backs
+  // #region call backs
   const onChange = useCallback(
     (args: Date) => {
       setCurrentrange((prevRange) => {
@@ -68,14 +65,16 @@ export const MainProvider: FC<Props> = ({
     },
     [mode, setRange]
   );
+
   const onSetCurrentDate = useCallback(
     (args: Date) => {
       setCurrentDate(args);
-      setTimeout(() => setPickerType((prev) => prev - 1), 0);
+      setPickerType((prev) => prev - 1);
     },
     [mode, setCurrentDate]
   );
-  const onAdjustDate = (isNext: boolean) => {
+
+  const onAdjustDate = useCallback((isNext: boolean) => {
     setCurrentDate((prev) => {
       const currentDate = new Date(prev);
       const changeFactor = isNext ? 1 : -1;
@@ -93,10 +92,10 @@ export const MainProvider: FC<Props> = ({
       }
       return currentDate;
     });
-  };
+  }, []);
 
   // #endregion
-  // #region Variables
+  // #region variables
   const memoValue = useMemo(
     () => ({
       mode,
@@ -115,7 +114,7 @@ export const MainProvider: FC<Props> = ({
       setContainerMeasures,
       onAdjustDate,
     }),
-    [mode, range, setRange, theme, blockedDates, blockPast, blockedWeekDay, onChange, pickerType, currentDate, onSetCurrentDate, containerMeasures]
+    [mode, range, setRange, theme, blockedDates, blockPast, blockedWeekDay, onChange, pickerType, onSetCurrentDate, containerMeasures]
   );
   // #endregion
 

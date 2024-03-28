@@ -1,7 +1,7 @@
-import { StyleSheet, View } from 'react-native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import React from 'react';
-import DatePicker from './src/components/DatePicker';
+import { StyleSheet, View } from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import React from "react";
+import { DatePicker } from "./src";
 
 export default function App() {
   return (

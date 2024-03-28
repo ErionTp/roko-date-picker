@@ -1,6 +1,6 @@
-import { moderateScale } from './scale';
+import { moderateScale } from "../scale";
 
-export default {
+export const sizes = {
   microscopic: moderateScale(1),
   minuscule: moderateScale(2),
   tiny: moderateScale(4),

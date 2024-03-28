@@ -1,4 +1,4 @@
-import layout from './layout';
+import { layout } from "../layout";
 
 //Guideline sizes are based on standard ~5" screen mobile device
 const guidelineBaseWidth = 350;
