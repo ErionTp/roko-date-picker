@@ -5,6 +5,7 @@ import Cell from "./cell";
 import isSameMonth from "date-fns/isSameMonth";
 import { defaults } from "../../../features/domain/constants";
 import { useMain } from "../../../features/hooks";
+import { isSameYear } from "date-fns";
 
 type Props = {};
 
@@ -24,7 +25,7 @@ const CurrentYear: FC<Props> = ({}) => {
       numColumns={3}
       columnWrapperStyle={{ height }}
       renderItem={({ item }) => {
-        const selected = isSameMonth(item, currentDate);
+        const selected = isSameMonth(item, currentDate) && isSameYear(item, currentDate);
         return <Cell {...{ item, selected, theme, onChange: onSetCurrentDate }} />;
       }}
     />

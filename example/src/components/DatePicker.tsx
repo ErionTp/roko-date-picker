@@ -1,7 +1,7 @@
 import { StyleSheet, Switch, View } from "react-native";
 import React, { useCallback, useState } from "react";
 import { materialColors, RokoCalendar, Theme, Range } from "../../../src/";
-import Animated, { interpolate, runOnJS, useAnimatedStyle, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
+import { useSharedValue } from "react-native-reanimated";
 import Header from "./Header";
 
 const calendarStyle: Theme = {
@@ -23,7 +23,6 @@ export const DatePicker = () => {
   // #region states
   const [mode, toggleMode] = useState<"single" | "range">("range");
   const [range, setRange] = useState<Range>([new Date()]);
-  const [visible, setVisible] = useState(false);
   // #endregion
   // #region functions
   const handleToggleMode = useCallback(() => {
@@ -36,22 +35,8 @@ export const DatePicker = () => {
         break;
     }
   }, [mode]);
-  const handleShowCalendar = () => {
-    if (visible)
-      animatedValue.value = withTiming(0, { duration: 150 }, () => {
-        runOnJS(setVisible)(false);
-      });
-    else {
-      animatedValue.value = withSpring(360, { duration: 150 }, () => {
-        runOnJS(setVisible)(true);
-      });
-    }
-  };
   // #endregion
   // #region variables
-  const rStyle = useAnimatedStyle(() => {
-    return { height: animatedValue.value };
-  });
   // #endregion
   return (
     <View style={styles.root}>
@@ -59,11 +44,10 @@ export const DatePicker = () => {
         {...{
           title: "Single Picker",
           range,
-          onPress: handleShowCalendar,
           mode,
         }}
       />
-      <Animated.View style={[rStyle, { backgroundColor: materialColors.grey._200, borderRadius: 16, overflow: "hidden" }]}>
+      <View style={[{ height: 360, backgroundColor: materialColors.grey._200, borderRadius: 16, overflow: "hidden" }]}>
         <RokoCalendar
           {...{
             mode,
@@ -72,7 +56,7 @@ export const DatePicker = () => {
             theme: calendarStyle,
           }}
         />
-      </Animated.View>
+      </View>
       <Switch value={mode === "range"} onChange={() => handleToggleMode()} />
     </View>
   );

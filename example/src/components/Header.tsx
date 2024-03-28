@@ -5,7 +5,7 @@ import { format } from "date-fns";
 interface Props {
   title: string;
   range: [Date] | [Date, Date | undefined];
-  onPress: () => void;
+  onPress?: () => void;
   mode: "single" | "range";
 }
 const Header: FC<Props> = ({ title, range, onPress, mode }) => {

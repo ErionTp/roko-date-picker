@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { FC, memo } from "react";
 import { tTheme } from "../../../../features/domain/types/t.theme";
 import format from "date-fns/format";
@@ -15,8 +15,9 @@ const Cell: FC<Props> = ({ item, selected, theme, onChange }) => {
   const customStyle = useStyles(styles, theme);
   // #endregion
   return (
-    <TouchableOpacity activeOpacity={1} style={[customStyle.root, selected && customStyle.selected]} onPress={() => onChange(item)}>
-      <Text style={[customStyle.label, selected && customStyle.selectedLabel]}>{format(item, "MMM")}</Text>
+    <TouchableOpacity activeOpacity={1} style={[customStyle.root]} onPress={() => onChange(item)}>
+      <Text style={[customStyle.label]}>{format(item, "MMM")}</Text>
+      {selected && <View style={{ height: 3, width: "50%", backgroundColor: theme?.colors.primary }} />}
     </TouchableOpacity>
   );
 };
