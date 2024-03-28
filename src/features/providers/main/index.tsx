@@ -74,25 +74,28 @@ export const MainProvider: FC<PropsWithChildren<Props>> = ({
     [mode, setCurrentDate]
   );
 
-  const onAdjustDate = useCallback((isNext: boolean) => {
-    setCurrentDate((prev) => {
-      const currentDate = new Date(prev);
-      const changeFactor = isNext ? 1 : -1;
+  const onAdjustDate = useCallback(
+    (isNext: boolean) => {
+      setCurrentDate((prev) => {
+        const currentDate = new Date(prev);
+        const changeFactor = isNext ? 1 : -1;
 
-      switch (pickerType) {
-        case eCalendarPicker.currentYear:
-          currentDate.setFullYear(currentDate.getFullYear() + changeFactor);
-          break;
-        case eCalendarPicker.currentDecade:
-          currentDate.setFullYear(currentDate.getFullYear() + 12 * changeFactor);
-          break;
-        default:
-          currentDate.setMonth(currentDate.getMonth() + changeFactor);
-          break;
-      }
-      return currentDate;
-    });
-  }, []);
+        switch (pickerType) {
+          case eCalendarPicker.currentYear:
+            currentDate.setFullYear(currentDate.getFullYear() + changeFactor);
+            break;
+          case eCalendarPicker.currentDecade:
+            currentDate.setFullYear(currentDate.getFullYear() + 12 * changeFactor);
+            break;
+          default:
+            currentDate.setMonth(currentDate.getMonth() + changeFactor);
+            break;
+        }
+        return currentDate;
+      });
+    },
+    [pickerType]
+  );
 
   // #endregion
   // #region variables
