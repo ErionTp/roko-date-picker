@@ -55,14 +55,15 @@ const CurrentMonth: FC<Props> = ({}) => {
     });
   }, [data, range, mode, blockedDates, blockPast]);
 
-  const renderItem = (item: tWeekData) => {
+  const renderItem = ({ item, index }: { item: tWeekData | null | undefined; index: number }) => {
+    if (!item) return null;
     const { day, selected, sameMonth, isBetween, firstSelection, secondSelection, blocked } = item;
     return (
       <View key={item.day.toISOString()} style={{ flex: 1, justifyContent: "center" }}>
         {mode === "range" && range[1] !== undefined && isBetween && (
           <BetweenIndicator {...{ size: cellLayout.width, isBetween, firstSelection, secondSelection }} />
         )}
-        <Cell {...{ item: day, selected: selected, onChange, sameMonth, width: cellLayout.width, height: cellLayout.height, theme, blocked }} />
+        <Cell item={day} selected={selected} onChange={onChange} sameMonth={sameMonth} theme={theme} blocked={blocked} index={index} />
       </View>
     );
   };
@@ -75,7 +76,7 @@ const CurrentMonth: FC<Props> = ({}) => {
         numColumns={7}
         data={weekData}
         scrollEnabled={false}
-        renderItem={({ item }) => renderItem(item)}
+        renderItem={renderItem}
         keyExtractor={(_item, index) => index.toString()}
         columnWrapperStyle={{ height: cellLayout.height, width: containerMeasures.width }}
         getItemLayout={(data: ArrayLike<tWeekData> | null | undefined, index: number) => getItemLayout(data, index, cellLayout)}

@@ -3,6 +3,7 @@ import React, { useCallback, useState } from "react";
 import { materialColors, RokoCalendar, CalendarTheme, CalendarRange } from "../../../src/";
 import Header from "./Header";
 import Animated, { interpolate, runOnJS, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import { layout } from "../../../src/features/domain/constants";
 
 const calendarStyle: CalendarTheme = {
   colors: {
@@ -18,7 +19,7 @@ const calendarStyle: CalendarTheme = {
 
 export const DatePicker = () => {
   // #region members
-  const animatedValue = useSharedValue(0);
+  const animatedValue = useSharedValue(1);
   // #endregion
   // #region states
   const [mode, toggleMode] = useState<"single" | "range">("range");
@@ -71,7 +72,7 @@ export const DatePicker = () => {
             range,
             setRange,
             theme: calendarStyle,
-            height: 380,
+            layoutProps: { width: layout.width - 32, height: 380 },
           }}
         />
       </Animated.View>

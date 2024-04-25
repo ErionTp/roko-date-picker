@@ -10,26 +10,23 @@ import { isSameYear } from "date-fns";
 type Props = {};
 
 const CurrentYear: FC<Props> = ({}) => {
-  // #region Members
+  // #region members
   const { currentDate, containerMeasures, theme, onSetCurrentDate } = useMain();
   // #endregion
-  // #region States
+  // #region states
   const data = useMemo(() => getMonthsOfCurrentYear(currentDate), [currentDate]);
   // #endregion
-  // #region Variables
+  // #region variables
   const height = useMemo(() => (containerMeasures.height - defaults.header.height) / 4, [containerMeasures, data.length]);
+  const render = ({ item, index }: { item: Date; index: number }) => {
+    const selected = isSameMonth(item, currentDate) && isSameYear(item, currentDate);
+
+    const props = { item, selected, theme, onChange: onSetCurrentDate, index };
+
+    return <Cell {...props} />;
+  };
   // #endregion
-  return (
-    <FlatList
-      data={data}
-      numColumns={3}
-      columnWrapperStyle={{ height }}
-      renderItem={({ item }) => {
-        const selected = isSameMonth(item, currentDate) && isSameYear(item, currentDate);
-        return <Cell {...{ item, selected, theme, onChange: onSetCurrentDate }} />;
-      }}
-    />
-  );
+  return <FlatList data={data} numColumns={3} columnWrapperStyle={{ height }} renderItem={render} />;
 };
 
 export default CurrentYear;

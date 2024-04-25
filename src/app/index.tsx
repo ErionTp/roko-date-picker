@@ -4,12 +4,12 @@ import { tApp } from "../features/domain/types/t.app";
 import MainContainer from "../components";
 
 type Props = tApp & {
-  height?: number;
+  layoutProps?: { width: number; height: number };
 };
 const RokoCalendar: FC<Props> = (props) => {
   return (
     <MainProvider {...props}>
-      <MainContainer parentHeight={props.height} />
+      <MainContainer layoutProps={props.layoutProps} />
     </MainProvider>
   );
 };

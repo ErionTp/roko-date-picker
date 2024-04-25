@@ -4,22 +4,24 @@ import { tTheme } from "../../../../features/domain/types/t.theme";
 import format from "date-fns/format";
 import { useStyles } from "../../../../features/hooks";
 import SquareCellIndicator from "../../../indicators";
+import CellContainer from "../../container";
 
 type Props = {
   item: Date;
-  selected: boolean;
+  index: number;
   theme?: tTheme;
+  selected: boolean;
   onChange: (args: Date) => void;
 };
-const Cell: FC<Props> = ({ item, selected, theme, onChange }) => {
+const Cell: FC<Props> = ({ item, selected, theme, onChange, index }) => {
   // #region Variables
   const customStyle = useStyles(styles, theme);
   // #endregion
   return (
-    <TouchableOpacity activeOpacity={1} style={[customStyle.root]} onPress={() => onChange(item)}>
+    <CellContainer index={index} activeOpacity={1} style={[customStyle.root]} onPress={() => onChange(item)}>
       <Text style={customStyle.label}>{format(item, "MMM")}</Text>
       <SquareCellIndicator visible={selected} />
-    </TouchableOpacity>
+    </CellContainer>
   );
 };
 

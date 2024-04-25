@@ -1,33 +1,29 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { FC, memo, useEffect } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import React, { FC, memo } from "react";
 import format from "date-fns/format";
 import { tTheme } from "../../../../features/domain/types/t.theme";
 import TodayIndicator from "../indicators/indicator.today";
 import { sizes } from "../../../../features/domain/constants";
 import { useStyles } from "../../../../features/hooks";
-import { useSharedValue } from "react-native-reanimated";
+import CellContainer from "../../container";
 
 type Props = {
   item: Date;
   onChange: (args: Date) => void;
   selected: boolean;
   sameMonth: boolean;
-  width: number;
-  height: number;
   theme?: tTheme;
   blocked: boolean;
+  index: number;
 };
 const BORDER_SIZE = 2;
 
-const Cell: FC<Props> = ({ item, onChange, selected, sameMonth, width, height, theme, blocked }) => {
-  // #region members
-  const size = width > height ? height : width;
-  // #endregion
+const Cell: FC<Props> = ({ item, onChange, selected, sameMonth, theme, blocked, index }) => {
   // #region Variables
-  const customStyles = useStyles(styles, theme, size);
+  const customStyles = useStyles(styles, theme);
   // #endregion
   return (
-    <TouchableOpacity disabled={blocked} activeOpacity={1} onPress={() => onChange(item)} style={customStyles.root}>
+    <CellContainer disabled={blocked} activeOpacity={1} onPress={() => onChange(item)} index={index}>
       <View style={[customStyles.container, selected && customStyles.selectedContainer]}>
         <Text
           numberOfLines={1}
@@ -43,7 +39,7 @@ const Cell: FC<Props> = ({ item, onChange, selected, sameMonth, width, height, t
         </Text>
         <TodayIndicator {...{ selected, item }} />
       </View>
-    </TouchableOpacity>
+    </CellContainer>
   );
 };
 
@@ -51,33 +47,34 @@ export default memo(Cell);
 
 Cell.displayName = "Cell";
 
-const styles = (theme: tTheme, currentSize: number) =>
+const styles = (theme: tTheme) =>
   StyleSheet.create({
-    root: { flex: 1, justifyContent: "center", alignItems: "center", zIndex: 1 },
+    root: {},
     container: {
-      justifyContent: "center",
+      flex: 1,
+      aspectRatio: 1,
+      margin: sizes.petite,
       alignItems: "center",
-      width: currentSize - sizes.petite,
-      height: currentSize - sizes.petite,
+      justifyContent: "center",
     },
     selectedContainer: {
+      elevation: 3,
+      shadowRadius: 2.22,
+      shadowOpacity: 0.22,
+      borderWidth: BORDER_SIZE,
+      borderRadius: 50,
+      borderColor: theme.colors.onPrimary,
       backgroundColor: theme.colors.primary,
       shadowColor: "#000",
       shadowOffset: {
         width: -2,
         height: 2,
       },
-      shadowOpacity: 0.22,
-      shadowRadius: 2.22,
-      elevation: 3,
-      borderWidth: BORDER_SIZE,
-      borderColor: theme.colors.onPrimary,
-      borderRadius: currentSize / 2,
     },
     text: {
-      color: theme.colors.onBackground,
-      fontFamily: theme.font?.family,
       textTransform: "capitalize",
+      fontFamily: theme.font?.family,
+      color: theme.colors.onBackground,
     },
     selectedText: {
       color: theme.colors.onPrimary,
@@ -89,6 +86,3 @@ const styles = (theme: tTheme, currentSize: number) =>
       color: `${theme.colors.onBackground}90`,
     },
   });
-function interpolate(value: any, arg1: number[], arg2: number[]) {
-  throw new Error("Function not implemented.");
-}
