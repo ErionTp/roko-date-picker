@@ -6,18 +6,10 @@ import { useMain, useStyles } from "../../features/hooks";
 type Props = {};
 
 const Loading: FC<Props> = ({}) => {
-  // #region Members
+  // #region members
   const { theme } = useMain();
   // #endregion
-  // #region States
-  // #endregion
-  // #region Custom hooks
-  // #endregion
-  // #region Functions
-  // #endregion
-  // #region Effects
-  // #endregion
-  // #region Variables
+  // #region variables
   const customStyles = useStyles(styles, theme);
   // #endregion
   return (

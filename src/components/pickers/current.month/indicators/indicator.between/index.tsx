@@ -8,11 +8,11 @@ import { useMain, useStyles } from "../../../../../features/hooks";
 type Props = { size: number } & Pick<tWeekData, "isBetween" | "firstSelection" | "secondSelection">;
 
 const BetweenIndicator: FC<Props> = (props) => {
-  // #region Members
+  // #region members
   const { isBetween, firstSelection, secondSelection } = props;
   const { theme } = useMain();
   // #endregion
-  // #region Variables
+  // #region variables
   const customStyle = useStyles(styles, theme);
   // #endregion
   return (

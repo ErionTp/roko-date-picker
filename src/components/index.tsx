@@ -1,5 +1,5 @@
 import { StyleSheet, View } from "react-native";
-import React, { FC, useCallback, useEffect } from "react";
+import React, { FC, useEffect } from "react";
 import CurrentMonth from "./pickers/current.month";
 import CurrentYear from "./pickers/current.year";
 import { tPicker } from "../features/domain/types/t.picker";
@@ -9,15 +9,16 @@ import { tTheme } from "../features/domain/types/t.theme";
 import { ShowComponent } from "./show";
 import Loading from "./loading";
 import { useLayout, useMain, useStyles } from "../features/hooks";
+import { defaults } from "../features/domain/constants";
 
-type Props = object;
+type Props = { parentHeight?: number };
 
-const MainContainer: FC<Props> = () => {
+const MainContainer: FC<Props> = ({ parentHeight = 360 }) => {
   // #region members
   const { pickerType, setContainerMeasures, theme } = useMain();
   // #endregion
   // #region variables
-  const customStyles = useStyles(styles, theme);
+  const customStyles = useStyles(styles, theme, parentHeight);
   // #endregion
   // #region hooks
   const [{ measured, width, height }, onLayout] = useLayout();
@@ -38,8 +39,10 @@ const MainContainer: FC<Props> = () => {
     <View onLayout={onLayout} style={customStyles.root}>
       <ShowComponent>
         <ShowComponent.When isTrue={measured}>
-          <Header />
-          {renderItem[pickerType]}
+          <View style={customStyles.container}>
+            <Header />
+            {renderItem[pickerType]}
+          </View>
         </ShowComponent.When>
         <ShowComponent.Else>
           <Loading />
@@ -53,10 +56,14 @@ export default MainContainer;
 
 MainContainer.displayName = "MainContainer";
 
-const styles = (theme: tTheme) =>
+const styles = (theme: tTheme, height: number) =>
   StyleSheet.create({
     root: {
-      flex: 1,
+      height,
+      overflow: "hidden",
       backgroundColor: theme.colors.background,
+    },
+    container: {
+      flex: 1,
     },
   });

@@ -7,4 +7,7 @@ export const defaults = {
   weekLabel: {
     height: moderateScale(34.666656494140625),
   },
+  root: {
+    height: 360,
+  },
 };

@@ -3,6 +3,7 @@ import React, { FC, memo } from "react";
 import { tTheme } from "../../../../features/domain/types/t.theme";
 import format from "date-fns/format";
 import { useStyles } from "../../../../features/hooks";
+import SquareCellIndicator from "../../../indicators";
 
 type Props = {
   item: Date;
@@ -16,8 +17,8 @@ const Cell: FC<Props> = ({ item, selected, theme, onChange }) => {
   // #endregion
   return (
     <TouchableOpacity activeOpacity={1} style={[customStyle.root]} onPress={() => onChange(item)}>
-      <Text style={[customStyle.label]}>{format(item, "MMM")}</Text>
-      {selected && <View style={{ height: 3, width: "50%", backgroundColor: theme?.colors.primary }} />}
+      <Text style={customStyle.label}>{format(item, "MMM")}</Text>
+      <SquareCellIndicator visible={selected} />
     </TouchableOpacity>
   );
 };

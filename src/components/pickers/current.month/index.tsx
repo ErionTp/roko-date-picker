@@ -8,9 +8,8 @@ import Cell from "./cell";
 import BetweenIndicator from "./indicators/indicator.between";
 import WeekLabels from "../../header/weeks";
 import isPast from "date-fns/isPast";
-import { tTheme } from "../../../features/domain/types/t.theme";
 import { defaults } from "../../../features/domain/constants";
-import { useMain, useStyles } from "../../../features/hooks";
+import { useMain } from "../../../features/hooks";
 
 type Props = {};
 
@@ -68,20 +67,18 @@ const CurrentMonth: FC<Props> = ({}) => {
     );
   };
 
-  const customStyles = useStyles(styles, theme);
-
   // #endregion
   return (
-    <View style={customStyles.root}>
+    <View style={styles.root}>
       <WeekLabels />
       <FlatList
         numColumns={7}
         data={weekData}
         scrollEnabled={false}
-        getItemLayout={(data: ArrayLike<tWeekData> | null | undefined, index: number) => getItemLayout(data, index, cellLayout)}
-        columnWrapperStyle={{ height: cellLayout.height, width: containerMeasures.width }}
-        keyExtractor={(_item, index) => index.toString()}
         renderItem={({ item }) => renderItem(item)}
+        keyExtractor={(_item, index) => index.toString()}
+        columnWrapperStyle={{ height: cellLayout.height, width: containerMeasures.width }}
+        getItemLayout={(data: ArrayLike<tWeekData> | null | undefined, index: number) => getItemLayout(data, index, cellLayout)}
       />
     </View>
   );
@@ -91,7 +88,6 @@ export default CurrentMonth;
 
 CurrentMonth.displayName = "CurrentMonth";
 
-const styles = (theme: tTheme) =>
-  StyleSheet.create({
-    root: { flex: 1 },
-  });
+const styles = StyleSheet.create({
+  root: { flex: 1 },
+});
