@@ -1,10 +1,7 @@
 import { StyleSheet, TouchableOpacity, TouchableOpacityProps, View } from "react-native";
 import React, { PropsWithChildren } from "react";
-import Animated, { FadeIn, ZoomIn } from "react-native-reanimated";
 
 type Props = TouchableOpacityProps & { index: number };
-
-const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
 const CellContainer: React.FC<PropsWithChildren<Props>> = ({ index, children, ...rest }) => {
   // #region members
@@ -20,9 +17,9 @@ const CellContainer: React.FC<PropsWithChildren<Props>> = ({ index, children, ..
   // #region variables
   // #endregion
   return (
-    <AnimatedTouchable {...rest} entering={FadeIn.delay(index * 3).duration(150)} style={styles.root}>
+    <TouchableOpacity {...rest} style={styles.root}>
       {children}
-    </AnimatedTouchable>
+    </TouchableOpacity>
   );
 };
 
