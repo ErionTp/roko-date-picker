@@ -9,5 +9,5 @@ export type tApp = Pick<
   | "blockedDates"
   | "blockPast"
   | "blockedWeekDay"
-  | "containerMeasures"
+  | "layoutProps"
 >;

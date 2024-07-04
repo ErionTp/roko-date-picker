@@ -20,7 +20,7 @@ const CurrentMonth: FC<Props> = ({}) => {
     range,
     mode,
     onChange,
-    containerMeasures,
+    layoutProps,
     theme,
     blockedDates,
     blockPast,
@@ -34,11 +34,11 @@ const CurrentMonth: FC<Props> = ({}) => {
   // #endregion
   // #region variables
   const cellLayout = useMemo(() => {
-    const width = containerMeasures.width / 7;
+    const width = layoutProps.width / 7;
     const height =
-      (containerMeasures.height - defaults.header.height - defaults.weekLabel.height) / data.length;
+      (layoutProps.height - defaults.header.height - defaults.weekLabel.height) / data.length;
     return { width, height };
-  }, [containerMeasures, data.length]);
+  }, [layoutProps, data.length]);
 
   const weekData = useMemo(() => {
     return data.flat().map((day) => {
@@ -102,7 +102,7 @@ const CurrentMonth: FC<Props> = ({}) => {
         scrollEnabled={false}
         renderItem={renderItem}
         keyExtractor={(_item, index) => index.toString()}
-        columnWrapperStyle={{ height: cellLayout.height, width: containerMeasures.width }}
+        columnWrapperStyle={{ height: cellLayout.height, width: layoutProps.width }}
         getItemLayout={(data: ArrayLike<tWeekData> | null | undefined, index: number) =>
           getItemLayout(data, index, cellLayout)
         }

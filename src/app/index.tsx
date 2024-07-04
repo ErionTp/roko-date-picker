@@ -19,7 +19,7 @@ const RokoCalendar: FC<Props> = (props) => {
   // #endregion
 
   return (
-    <MainProvider {...props} containerMeasures={props.layoutProps ?? { height, width }}>
+    <MainProvider {...props} layoutProps={props.layoutProps ?? { height, width }}>
       <View
         onLayout={onLayout}
         style={{ height: props.layoutProps?.height, width: props.layoutProps?.width }}

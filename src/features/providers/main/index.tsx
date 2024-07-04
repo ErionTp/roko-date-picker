@@ -24,7 +24,7 @@ export const Context = createContext<tMain>({
   setPickerType: () => Function,
   currentDate: new Date(),
   onSetCurrentDate: () => Function,
-  containerMeasures: defaultLayoutRectangle,
+  layoutProps: defaultLayoutRectangle,
   onAdjustDate: () => Function,
 });
 
@@ -39,7 +39,7 @@ export const MainProvider: FC<PropsWithChildren<Props>> = ({
   blockedDates = [],
   blockPast,
   blockedWeekDay = [],
-  containerMeasures,
+  layoutProps,
 }) => {
   // #region States
   const [currenRange, setCurrentrange] = useState<tRange>(range);
@@ -119,7 +119,7 @@ export const MainProvider: FC<PropsWithChildren<Props>> = ({
       setPickerType,
       currentDate,
       onSetCurrentDate,
-      containerMeasures,
+      layoutProps,
       onAdjustDate,
     }),
     [
@@ -133,7 +133,7 @@ export const MainProvider: FC<PropsWithChildren<Props>> = ({
       onChange,
       pickerType,
       onSetCurrentDate,
-      containerMeasures,
+      layoutProps,
     ],
   );
   // #endregion

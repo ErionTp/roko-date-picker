@@ -9,13 +9,16 @@ import { useMain } from "../../../features/hooks";
 type Props = {};
 const CurrentYear: FC<Props> = ({}) => {
   // #region members
-  const { currentDate, containerMeasures, theme, onSetCurrentDate } = useMain();
+  const { currentDate, layoutProps, theme, onSetCurrentDate } = useMain();
   // #endregion
   // #region states
   const data = useMemo(() => getYearsOfCurrentDecade(currentDate), [currentDate]);
   // #endregion
   // #region variables
-  const height = useMemo(() => (containerMeasures.height - defaults.header.height) / 4, [containerMeasures, data.length]);
+  const height = useMemo(
+    () => (layoutProps.height - defaults.header.height) / 4,
+    [layoutProps, data.length],
+  );
 
   const render = ({ item, index }: { item: Date; index: number }) => {
     const selected = isSameYear(item, currentDate);
@@ -23,7 +26,9 @@ const CurrentYear: FC<Props> = ({}) => {
     return <Cell {...props} />;
   };
   // #endregion
-  return <FlatList data={data} numColumns={3} columnWrapperStyle={{ height }} renderItem={render} />;
+  return (
+    <FlatList data={data} numColumns={3} columnWrapperStyle={{ height }} renderItem={render} />
+  );
 };
 
 export default CurrentYear;

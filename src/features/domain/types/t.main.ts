@@ -17,6 +17,6 @@ export type tMain = {
   setPickerType: React.Dispatch<React.SetStateAction<eCalendarPicker>>;
   currentDate: Date;
   onSetCurrentDate: (args: Date) => void;
-  containerMeasures: tLayoutRectangle;
+  layoutProps: tLayoutRectangle;
   onAdjustDate: (args: boolean) => void;
 };
