@@ -1,7 +1,11 @@
 import React, { FC, PropsWithChildren, createContext, useCallback, useMemo, useState } from "react";
 import { tApp } from "../../domain/types/t.app";
 import { eCalendarPicker } from "../../domain/enums/e.calendar.picker";
-import { defaultLayoutRectangle, defaultRange, defaultTheme } from "../../domain/data/data.defaults";
+import {
+  defaultLayoutRectangle,
+  defaultRange,
+  defaultTheme,
+} from "../../domain/data/data.defaults";
 import { tRange } from "../../domain/types/t.range";
 import { isAfter, isSameDay } from "date-fns";
 import { tMain } from "../../domain/types/t.main";
@@ -21,7 +25,6 @@ export const Context = createContext<tMain>({
   currentDate: new Date(),
   onSetCurrentDate: () => Function,
   containerMeasures: defaultLayoutRectangle,
-  setContainerMeasures: () => Function,
   onAdjustDate: () => Function,
 });
 
@@ -36,14 +39,15 @@ export const MainProvider: FC<PropsWithChildren<Props>> = ({
   blockedDates = [],
   blockPast,
   blockedWeekDay = [],
+  containerMeasures,
 }) => {
   // #region States
   const [currenRange, setCurrentrange] = useState<tRange>(range);
-  const [containerMeasures, setContainerMeasures] = useState<tLayoutRectangle>(defaultLayoutRectangle);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [pickerType, setPickerType] = useState(eCalendarPicker.currentMonth);
   // #endregion
   // #region call backs
+
   const onChange = useCallback(
     (args: Date) => {
       setCurrentrange((prevRange) => {
@@ -53,7 +57,10 @@ export const MainProvider: FC<PropsWithChildren<Props>> = ({
             return [args];
           default:
             if (prevRange.length === 1) {
-              const newRange: tRange = isAfter(args, prevRange[0]) || isSameDay(args, prevRange[0]) ? [...prevRange, args] : [args];
+              const newRange: tRange =
+                isAfter(args, prevRange[0]) || isSameDay(args, prevRange[0])
+                  ? [...prevRange, args]
+                  : [args];
               setRange(newRange);
               return newRange;
             } else {
@@ -63,7 +70,7 @@ export const MainProvider: FC<PropsWithChildren<Props>> = ({
         }
       });
     },
-    [mode, setRange]
+    [mode, setRange],
   );
 
   const onSetCurrentDate = useCallback(
@@ -71,7 +78,7 @@ export const MainProvider: FC<PropsWithChildren<Props>> = ({
       setCurrentDate(args);
       setPickerType((prev) => prev - 1);
     },
-    [mode, setCurrentDate]
+    [mode, setCurrentDate],
   );
 
   const onAdjustDate = useCallback(
@@ -94,9 +101,8 @@ export const MainProvider: FC<PropsWithChildren<Props>> = ({
         return currentDate;
       });
     },
-    [pickerType]
+    [pickerType],
   );
-
   // #endregion
   // #region variables
   const memoValue = useMemo(
@@ -114,10 +120,21 @@ export const MainProvider: FC<PropsWithChildren<Props>> = ({
       currentDate,
       onSetCurrentDate,
       containerMeasures,
-      setContainerMeasures,
       onAdjustDate,
     }),
-    [mode, range, setRange, theme, blockedDates, blockPast, blockedWeekDay, onChange, pickerType, onSetCurrentDate, containerMeasures]
+    [
+      mode,
+      range,
+      setRange,
+      theme,
+      blockedDates,
+      blockPast,
+      blockedWeekDay,
+      onChange,
+      pickerType,
+      onSetCurrentDate,
+      containerMeasures,
+    ],
   );
   // #endregion
 

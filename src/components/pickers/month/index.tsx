@@ -15,7 +15,17 @@ type Props = {};
 
 const CurrentMonth: FC<Props> = ({}) => {
   // #region members
-  const { currentDate, range, mode, onChange, containerMeasures, theme, blockedDates, blockPast, blockedWeekDay } = useMain();
+  const {
+    currentDate,
+    range,
+    mode,
+    onChange,
+    containerMeasures,
+    theme,
+    blockedDates,
+    blockPast,
+    blockedWeekDay,
+  } = useMain();
   // #endregion
   // #region states
   const data = useMemo(() => {
@@ -25,20 +35,24 @@ const CurrentMonth: FC<Props> = ({}) => {
   // #region variables
   const cellLayout = useMemo(() => {
     const width = containerMeasures.width / 7;
-    const height = (containerMeasures.height - defaults.header.height - defaults.weekLabel.height) / data.length;
+    const height =
+      (containerMeasures.height - defaults.header.height - defaults.weekLabel.height) / data.length;
     return { width, height };
   }, [containerMeasures, data.length]);
 
   const weekData = useMemo(() => {
     return data.flat().map((day) => {
-      const blockedByWeekDay = blockedWeekDay ? blockedWeekDay.some((i) => i === getDay(day)) : false;
+      const blockedByWeekDay = blockedWeekDay
+        ? blockedWeekDay.some((i) => i === getDay(day))
+        : false;
       const blocked =
         (blockedDates ? blockedDates.some((i) => isSameDay(day, i)) : false) ||
         (blockPast ? blockPast && isPast(endOfDay(day)) : false) ||
         blockedByWeekDay;
       const selected = selectedDay(range, day) && !blocked;
       const sameMonth = isSameMonth(day, currentDate);
-      const isBetween = mode === "range" ? isBetweenDates(day, range[0], range[1] ?? range[0]) : false;
+      const isBetween =
+        mode === "range" ? isBetweenDates(day, range[0], range[1] ?? range[0]) : false;
       const firstSelection = mode === "range" ? isSameDay(day, range[0]) : false;
       const secondSelection = mode === "range" ? isSameDay(day, range[1] ?? range[0]) : false;
       const payload: tWeekData = {
@@ -59,11 +73,21 @@ const CurrentMonth: FC<Props> = ({}) => {
     if (!item) return null;
     const { day, selected, sameMonth, isBetween, firstSelection, secondSelection, blocked } = item;
     return (
-      <View key={item.day.toISOString()} style={{ flex: 1, justifyContent: "center" }}>
+      <View style={{ flex: 1, justifyContent: "center" }}>
         {mode === "range" && range[1] !== undefined && isBetween && (
-          <BetweenIndicator {...{ size: cellLayout.width, isBetween, firstSelection, secondSelection }} />
+          <BetweenIndicator
+            {...{ size: cellLayout.width, isBetween, firstSelection, secondSelection }}
+          />
         )}
-        <Cell item={day} selected={selected} onChange={onChange} sameMonth={sameMonth} theme={theme} blocked={blocked} index={index} />
+        <Cell
+          item={day}
+          selected={selected}
+          onChange={onChange}
+          sameMonth={sameMonth}
+          theme={theme}
+          blocked={blocked}
+          index={index}
+        />
       </View>
     );
   };
@@ -79,7 +103,9 @@ const CurrentMonth: FC<Props> = ({}) => {
         renderItem={renderItem}
         keyExtractor={(_item, index) => index.toString()}
         columnWrapperStyle={{ height: cellLayout.height, width: containerMeasures.width }}
-        getItemLayout={(data: ArrayLike<tWeekData> | null | undefined, index: number) => getItemLayout(data, index, cellLayout)}
+        getItemLayout={(data: ArrayLike<tWeekData> | null | undefined, index: number) =>
+          getItemLayout(data, index, cellLayout)
+        }
       />
     </View>
   );

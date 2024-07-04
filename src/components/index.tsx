@@ -1,31 +1,25 @@
 import { StyleSheet, View } from "react-native";
-import React, { FC, useEffect, useMemo } from "react";
+import React, { FC, memo } from "react";
 import { tPicker } from "../features/domain/types/t.picker";
 import Header from "./header";
 import { tTheme } from "../features/domain/types/t.theme";
-import { ShowComponent } from "./show";
-import Loading from "./loading";
-import { useLayout, useMain, useStyles } from "../features/hooks";
+import { useMain, useStyles } from "../features/hooks";
 import CurrentYear from "./pickers/year";
 import CurrentMonth from "./pickers/month";
 import CurrentDecade from "./pickers/decade";
 
-type Props = { layoutProps?: { width: number; height: number } };
+type Props = object;
 
-const MainContainer: FC<Props> = ({ layoutProps = { height: 360, width: 350 } }) => {
+const MainContainer: FC<Props> = () => {
   // #region members
-  const { pickerType, setContainerMeasures, theme, currentDate } = useMain();
+  const { pickerType, theme } = useMain();
   // #endregion
   // #region variables
-  const customStyles = useStyles(styles, theme, layoutProps);
+  const customStyles = useStyles(styles, theme);
   // #endregion
   // #region hooks
-  const [{ measured, width, height }, onLayout] = useLayout();
   // #endregion
   // #region effects
-  useEffect(() => {
-    if (measured) setContainerMeasures({ width, height });
-  }, [measured, height]);
   // #endregion
   // #region renders
   const renderItem: tPicker = {
@@ -35,31 +29,21 @@ const MainContainer: FC<Props> = ({ layoutProps = { height: 360, width: 350 } })
   };
   // #endregion
   return (
-    <View onLayout={onLayout} style={customStyles.root}>
-      <ShowComponent>
-        <ShowComponent.When isTrue={measured}>
-          <View style={customStyles.container}>
-            <Header />
-            {renderItem[pickerType]}
-          </View>
-        </ShowComponent.When>
-        <ShowComponent.Else>
-          <Loading />
-        </ShowComponent.Else>
-      </ShowComponent>
+    <View style={customStyles.root}>
+      <Header />
+      {renderItem[pickerType]}
     </View>
   );
 };
 
-export default MainContainer;
+export default memo(MainContainer);
 
 MainContainer.displayName = "MainContainer";
 
-const styles = (theme: tTheme, layoutProps: { width: number; height: number }) =>
+const styles = (theme: tTheme) =>
   StyleSheet.create({
     root: {
-      height: layoutProps.height,
-      width: layoutProps.width,
+      flex: 1,
       overflow: "hidden",
       backgroundColor: theme.colors.background,
     },
