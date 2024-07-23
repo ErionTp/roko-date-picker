@@ -1,7 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import React, { FC, memo } from "react";
 import { isToday } from "date-fns";
-import { moderateScale } from "../../../../../features/domain/constants/scale";
 import { tTheme } from "../../../../../features/domain/types/t.theme";
 import { sizes } from "../../../../../features/domain/constants";
 import { useMain, useStyles } from "../../../../../features/hooks";
@@ -36,7 +35,7 @@ const styles = (theme: tTheme) =>
       borderRadius: SIZE / 2,
       backgroundColor: theme.colors.onSecondary,
       position: "absolute",
-      bottom: moderateScale(3),
+      bottom: 3,
     },
     selectedBackground: { backgroundColor: theme.colors.background },
   });

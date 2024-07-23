@@ -20,13 +20,13 @@ const WeekLabels = () => {
     (item: Date) => {
       return (
         <View style={customStyles.container}>
-          <Text numberOfLines={1} adjustsFontSizeToFit={true} style={customStyles.label}>
+          <Text numberOfLines={1} style={customStyles.label}>
             {format(item, "EEE")}
           </Text>
         </View>
       );
     },
-    [theme]
+    [theme],
   );
   // #endregion
   return (
@@ -48,5 +48,10 @@ const styles = (theme: tTheme) =>
       borderBottomColor: theme.colors.onSecondary,
     },
     container: { alignItems: "center", justifyContent: "center", flex: 1 },
-    label: { fontSize: sizes.medium, textTransform: "capitalize", color: theme.colors.onBackground, fontFamily: theme.font?.family },
+    label: {
+      fontSize: 12,
+      textTransform: "capitalize",
+      color: theme.colors.onBackground,
+      fontFamily: theme.font?.family,
+    },
   });

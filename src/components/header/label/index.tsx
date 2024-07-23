@@ -24,7 +24,7 @@ const Label: FC<Props> = ({}) => {
   // #endregion
   return (
     <TouchableOpacity style={customStyle.root} onPress={handleOnCalendarTypeChange}>
-      <Text numberOfLines={1} adjustsFontSizeToFit={true} style={customStyle.label}>
+      <Text numberOfLines={1} style={customStyle.label}>
         {format(currentDate, "MMMM, yyyy")}
       </Text>
     </TouchableOpacity>
@@ -43,7 +43,7 @@ const styles = (theme: tTheme) =>
       justifyContent: "center",
     },
     label: {
-      fontSize: sizes.moderate,
+      fontSize: 14,
       textTransform: "capitalize",
       fontFamily: theme.font.family,
       color: theme.colors.onBackground,

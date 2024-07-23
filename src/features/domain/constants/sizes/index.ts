@@ -1,16 +1,14 @@
-import { moderateScale } from "../scale";
-
 export const sizes = {
-  microscopic: moderateScale(1),
-  minuscule: moderateScale(2),
-  tiny: moderateScale(4),
-  petite: moderateScale(6),
-  small: moderateScale(8),
-  compact: moderateScale(10),
-  medium: moderateScale(12),
-  moderate: moderateScale(14),
-  regular: moderateScale(16),
-  large: moderateScale(20),
-  big: moderateScale(32),
-  massive: moderateScale(64),
+  microscopic: 1,
+  minuscule: 2,
+  tiny: 4,
+  petite: 6,
+  small: 8,
+  compact: 10,
+  medium: 12,
+  moderate: 14,
+  regular: 16,
+  large: 20,
+  big: 32,
+  massive: 64,
 };

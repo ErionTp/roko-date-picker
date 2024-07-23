@@ -7,6 +7,5 @@ const screenSize = Math.sqrt(layout.width * layout.height) / 100;
 
 const scale = (size: number) => (layout.width / guidelineBaseWidth) * size;
 const verticalScale = (size: number) => (layout.height / guidelineBaseHeight) * size;
-const moderateScale = (size: number, factor = 0.5) => size + (scale(size) - size) * factor;
 
-export { scale, verticalScale, moderateScale, screenSize };
+export { scale, verticalScale, screenSize };

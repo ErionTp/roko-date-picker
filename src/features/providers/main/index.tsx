@@ -9,7 +9,6 @@ import {
 import { tRange } from "../../domain/types/t.range";
 import { isAfter, isSameDay } from "date-fns";
 import { tMain } from "../../domain/types/t.main";
-import { tLayoutRectangle } from "../../domain/types/t.layout.rectangle";
 
 export const Context = createContext<tMain>({
   mode: "single",
