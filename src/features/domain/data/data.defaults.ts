@@ -13,6 +13,7 @@ export const defaultTheme: tTheme = {
     onSecondary: materialColors.grey._400!,
     background: materialColors.grey._200!,
     onBackground: materialColors.blue_grey._800!,
+    disabled: materialColors.red._200!,
   },
   font: {},
 };

@@ -19,7 +19,7 @@ const calendarStyle: CalendarTheme = {
     onSecondary: "#9E9E9E",
     background: materialColors.grey._50 ?? "white",
     onBackground: "#000000",
-    disabled: materialColors.red._200 ?? "white",
+    disabled: materialColors.red._300 ?? "white",
   },
   font: {},
 };
