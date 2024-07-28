@@ -23,7 +23,12 @@ const Cell: FC<Props> = ({ item, onChange, selected, sameMonth, theme, blocked, 
   const customStyles = useStyles(styles, theme);
   // #endregion
   return (
-    <CellContainer disabled={blocked} activeOpacity={1} onPress={() => onChange(item)} index={index}>
+    <CellContainer
+      disabled={blocked}
+      activeOpacity={1}
+      onPress={() => onChange(item)}
+      index={index}
+    >
       <View style={[customStyles.container, selected && customStyles.selectedContainer]}>
         <Text
           numberOfLines={1}
@@ -83,6 +88,6 @@ const styles = (theme: tTheme) =>
       color: theme.colors.onSecondary,
     },
     blocked: {
-      color: `${theme.colors.onBackground}90`,
+      color: theme.colors.disabled,
     },
   });

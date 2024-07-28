@@ -5,4 +5,5 @@ export type tColors = {
   onSecondary: string;
   background: string;
   onBackground: string;
+  disabled: string;
 };

@@ -2,7 +2,13 @@ import { StyleSheet, Switch, View } from "react-native";
 import React, { useCallback, useState } from "react";
 import { materialColors, RokoCalendar, CalendarTheme, CalendarRange } from "../../../src/";
 import Header from "./Header";
-import Animated, { interpolate, runOnJS, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import Animated, {
+  interpolate,
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 import { layout } from "../../../src/features/domain/constants";
 
 const calendarStyle: CalendarTheme = {
@@ -11,8 +17,9 @@ const calendarStyle: CalendarTheme = {
     onPrimary: "white",
     secondary: "#FFF9C4",
     onSecondary: "#9E9E9E",
-    background: "#DAF7A6",
+    background: materialColors.grey._50 ?? "white",
     onBackground: "#000000",
+    disabled: materialColors.red._200 ?? "white",
   },
   font: {},
 };
@@ -65,13 +72,19 @@ export const DatePicker = () => {
           },
         }}
       />
-      <Animated.View style={[{ backgroundColor: materialColors.grey._200, borderRadius: 16, overflow: "hidden" }, rStyle]}>
+      <Animated.View
+        style={[
+          { backgroundColor: materialColors.grey._200, borderRadius: 16, overflow: "hidden" },
+          rStyle,
+        ]}
+      >
         <RokoCalendar
           {...{
             mode,
             range,
             setRange,
             theme: calendarStyle,
+            blockedWeekDay: [0],
             layoutProps: { width: layout.width - 32, height: 380 },
           }}
         />
