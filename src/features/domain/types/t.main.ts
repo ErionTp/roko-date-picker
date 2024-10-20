@@ -9,7 +9,8 @@ export type tMain = {
   range: tRange;
   setRange: (args: tRange) => void;
   blockedDates?: Date[];
-  blockPast?: boolean;
+  minDate?: Date;
+  maxDate?: Date;
   blockedWeekDay?: eWeekDays[];
   theme?: tTheme;
   onChange: (args: Date) => void;
@@ -17,6 +18,5 @@ export type tMain = {
   setPickerType: React.Dispatch<React.SetStateAction<eCalendarPicker>>;
   currentDate: Date;
   onSetCurrentDate: (args: Date) => void;
-  layoutProps: tLayoutRectangle;
   onAdjustDate: (args: boolean) => void;
 };

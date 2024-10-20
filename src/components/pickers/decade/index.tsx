@@ -1,24 +1,21 @@
-import { FlatList } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React, { FC, useMemo } from "react";
 import { getYearsOfCurrentDecade } from "../../../features/common";
 import Cell from "./cell";
 import isSameYear from "date-fns/isSameYear";
-import { defaults } from "../../../features/domain/constants";
 import { useMain } from "../../../features/hooks";
+import Each from "../../each";
 
 type Props = {};
+
 const CurrentYear: FC<Props> = ({}) => {
   // #region members
-  const { currentDate, layoutProps, theme, onSetCurrentDate } = useMain();
+  const { currentDate, theme, onSetCurrentDate } = useMain();
   // #endregion
   // #region states
   const data = useMemo(() => getYearsOfCurrentDecade(currentDate), [currentDate]);
   // #endregion
   // #region variables
-  const height = useMemo(
-    () => (layoutProps.height - defaults.header.height) / 4,
-    [layoutProps, data.length],
-  );
 
   const render = ({ item, index }: { item: Date; index: number }) => {
     const selected = isSameYear(item, currentDate);
@@ -27,10 +24,16 @@ const CurrentYear: FC<Props> = ({}) => {
   };
   // #endregion
   return (
-    <FlatList data={data} numColumns={3} columnWrapperStyle={{ height }} renderItem={render} />
+    <View style={styles.root}>
+      <Each of={data} render={(item, index) => render({ item, index })} />
+    </View>
   );
 };
 
 export default CurrentYear;
 
 CurrentYear.displayName = "CurrentYear";
+
+const styles = StyleSheet.create({
+  root: { flexDirection: "row", flexWrap: "wrap", flex: 1 },
+});

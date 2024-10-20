@@ -1,17 +1,20 @@
-import { FlatList, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React, { FC, useMemo } from "react";
-import { getItemLayout, getWeeksOfCurrentMonth } from "../../../features/common";
-import { isSameMonth, isSameDay, endOfDay, getDay } from "date-fns";
+import { getWeeksOfCurrentMonth } from "../../../features/common";
+import { isSameMonth, isSameDay, endOfDay, getDay, isBefore, startOfDay, isAfter } from "date-fns";
 import { tWeekData } from "../../../features/domain/types/t.data.week";
 import { selectedDay, isBetweenDates } from "../../../features/domain/utils/common";
-import Cell from "./cell";
 import BetweenIndicator from "./indicators/indicator.between";
 import WeekLabels from "../../header/weeks";
-import isPast from "date-fns/isPast";
-import { defaults } from "../../../features/domain/constants";
 import { useMain } from "../../../features/hooks";
+import Cell from "./cell";
+import { ShowComponent } from "../../show";
+import Each from "../../each";
+import { defaults } from "../../../features/domain/constants";
 
 type Props = {};
+
+const CELL_CONTAINER = defaults.root.height - defaults.header.height - defaults.weekLabel.height;
 
 const CurrentMonth: FC<Props> = ({}) => {
   // #region members
@@ -20,10 +23,10 @@ const CurrentMonth: FC<Props> = ({}) => {
     range,
     mode,
     onChange,
-    layoutProps,
     theme,
     blockedDates,
-    blockPast,
+    minDate,
+    maxDate,
     blockedWeekDay,
   } = useMain();
   // #endregion
@@ -32,14 +35,9 @@ const CurrentMonth: FC<Props> = ({}) => {
     return getWeeksOfCurrentMonth(currentDate);
   }, [currentDate]);
   // #endregion
+  // #region hooks
+  // #endregion
   // #region variables
-  const cellLayout = useMemo(() => {
-    const width = layoutProps.width / 7;
-    const height =
-      (layoutProps.height - defaults.header.height - defaults.weekLabel.height) / data.length;
-    return { width, height };
-  }, [layoutProps, data.length]);
-
   const weekData = useMemo(() => {
     return data.flat().map((day) => {
       const blockedByWeekDay = blockedWeekDay
@@ -47,7 +45,8 @@ const CurrentMonth: FC<Props> = ({}) => {
         : false;
       const blocked =
         (blockedDates ? blockedDates.some((i) => isSameDay(day, i)) : false) ||
-        (blockPast ? blockPast && isPast(endOfDay(day)) : false) ||
+        (minDate ? isBefore(startOfDay(day), startOfDay(minDate)) : false) ||
+        (maxDate ? isAfter(endOfDay(day), endOfDay(maxDate)) : false) ||
         blockedByWeekDay;
       const selected = selectedDay(range, day) && !blocked;
       const sameMonth = isSameMonth(day, currentDate);
@@ -67,26 +66,38 @@ const CurrentMonth: FC<Props> = ({}) => {
 
       return payload;
     });
-  }, [data, range, mode, blockedDates, blockPast]);
+  }, [data, range, mode, blockedDates, minDate]);
 
-  const renderItem = ({ item, index }: { item: tWeekData | null | undefined; index: number }) => {
+  const cellHeight = useMemo(() => {
+    return CELL_CONTAINER / (weekData.length / 7);
+  }, [weekData]);
+
+  const renderItem = (item: tWeekData | null | undefined, index: number) => {
     if (!item) return null;
     const { day, selected, sameMonth, isBetween, firstSelection, secondSelection, blocked } = item;
     return (
-      <View style={{ flex: 1, justifyContent: "center" }}>
-        {mode === "range" && range[1] !== undefined && isBetween && (
-          <BetweenIndicator
-            {...{ size: cellLayout.width, isBetween, firstSelection, secondSelection }}
-          />
-        )}
+      <View
+        style={{
+          flex: 1,
+          height: cellHeight,
+          minWidth: `${100 / 7}%`,
+        }}
+      >
+        <ShowComponent>
+          <ShowComponent.When isTrue={mode === "range" && range[1] !== undefined && isBetween}>
+            <BetweenIndicator {...{ isBetween, firstSelection, secondSelection }} />
+          </ShowComponent.When>
+        </ShowComponent>
+
         <Cell
           item={day}
+          index={index}
+          theme={theme}
+          blocked={blocked}
           selected={selected}
           onChange={onChange}
           sameMonth={sameMonth}
-          theme={theme}
-          blocked={blocked}
-          index={index}
+          weekNumber={weekData.length / 7}
         />
       </View>
     );
@@ -96,17 +107,9 @@ const CurrentMonth: FC<Props> = ({}) => {
   return (
     <View style={styles.root}>
       <WeekLabels />
-      <FlatList
-        numColumns={7}
-        data={weekData}
-        scrollEnabled={false}
-        renderItem={renderItem}
-        keyExtractor={(_item, index) => index.toString()}
-        columnWrapperStyle={{ height: cellLayout.height, width: layoutProps.width }}
-        getItemLayout={(data: ArrayLike<tWeekData> | null | undefined, index: number) =>
-          getItemLayout(data, index, cellLayout)
-        }
-      />
+      <View style={styles.listContainer}>
+        <Each of={weekData} render={renderItem} />
+      </View>
     </View>
   );
 };
@@ -117,4 +120,9 @@ CurrentMonth.displayName = "CurrentMonth";
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
+  listContainer: {
+    flexWrap: "wrap",
+    flexDirection: "row",
+    height: defaults.root.height,
+  },
 });

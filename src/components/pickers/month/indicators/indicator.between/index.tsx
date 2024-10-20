@@ -5,7 +5,7 @@ import { tTheme } from "../../../../../features/domain/types/t.theme";
 import { sizes } from "../../../../../features/domain/constants";
 import { useMain, useStyles } from "../../../../../features/hooks";
 
-type Props = { size: number } & Pick<tWeekData, "isBetween" | "firstSelection" | "secondSelection">;
+type Props = Pick<tWeekData, "isBetween" | "firstSelection" | "secondSelection">;
 
 const BetweenIndicator: FC<Props> = (props) => {
   // #region members

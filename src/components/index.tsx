@@ -4,9 +4,10 @@ import { tPicker } from "../features/domain/types/t.picker";
 import Header from "./header";
 import { tTheme } from "../features/domain/types/t.theme";
 import { useMain, useStyles } from "../features/hooks";
-import CurrentYear from "./pickers/year";
-import CurrentMonth from "./pickers/month";
 import CurrentDecade from "./pickers/decade";
+import CurrentMonth from "./pickers/month";
+import CurrentYear from "./pickers/year";
+import { defaults } from "../features/domain/constants";
 
 type Props = object;
 
@@ -43,11 +44,8 @@ MainContainer.displayName = "MainContainer";
 const styles = (theme: tTheme) =>
   StyleSheet.create({
     root: {
-      flex: 1,
-      overflow: "hidden",
+      flexGrow: 1,
+      minWidth: defaults.root.height,
       backgroundColor: theme.colors.background,
-    },
-    container: {
-      flex: 1,
     },
   });

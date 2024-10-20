@@ -3,31 +3,52 @@ import React, { FC, memo } from "react";
 import format from "date-fns/format";
 import { tTheme } from "../../../../features/domain/types/t.theme";
 import TodayIndicator from "../indicators/indicator.today";
-import { sizes } from "../../../../features/domain/constants";
 import { useStyles } from "../../../../features/hooks";
 import CellContainer from "../../container";
+import { sizes } from "../../../../features/domain/constants";
 
 type Props = {
   item: Date;
-  onChange: (args: Date) => void;
   selected: boolean;
   sameMonth: boolean;
   theme?: tTheme;
   blocked: boolean;
   index: number;
+  weekNumber: number;
+  onChange: (args: Date) => void;
 };
 const BORDER_SIZE = 2;
 
-const Cell: FC<Props> = ({ item, onChange, selected, sameMonth, theme, blocked, index }) => {
-  // #region Variables
+const Cell: FC<Props> = ({
+  item,
+  selected,
+  sameMonth,
+  theme,
+  blocked,
+  index,
+  weekNumber,
+  onChange,
+}) => {
+  // #region functions
+  const handleOnChange = () => onChange(item);
+  // #endregion
+  // #region variables
+
   const customStyles = useStyles(styles, theme);
+
+  const calculatedPadding: Record<number, number> = {
+    6: sizes.minuscule,
+    5: sizes.petite,
+    4: sizes.medium,
+  };
   // #endregion
   return (
     <CellContainer
-      disabled={blocked}
-      activeOpacity={1}
-      onPress={() => onChange(item)}
       index={index}
+      activeOpacity={1}
+      disabled={blocked}
+      style={[customStyles.root, { padding: calculatedPadding[weekNumber] }]}
+      onPress={handleOnChange}
     >
       <View style={[customStyles.container, selected && customStyles.selectedContainer]}>
         <Text
@@ -54,16 +75,19 @@ Cell.displayName = "Cell";
 
 const styles = (theme: tTheme) =>
   StyleSheet.create({
-    root: {},
-    container: {
+    root: {
       flex: 1,
-      aspectRatio: 1,
-      margin: sizes.petite,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    container: {
+      flexGrow: 1,
       alignItems: "center",
       justifyContent: "center",
     },
     selectedContainer: {
       elevation: 3,
+      aspectRatio: 1,
       shadowRadius: 2.22,
       shadowOpacity: 0.22,
       borderWidth: BORDER_SIZE,

@@ -1,11 +1,7 @@
 import React, { FC, PropsWithChildren, createContext, useCallback, useMemo, useState } from "react";
 import { tApp } from "../../domain/types/t.app";
 import { eCalendarPicker } from "../../domain/enums/e.calendar.picker";
-import {
-  defaultLayoutRectangle,
-  defaultRange,
-  defaultTheme,
-} from "../../domain/data/data.defaults";
+import { defaultRange, defaultTheme } from "../../domain/data/data.defaults";
 import { tRange } from "../../domain/types/t.range";
 import { isAfter, isSameDay } from "date-fns";
 import { tMain } from "../../domain/types/t.main";
@@ -16,14 +12,14 @@ export const Context = createContext<tMain>({
   setRange: () => Function,
   theme: defaultTheme,
   blockedDates: [],
-  blockPast: false,
+  minDate: undefined,
+  maxDate: undefined,
   blockedWeekDay: [],
   onChange: () => Function,
   pickerType: eCalendarPicker.currentMonth,
   setPickerType: () => Function,
   currentDate: new Date(),
   onSetCurrentDate: () => Function,
-  layoutProps: defaultLayoutRectangle,
   onAdjustDate: () => Function,
 });
 
@@ -36,9 +32,9 @@ export const MainProvider: FC<PropsWithChildren<Props>> = ({
   setRange,
   theme = defaultTheme,
   blockedDates = [],
-  blockPast,
+  minDate,
+  maxDate,
   blockedWeekDay = [],
-  layoutProps,
 }) => {
   // #region States
   const [currenRange, setCurrentrange] = useState<tRange>(range);
@@ -111,14 +107,14 @@ export const MainProvider: FC<PropsWithChildren<Props>> = ({
       setRange,
       theme: theme ?? defaultTheme,
       blockedDates,
-      blockPast,
+      minDate,
+      maxDate,
       blockedWeekDay,
       onChange,
       pickerType,
       setPickerType,
       currentDate,
       onSetCurrentDate,
-      layoutProps,
       onAdjustDate,
     }),
     [
@@ -127,12 +123,12 @@ export const MainProvider: FC<PropsWithChildren<Props>> = ({
       setRange,
       theme,
       blockedDates,
-      blockPast,
+      minDate,
+      maxDate,
       blockedWeekDay,
       onChange,
       pickerType,
       onSetCurrentDate,
-      layoutProps,
     ],
   );
   // #endregion

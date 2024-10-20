@@ -1,5 +1,6 @@
-import { StyleSheet, TouchableOpacity, TouchableOpacityProps, View } from "react-native";
+import { Pressable, StyleSheet, TouchableOpacityProps } from "react-native";
 import React, { PropsWithChildren } from "react";
+import { sizes } from "../../../features/domain/constants";
 
 type Props = TouchableOpacityProps & { index: number };
 
@@ -17,9 +18,9 @@ const CellContainer: React.FC<PropsWithChildren<Props>> = ({ index, children, ..
   // #region variables
   // #endregion
   return (
-    <TouchableOpacity {...rest} style={styles.root}>
+    <Pressable {...rest} style={[rest.style, styles.root]}>
       {children}
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 
@@ -27,4 +28,6 @@ export default CellContainer;
 
 CellContainer.displayName = "CellContainer";
 
-const styles = StyleSheet.create({ root: { flex: 1, justifyContent: "center", alignItems: "center", zIndex: 1 } });
+const styles = StyleSheet.create({
+  root: { zIndex: 1 },
+});

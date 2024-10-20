@@ -7,7 +7,7 @@ export type tApp = Pick<
   | "setRange"
   | "theme"
   | "blockedDates"
-  | "blockPast"
+  | "minDate"
+  | "maxDate"
   | "blockedWeekDay"
-  | "layoutProps"
 >;

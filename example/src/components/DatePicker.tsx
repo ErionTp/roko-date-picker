@@ -6,10 +6,10 @@ import Animated, {
   interpolate,
   runOnJS,
   useAnimatedStyle,
+  useDerivedValue,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { layout } from "../../../src/features/domain/constants";
 
 const calendarStyle: CalendarTheme = {
   colors: {
@@ -44,21 +44,25 @@ export const DatePicker = () => {
         break;
     }
   }, [mode]);
+
   const rStyle = useAnimatedStyle(() => {
     const height = interpolate(animatedValue.value, [0, 1], [0, 380]);
     return { height };
   });
+
   const handleShowCalendar = () => {
-    setVisible(true);
     animatedValue.value = withTiming(1, { duration: 150 });
   };
   const handleDismissCalendar = () => {
-    animatedValue.value = withTiming(0, { duration: 150 }, (finished) => {
-      if (finished) {
-        runOnJS(setVisible)(false);
-      }
-    });
+    animatedValue.value = withTiming(0, { duration: 150 });
   };
+
+  const handleOnPressTitle = useCallback(() => {
+    visible ? handleDismissCalendar() : handleShowCalendar();
+  }, [visible]);
+  // #endregion
+  // #region effects
+  useDerivedValue(() => runOnJS(setVisible)(animatedValue.value > 0), []);
   // #endregion
   return (
     <View style={styles.root}>
@@ -67,9 +71,7 @@ export const DatePicker = () => {
           title: "Single Picker",
           range,
           mode,
-          onPress: () => {
-            visible ? handleDismissCalendar() : handleShowCalendar();
-          },
+          onPress: handleOnPressTitle,
         }}
       />
       <Animated.View
@@ -84,8 +86,6 @@ export const DatePicker = () => {
             range,
             setRange,
             theme: calendarStyle,
-            blockedWeekDay: [0],
-            layoutProps: { width: layout.width - 32, height: 380 },
           }}
         />
       </Animated.View>

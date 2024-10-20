@@ -6,6 +6,6 @@ export const defaults = {
     height: 34.666656494140625,
   },
   root: {
-    height: 360,
+    height: 380,
   },
 };

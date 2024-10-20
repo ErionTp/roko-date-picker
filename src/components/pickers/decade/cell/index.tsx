@@ -1,10 +1,10 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import React, { FC, memo } from "react";
 import { tTheme } from "../../../../features/domain/types/t.theme";
 import format from "date-fns/format";
 import { useStyles } from "../../../../features/hooks";
-import SquareCellIndicator from "../../../indicators";
 import CellContainer from "../../container";
+import { sizes } from "../../../../features/domain/constants";
 
 type Props = {
   item: Date;
@@ -18,9 +18,22 @@ const Cell: FC<Props> = ({ item, selected, theme, onChange, index }) => {
   const customStyle = useStyles(styles, theme);
   // #endregion
   return (
-    <CellContainer activeOpacity={1} style={customStyle.root} onPress={() => onChange(item)} index={index}>
-      <Text style={customStyle.label}>{format(item, "yyyy")}</Text>
-      <SquareCellIndicator visible={selected} />
+    <CellContainer
+      activeOpacity={1}
+      style={customStyle.root}
+      onPress={() => onChange(item)}
+      index={index}
+    >
+      <View
+        style={{
+          borderBottomWidth: 6,
+          borderRadius: sizes.tiny,
+          borderCurve: "continuous",
+          borderBottomColor: selected ? theme?.colors.primary : "transparent",
+        }}
+      >
+        <Text style={customStyle.label}>{format(item, "yyyy")}</Text>
+      </View>
     </CellContainer>
   );
 };
@@ -32,13 +45,18 @@ Cell.displayName = "Cell";
 const styles = (theme: tTheme) =>
   StyleSheet.create({
     root: {
-      flex: 1,
+      height: "25%",
+      minWidth: "33.3333%",
       alignItems: "center",
       justifyContent: "center",
     },
     selected: {
       backgroundColor: theme.colors.primary,
     },
-    label: { color: theme.colors.onBackground, fontFamily: theme.font?.family, textTransform: "capitalize" },
+    label: {
+      color: theme.colors.onBackground,
+      fontFamily: theme.font?.family,
+      textTransform: "capitalize",
+    },
     selectedLabel: { color: theme.colors.onPrimary },
   });

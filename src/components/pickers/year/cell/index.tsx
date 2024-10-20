@@ -5,6 +5,7 @@ import format from "date-fns/format";
 import { useStyles } from "../../../../features/hooks";
 import SquareCellIndicator from "../../../indicators";
 import CellContainer from "../../container";
+import { sizes } from "../../../../features/domain/constants";
 
 type Props = {
   item: Date;
@@ -18,9 +19,22 @@ const Cell: FC<Props> = ({ item, selected, theme, onChange, index }) => {
   const customStyle = useStyles(styles, theme);
   // #endregion
   return (
-    <CellContainer index={index} activeOpacity={1} style={[customStyle.root]} onPress={() => onChange(item)}>
-      <Text style={customStyle.label}>{format(item, "MMM")}</Text>
-      <SquareCellIndicator visible={selected} />
+    <CellContainer
+      index={index}
+      activeOpacity={1}
+      style={customStyle.root}
+      onPress={() => onChange(item)}
+    >
+      <View
+        style={{
+          borderBottomWidth: 6,
+          borderRadius: sizes.tiny,
+          borderCurve: "continuous",
+          borderBottomColor: selected ? theme?.colors.primary : "transparent",
+        }}
+      >
+        <Text style={customStyle.label}>{format(item, "MMM")}</Text>
+      </View>
     </CellContainer>
   );
 };
@@ -32,13 +46,18 @@ Cell.displayName = "Cell";
 const styles = (theme: tTheme) =>
   StyleSheet.create({
     root: {
-      flex: 1,
+      height: "25%",
+      minWidth: `${100 / 3}%`,
       alignItems: "center",
       justifyContent: "center",
     },
     selected: {
       backgroundColor: theme.colors.primary,
     },
-    label: { color: theme.colors.onBackground, fontFamily: theme.font?.family, textTransform: "capitalize" },
+    label: {
+      color: theme.colors.onBackground,
+      fontFamily: theme.font?.family,
+      textTransform: "capitalize",
+    },
     selectedLabel: { color: theme.colors.onPrimary },
   });
