@@ -8,4 +8,7 @@ export const defaults = {
   root: {
     height: 380,
   },
+  calendar: {
+    height: 58 + 34.666656494140625 + 380,
+  },
 };
