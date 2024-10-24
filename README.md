@@ -11,28 +11,30 @@ npm i roko-date-picker
 ```
 import { StyleSheet, Switch, View } from "react-native";
 import React, { useCallback, useState } from "react";
+import { materialColors, RokoCalendar, CalendarTheme, CalendarRange } from "../../../src/";
 import Header from "./Header";
-import { materialColors, RokoCalendar, Theme, Range } from "../../../src/";
-import { previousDay } from "date-fns";
 
-const calendarStyle: Theme = {
+const calendarStyle: CalendarTheme = {
   colors: {
     primary: "#FF5733",
     onPrimary: "white",
     secondary: "#FFF9C4",
     onSecondary: "#9E9E9E",
-    background: "#DAF7A6",
+    background: materialColors.grey._50 ?? "white",
     onBackground: "#000000",
+    disabled: materialColors.red._300 ?? "white",
   },
   font: {},
 };
 
-const DatePicker = () => {
-  // #region States
-  const [mode, toggleMode] = useState<"single" | "range">("range");
-  const [range, setRange] = useState<Range>([new Date()]);
+export const DatePicker = () => {
+  // #region members
   // #endregion
-  // #region Functions
+  // #region states
+  const [mode, toggleMode] = useState<"single" | "range">("range");
+  const [range, setRange] = useState<CalendarRange>([new Date()]);
+  // #endregion
+  // #region functions
   const handleToggleMode = useCallback(() => {
     switch (mode) {
       case "range":
@@ -43,19 +45,26 @@ const DatePicker = () => {
         break;
     }
   }, [mode]);
+
+  // #endregion
+  // #region effects
   // #endregion
   return (
     <View style={styles.root}>
-      <Header {...{ title: "Single Picker", range, onPress: () => {}, mode }} />
-      <View style={{ height: 360, backgroundColor: materialColors.grey._200, borderRadius: 16, overflow: "hidden", padding: 8 }}>
-        <RokoCalendar {...{ mode, range, setRange, blockedDates: [previousDay(new Date(), 4)], blockPast: true, theme: calendarStyle }} />
+      <Header
+        {...{
+          title: "Single Picker",
+          range,
+          mode,
+        }}
+      />
+      <View style={{ height: 400 }}>
+        <RokoCalendar mode={mode} range={range} setRange={setRange} theme={calendarStyle} />
       </View>
       <Switch value={mode === "range"} onChange={() => handleToggleMode()} />
     </View>
   );
 };
 
-export default DatePicker;
-
-const styles = StyleSheet.create({ root: { gap: 16, flex: 1 } });
+const styles = StyleSheet.create({ root: { gap: 16, flex: 1, justifyContent: "flex-start" } });
 ```
